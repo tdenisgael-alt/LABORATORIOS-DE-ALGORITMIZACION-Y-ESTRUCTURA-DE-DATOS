@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Estudiante</title>
+    <style>
+        /* Estilos generales del cuerpo de la página */
+        body {
+            background-color: #FFFFFF; /* Fondo blanco */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Fuente moderna y legible */
+            color: #333333; /* Color de texto principal oscuro para buen contraste */
+            line-height: 1.6; /* Espaciado entre líneas para facilitar la lectura */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Contenedor principal para centrar el contenido */
+        .container {
+            max-width: 800px;
+            margin: 20px auto; /* Centra el contenedor y añade espacio arriba/abajo */
+            padding: 0 20px; /* Espacio a los lados */
+        }
+
+        /* Estilo para la barra superior blanca */
+        .top-bar {
+            background-color: #FFFFFF;
+            padding: 10px 40px; /* Espaciado interno */
+            display: flex; /* Activa Flexbox para alinear elementos */
+            align-items: center; /* Centra verticalmente el logo y el texto */
+            border-bottom: 1px solid #e0e0e0; /* Línea divisoria sutil */
+        }
+
+        .top-bar img {
+            height: 50px; /* Altura del logo */
+            margin-right: 15px; /* Espacio entre el logo y el texto */
+        }
+
+        .top-bar .university-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #003B8F; /* Mismo azul que el encabezado para consistencia */
+        }
+
+
+        /* Estilo para el encabezado */
+        header {
+            background-color: #4A90E2; /* Un color azul académico */
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 5px solid #357ABD;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        /* Estilo para las secciones de contenido */
+        .materia {
+            background-color: #f9f9f9; /* Un gris muy claro para diferenciar la sección */
+            border-left: 5px solid #4A90E2; /* Línea de acento de color */
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0; /* Bordes redondeados */
+            font-family: "Times New Roman", Times, serif; /* Fuente clásica solicitada */
+        }
+
+        .materia h1 {
+            color: #4A90E2; /* Título principal en azul */
+            margin-top: 0;
+        }
+
+        .materia h2 {
+            color: #357ABD; /* Título de sección en un azul más oscuro */
+            margin-top: 0;
+        }
+
+        /* Estilo para que el enlace del laboratorio ocupe toda la tarjeta */
+        .lab-link {
+            text-decoration: none; /* Quita el subrayado del enlace */
+            color: inherit; /* Hereda el color del texto del padre */
+        }
+
+        /* Estilo para el pie de página */
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            color: #777777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <img src="img/uni.png" alt="Logo Universidad">
+        <span class="university-name">UNIVERSIDAD NACIONAL DE INGENIERÍA</span>
+    </div>
+
+    <header>
+        <h1>LABORATORIOS DE ALGORITMIZACION Y ESTRUCTURA DE DATOS </h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <a href="laboratorio1/laboratorio1.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 1</h1>
+                    <h2>Arreglos Ordenados y Desordenados</h2>
+                </section>
+            </a>
+
+            <a href="laboratorio2.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 2</h1>
+                    <h2>Contenido del Laboratorio</h2>
+                </section>
+            </a>
+
+            <a href="laboratorio3.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 3</h1>
+                    <h2>Contenido del Laboratorio</h2>
+                </section>
+            </a>
+
+            <a href="laboratorio4.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 4</h1>
+                    <h2>Contenido del Laboratorio</h2>
+                </section>
+            </a>
+
+            <a href="laboratorio5.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 5</h1>
+                    <h2>Contenido del Laboratorio</h2>
+                </section>
+            </a>
+
+            <a href="laboratorio6.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 6</h1>
+                    <h2>Contenido del Laboratorio</h2>
+                </section>
+            </a>
+
+            <a href="laboratorio7.html" class="lab-link">
+                <section class="materia">
+                    <h1>LABORATORIO 7</h1>
+                    <h2>Contenido del Laboratorio</h2>
+                </section>
+            </a>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 - Denis Vallecillo, Carlos Torres, Carlos Valdivia. </p>
+    </footer>
+
+</body>
+</html>

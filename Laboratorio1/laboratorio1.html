@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 1: Ordenados y Desordenados</title>
+    <style>
+        /* Estilos generales (copiados de index.html para consistencia) */
+        body {
+            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .top-bar {
+            background-color: #FFFFFF;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .top-bar img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .top-bar .university-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #003B8F;
+        }
+
+        header {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 5px solid #002A66;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            color: #777777;
+            font-size: 0.9em;
+        }
+
+        /* Estilos específicos para la página del laboratorio */
+        .lab-content {
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .apartado {
+            background-color: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .apartado > h2 {
+            color: #003B8F;
+            border-bottom: 2px solid #003B8F;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .sub-seccion {
+            background-color: #f9f9f9;
+            border-left: 4px solid #999;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sub-seccion h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        /* Estilo para el botón de regresar */
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #003B8F; /* Color principal de la página */
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #002A66; /* Tono más oscuro para el hover */
+        }
+
+        /* Estilo para botones de ejercicios */
+        .sub-seccion button {
+            padding: 8px 16px;
+            background-color: #003B8F; /* Color principal de la página */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .sub-seccion button:hover {
+            background-color: #002A66; /* Tono más oscuro */
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <img src="img/uni.png" alt="Logo Universidad">
+        <span class="university-name">UNIVERSIDAD NACIONAL DE INGENIERÍA</span>
+    </div>
+
+    <header>
+        <h1>Laboratorio: Ordenados y Desordenados</h1>
+    </header>
+
+    <div class="container">
+        
+        <a href="../index.html" class="back-button">← Volver a la página principal</a>
+
+        <main class="lab-content">
+            <div class="apartado">
+                <h2>Arreglos Ordenados</h2>
+                <div class="sub-seccion"><h3>Sección 1.1</h3><p>Contenido...</p></div>
+                <div class="sub-seccion"><h3>Sección 1.2</h3><p>Contenido...</p></div>
+                <div class="sub-seccion"><h3>Sección 1.3</h3><p>Contenido...</p></div>
+            </div>
+
+            <div class="apartado">
+                <h2>Arreglos Desordenados</h2>
+                <div class="sub-seccion">
+                    <h3>Ejercicio 1</h3>
+                    <button onclick="abrirEjercicio1()">Abrir programa</button>
+                </div>
+                <div class="sub-seccion"><h3>Sección 2.2</h3><p>Contenido...</p></div>
+                <div class="sub-seccion"><h3>Sección 2.3</h3><p>Contenido...</p></div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 - Denis Vallecillo, Carlos Torres, Carlos Valdivia. </p>
+    </footer>
+
+    <script>
+        function abrirEjercicio1() {
+            fetch("http://localhost:8080/ejercicio1")
+                .then(respuesta => respuesta.text())
+                .then(datos => {
+                    console.log(datos);
+                })
+                .catch(error => {
+                    console.error("Error al abrir el ejercicio:", error);
+                    alert("No se pudo conectar con el servidor Java.");
+                });
+        }
+    </script>
+</body>
+</html>
