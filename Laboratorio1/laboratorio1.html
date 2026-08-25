@@ -124,6 +124,29 @@
         .sub-seccion button:hover {
             background-color: #002A66; /* Tono más oscuro */
         }
+
+        /* Estilos para el formulario de alta */
+        #formularioAlta input[type="text"],
+        #formularioAlta input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #mensajeAlta {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Estilos para el menú de opciones del ejercicio */
+        #menuEjercicio1 button {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -138,7 +161,7 @@
 
     <div class="container">
         
-        <a href="../index.html" class="back-button">← Volver a la página principal</a>
+        <a href="../index.html" onclick="window.location.replace('../index.html'); return false;" class="back-button">← Salir</a>
 
         <main class="lab-content">
             <div class="apartado">
@@ -152,29 +175,43 @@
                 <h2>Arreglos Desordenados</h2>
                 <div class="sub-seccion">
                     <h3>Ejercicio 1</h3>
-                    <button onclick="abrirEjercicio1()">Abrir programa</button>
+
+                    <button onclick="abrirVentanaEjercicio1()">
+                        Abrir ejercicio
+                    </button>
+
                 </div>
-                <div class="sub-seccion"><h3>Sección 2.2</h3><p>Contenido...</p></div>
+                <div class="sub-seccion">
+                    <h3>Ejercicio 2</h3>
+
+                    <button onclick="abrirVentanaEjercicio2()">
+                        Abrir ejercicio
+                    </button>
+
+                </div>
                 <div class="sub-seccion"><h3>Sección 2.3</h3><p>Contenido...</p></div>
             </div>
         </main>
     </div>
-
     <footer>
         <p>&copy; 2026 - Denis Vallecillo, Carlos Torres, Carlos Valdivia. </p>
     </footer>
 
     <script>
-        function abrirEjercicio1() {
-            fetch("http://localhost:8080/ejercicio1")
-                .then(respuesta => respuesta.text())
-                .then(datos => {
-                    console.log(datos);
-                })
-                .catch(error => {
-                    console.error("Error al abrir el ejercicio:", error);
-                    alert("No se pudo conectar con el servidor Java.");
-                });
+        /**
+         * Abre el ejercicio 1 reemplazando la página actual.
+         */
+        function abrirVentanaEjercicio1() {
+            sessionStorage.removeItem("arregloIniciado");
+            window.location.replace('Desordenados/Ejercicio1/ejercicio1.html');
+        }
+
+        /**
+         * Abre el ejercicio 2 reemplazando la página actual.
+         */
+        function abrirVentanaEjercicio2() {
+            sessionStorage.removeItem("arregloIniciado_desordenado2");
+            window.location.replace('Desordenados/Ejercicio2/ejercicio2.html');
         }
     </script>
 </body>

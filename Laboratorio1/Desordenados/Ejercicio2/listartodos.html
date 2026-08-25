@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Todos los Clientes</title>
+    <style>
+        /* Estilos consistentes con el resto del proyecto */
+        body {
+            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 5px solid #002A66;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        /* Estilos para la tabla de clientes */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead th {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* Mensaje de carga o error */
+        #mensaje {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Estilo para el botón de regresar */
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #003B8F;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #002A66;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lista de Clientes Registrados</h1>
+</header>
+
+<div class="container">
+    <button class="back-button" onclick="window.location.replace('ejercicio2.html')">
+        ← Regresar
+    </button>
+
+    <table id="tablaClientes">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre Completo</th>
+                <th>Teléfono</th>
+                <th>Saldo</th>
+                <th>Moroso</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+            <!-- Las filas de los clientes se insertarán aquí -->
+        </tbody>
+    </table>
+
+    <div id="mensaje">Cargando datos...</div>
+</div>
+
+<script>
+    /**
+     * Llama al servidor para obtener la lista de clientes
+     * y la muestra en la tabla.
+     */
+    async function cargarClientes() {
+        const cuerpoTabla = document.getElementById("cuerpoTabla");
+        const mensajeDiv = document.getElementById("mensaje");
+
+        try {
+            // 1. Hacer la petición al servidor
+            const respuesta = await fetch(
+                "http://localhost:8080/desordenado2/listartodos"
+            );
+
+            const textoRespuesta = await respuesta.text();
+
+            // 2. Comprobar si hubo un error en el servidor
+            if (!respuesta.ok) {
+                mensajeDiv.textContent = `Error: ${textoRespuesta}`;
+                return;
+            }
+
+            // 3. Comprobar si no hay clientes
+            if (
+                textoRespuesta.toLowerCase().includes("no hay clientes") ||
+                textoRespuesta.toLowerCase().includes("arreglo vac")
+            ) {
+                mensajeDiv.textContent = "No hay clientes registrados.";
+                return;
+            }
+
+            // Ocultar el mensaje de "Cargando..."
+            mensajeDiv.style.display = "none";
+
+            // 4. Procesar la respuesta para mostrarla en la tabla
+            let bloques = [];
+            if (/---+/.test(textoRespuesta)) {
+                bloques = textoRespuesta.split(/---+/).filter(b => b.trim());
+            } else if (/Nombre:/i.test(textoRespuesta)) {
+                bloques = textoRespuesta.replace(/^Nombre:/i, '').split(/Nombre:/i).filter(b => b.trim());
+            } else {
+                bloques = [textoRespuesta];
+            }
+
+            let numero = 1;
+
+            bloques.forEach(bloque => {
+                const lineas = bloque.trim().split('\n');
+                let nombre = "", telefono = "", saldo = "", moroso = "";
+
+                lineas.forEach((linea, index) => {
+                    const l = linea.trim();
+                    if (/^nombre:/i.test(l)) {
+                        nombre = l.replace(/^nombre:/i, "").trim();
+                    } else if (/^tel[eé]fono:/i.test(l)) {
+                        telefono = l.replace(/^tel[eé]fono:/i, "").trim();
+                    } else if (/^saldo:/i.test(l)) {
+                        saldo = l.replace(/^saldo:/i, "").trim();
+                    } else if (/^(es\s+)?moroso:/i.test(l)) {
+                        moroso = l.replace(/^(es\s+)?moroso:/i, "").trim();
+                    } else if (index === 0 && !nombre && l.length > 0) {
+                        nombre = l;
+                    }
+                });
+
+                // Formatear moroso a Sí / No
+                const morosoLower = moroso.toLowerCase();
+                if (morosoLower === "true" || morosoLower === "si" || morosoLower === "sí") {
+                    moroso = "Sí";
+                } else if (morosoLower === "false" || morosoLower === "no") {
+                    moroso = "No";
+                } else if (!moroso) {
+                    moroso = "No";
+                }
+
+                if (nombre) {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td>${numero}</td>
+                        <td>${nombre}</td>
+                        <td>${telefono || "-"}</td>
+                        <td>${saldo || "-"}</td>
+                        <td>${moroso}</td>
+                    `;
+                    cuerpoTabla.appendChild(fila);
+                    numero++;
+                }
+            });
+
+            if (numero === 1) {
+                mensajeDiv.style.display = "block";
+                mensajeDiv.textContent = "No hay clientes registrados.";
+            }
+
+        } catch (error) {
+            console.error("Error de conexión:", error);
+            mensajeDiv.textContent = "Error de conexión: No se pudo conectar con el servidor Java.";
+        }
+    }
+
+    // Llamar a la función cuando la página se cargue
+    cargarClientes();
+</script>
+
+</body>
+</html>
+

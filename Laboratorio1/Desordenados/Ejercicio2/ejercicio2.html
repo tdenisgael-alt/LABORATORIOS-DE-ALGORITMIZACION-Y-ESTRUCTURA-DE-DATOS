@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arreglos Desordenados: Ejercicio 2</title>
+    <style>
+        /* Estilos generales (consistentes con el resto del sitio) */
+        body {
+            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 5px solid #002A66;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        /* Estilos específicos para esta ventana */
+        .menu-container {
+            font-family: "Times New Roman", Times, serif;
+            background-color: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-container > h2 {
+            color: #003B8F;
+            border-bottom: 2px solid #003B8F;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .menu-options button {
+            padding: 8px 16px;
+            background-color: #003B8F;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .menu-options button:hover {
+            background-color: #002A66;
+        }
+
+        .form-section {
+            background-color: #f9f9f9;
+            border-left: 4px solid #999;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .form-section h4 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .form-section input[type="text"],
+        .form-section input[type="number"],
+        .form-section select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .form-section button {
+            padding: 8px 16px;
+            background-color: #003B8F;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-section button:hover {
+            background-color: #002A66;
+        }
+
+        .form-section p {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+    <!-- Añadir la librería SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Arreglos Desordenados: Ejercicio 2</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="menu-container">
+                <h2>Menú de Opciones</h2>
+
+                <!-- CONFIGURACIÓN DEL TAMAÑO DEL ARREGLO -->
+                <div id="configuracionArreglo" class="form-section">
+                    <h4>Configurar arreglo</h4>
+                    <label>Tamaño del arreglo:</label><br>
+                    <input
+                        type="number"
+                        id="tamArreglo"
+                        min="1"
+                        placeholder="Ejemplo: 5"
+                    ><br><br>
+
+                    <button onclick="iniciarArreglo()">
+                        Iniciar ejercicio
+                    </button>
+                    <button onclick="cerrarVentana()">
+                        Salir
+                    </button>
+                </div>
+
+                <div class="menu-options" id="menuOpciones" style="display: none;">
+                    <button onclick="mostrarAlta()">1. Dar de alta</button>
+                    <button onclick="mostrarModificar()">2. Modificar estado moroso</button>
+                    <button onclick="mostrarBaja()">3. Dar de baja</button>
+                    <button onclick="mostrarUno()">4. Listar un cliente</button>
+                    <button onclick="listarTodos()">5. Listar todos</button>                    
+                    <button onclick="cerrarVentana()">6. Cerrar</button>
+                </div>
+
+                <!-- FORMULARIO DE ALTA -->
+                <div id="formAlta" class="form-section" style="display: none;">
+                    <h4>Dar de alta</h4>
+                    <label>Nombre completo:</label><br>
+                    <input type="text" id="nombreCliente" placeholder="Ingrese el nombre completo"><br><br>
+                    
+                    <label>Teléfono:</label><br>
+                    <input type="text" id="telefonoCliente" placeholder="Ejemplo: 88888888"><br><br>
+                    
+                    <label>Saldo:</label><br>
+                    <input type="number" step="0.01" id="saldoCliente" placeholder="Ejemplo: 1500.50"><br><br>
+                    
+                    <label>Moroso:</label><br>
+                    <select id="morosoCliente">
+                        <option value="false">No</option>
+                        <option value="true">Sí</option>
+                    </select><br><br>
+                    
+                    <button onclick="darDeAltaCliente()">Guardar</button>
+                </div>
+
+                <!-- FORMULARIO DE MODIFICAR -->
+                <div id="formModificar" class="form-section" style="display: none;">
+                    <h4>Modificar estado moroso</h4>
+                    <label>Nombre del cliente:</label><br>
+                    <input
+                        type="text"
+                        id="nombreModificar"
+                        placeholder="Ingrese el nombre completo"
+                    ><br><br>
+
+                    <label>Nuevo estado moroso:</label><br>
+                    <select id="morosoModificar">
+                        <option value="false">No</option>
+                        <option value="true">Sí</option>
+                    </select><br><br>
+
+                    <button onclick="modificarEstadoMoroso()">
+                        Modificar
+                    </button>
+                </div>
+
+                <!-- FORMULARIO DE BAJA -->
+                <div id="formBaja" class="form-section" style="display: none;">
+                    <h4>Dar de baja</h4>
+                    <label>Nombre del cliente:</label><br>
+                    <input
+                        type="text"
+                        id="nombreBaja"
+                        placeholder="Ingrese el nombre completo"
+                    ><br><br>
+
+                    <button onclick="darDeBajaCliente()">
+                        Eliminar
+                    </button>
+                </div>
+
+                <!-- FORMULARIO LISTAR UN CLIENTE -->
+                <div id="formListarUno" class="form-section" style="display: none;">
+                    <h4>Listar un cliente</h4>
+                    <label>Nombre del cliente:</label><br>
+                    <input
+                        type="text"
+                        id="nombreListar"
+                        placeholder="Ingrese el nombre completo"
+                    ><br><br>
+
+                    <button onclick="listarUnCliente()">
+                        Buscar
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Enlazar el archivo JavaScript -->
+    <script src="ejercicio2.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,110 @@
+/* Estilos generales (consistentes con el resto del sitio) */
+body {
+    background-color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+header {
+    background-color: #003B8F;
+    color: #FFFFFF;
+    padding: 1rem 0;
+    text-align: center;
+    border-bottom: 5px solid #002A66;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+/* Estilos específicos para esta ventana */
+.menu-container {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.menu-container > h2 {
+    color: #003B8F;
+    border-bottom: 2px solid #003B8F;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.menu-options button {
+    padding: 8px 16px;
+    background-color: #003B8F;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-options button:hover {
+    background-color: #002A66;
+}
+
+.form-section {
+    background-color: #f9f9f9;
+    border-left: 4px solid #999;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 0 4px 4px 0;
+}
+
+.form-section h4 {
+    margin-top: 0;
+    color: #555;
+}
+
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section select {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.form-section button {
+    padding: 8px 16px;
+    background-color: #003B8F;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.form-section button:hover {
+    background-color: #002A66;
+}
+
+.form-section p {
+    margin-top: 15px;
+    font-weight: bold;
+}
+

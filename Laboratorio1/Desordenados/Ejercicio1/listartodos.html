@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Todos los Alumnos</title>
+    <style>
+        /* Estilos consistentes con el resto del proyecto */
+        body {
+            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 5px solid #002A66;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        /* Estilos para la tabla de alumnos */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead th {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* Mensaje de carga o error */
+        #mensaje {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Estilo para el botón de regresar */
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #003B8F;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #002A66;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lista de Alumnos Registrados</h1>
+</header>
+
+<div class="container">
+    <button class="back-button" onclick="window.location.replace('ejercicio1.html')">
+        ← Regresar
+    </button>
+
+    <table id="tablaAlumnos">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre Completo</th>
+                <th>Semestre</th>
+                <th>Promedio</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+            <!-- Las filas de los alumnos se insertarán aquí -->
+        </tbody>
+    </table>
+
+    <div id="mensaje">Cargando datos...</div>
+</div>
+
+<script>
+    /**
+     * Llama al servidor para obtener la lista de alumnos
+     * y la muestra en la tabla.
+     */
+    async function cargarAlumnos() {
+
+        const cuerpoTabla = document.getElementById("cuerpoTabla");
+        const mensajeDiv = document.getElementById("mensaje");
+
+        try {
+            // 1. Hacer la petición al servidor
+            const respuesta = await fetch(
+                "http://localhost:8080/desordenado1/listartodos"
+            );
+
+            const textoRespuesta = await respuesta.text();
+
+            // 2. Comprobar si hubo un error en el servidor
+            if (!respuesta.ok) {
+                mensajeDiv.textContent = `Error: ${textoRespuesta}`;
+                return;
+            }
+
+            // 3. Comprobar si no hay alumnos
+            if (textoRespuesta.toLowerCase().includes("no hay alumnos")) {
+                mensajeDiv.textContent = "No hay alumnos registrados.";
+                return;
+            }
+
+            // Ocultar el mensaje de "Cargando..."
+            mensajeDiv.style.display = "none";
+
+            // 4. Procesar la respuesta para mostrarla en la tabla
+            // El servidor devuelve un string con todos los alumnos,
+            // separados por "--------------------".
+            const alumnos = textoRespuesta
+                .replace(/^Nombre:/, '') // Elimina "Nombre:" solo si está al inicio del texto
+                .split(/----*\s*Nombre:/).filter(s => s.trim());
+
+            let numero = 1;
+
+            alumnos.forEach(bloqueAlumno => {
+                // El bloque de cada alumno es algo como:
+                // "Juan Perez\nSemestre: 5\nPromedio: 8.5"
+                const lineas = bloqueAlumno.trim().split('\n');
+                let nombre = "", semestre = "", promedio = "";
+
+                // Extraemos los datos de cada línea
+                nombre = lineas[0].trim();
+
+                lineas.forEach(linea => {
+                    if (linea.startsWith("Semestre:")) {
+                        semestre = linea.replace("Semestre:", "").trim();
+                    }
+                    if (linea.startsWith("Promedio:")) {
+                        promedio = linea.replace("Promedio:", "").trim();
+                    }
+                });
+
+                // 5. Crear la fila y las celdas para la tabla
+                const fila = document.createElement("tr");
+
+                fila.innerHTML = `
+                    <td>${numero}</td>
+                    <td>${nombre}</td>
+                    <td>${semestre}</td>
+                    <td>${promedio}</td>
+                `;
+
+                cuerpoTabla.appendChild(fila);
+                numero++;
+            });
+
+        } catch (error) {
+            console.error("Error de conexión:", error);
+            mensajeDiv.textContent = "Error de conexión: No se pudo conectar con el servidor Java.";
+        }
+    }
+
+    // Llamar a la función cuando la página se cargue
+    cargarAlumnos();
+
+</script>
+
+</body>
+</html>
