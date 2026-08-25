@@ -237,6 +237,7 @@
             document.documentElement.classList.add("dark-mode");
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="top-bar">
@@ -256,9 +257,18 @@
         <main class="lab-content">
             <div class="apartado">
                 <h2>Arreglos Ordenados</h2>
-                <div class="sub-seccion"><h3>Sección 1.1</h3><p>Contenido...</p></div>
-                <div class="sub-seccion"><h3>Sección 1.2</h3><p>Contenido...</p></div>
-                <div class="sub-seccion"><h3>Sección 1.3</h3><p>Contenido...</p></div>
+                <div class="sub-seccion">
+                    <h3>Sección 1.1</h3>
+                    <button onclick="proximamente('Sección 1.1 – Arreglos Ordenados')">Abrir ejercicio</button>
+                </div>
+                <div class="sub-seccion">
+                    <h3>Sección 1.2</h3>
+                    <button onclick="proximamente('Sección 1.2 – Arreglos Ordenados')">Abrir ejercicio</button>
+                </div>
+                <div class="sub-seccion">
+                    <h3>Sección 1.3</h3>
+                    <button onclick="proximamente('Sección 1.3 – Arreglos Ordenados')">Abrir ejercicio</button>
+                </div>
             </div>
 
             <div class="apartado">
@@ -330,6 +340,19 @@
             if (!btn) return;
             const isDark = document.documentElement.classList.contains("dark-mode");
             btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+        }
+
+        function proximamente(nombre) {
+            Swal.fire({
+                icon: "info",
+                title: "🔒 Próximamente",
+                html: `<b>${nombre}</b> aún no está disponible.<br>Estará habilitado próximamente.`,
+                confirmButtonText: "Entendido",
+                confirmButtonColor: "#003B8F",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                backdrop: true
+            });
         }
 
         document.addEventListener("DOMContentLoaded", actualizarBotonTheme);
