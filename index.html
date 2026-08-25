@@ -91,13 +91,89 @@
             color: #777777;
             font-size: 0.9em;
         }
+
+        /* Botón para alternar modo oscuro */
+        .theme-toggle-btn {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-left: auto;
+            color: #333;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Estilos de Modo Oscuro */
+        .dark-mode body,
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .top-bar {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333333;
+        }
+
+        .dark-mode .top-bar .university-name {
+            color: #64B5F6;
+        }
+
+        .dark-mode header {
+            background-color: #0d2850;
+            border-bottom: 5px solid #001940;
+        }
+
+        .dark-mode .materia {
+            background-color: #1e1e1e;
+            border-left: 5px solid #64B5F6;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .materia h1 {
+            color: #64B5F6;
+        }
+
+        .dark-mode .materia h2 {
+            color: #90CAF9;
+        }
+
+        .dark-mode .theme-toggle-btn {
+            background-color: #2c2c2c;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .theme-toggle-btn:hover {
+            background-color: #3d3d3d;
+        }
+
+        .dark-mode footer {
+            color: #888888;
+        }
     </style>
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
 </head>
 <body>
 
     <div class="top-bar">
         <img src="img/uni.png" alt="Logo Universidad">
         <span class="university-name">UNIVERSIDAD NACIONAL DE INGENIERÍA</span>
+        <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
     </div>
 
     <header>
@@ -161,5 +237,21 @@
         <p>&copy; 2026 - Denis Vallecillo, Carlos Torres, Carlos Valdivia. </p>
     </footer>
 
+    <script>
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle("dark-mode");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            actualizarBotonTheme();
+        }
+
+        function actualizarBotonTheme() {
+            const btn = document.getElementById("btnThemeToggle");
+            if (!btn) return;
+            const isDark = document.documentElement.classList.contains("dark-mode");
+            btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+        }
+
+        document.addEventListener("DOMContentLoaded", actualizarBotonTheme);
+    </script>
 </body>
 </html>

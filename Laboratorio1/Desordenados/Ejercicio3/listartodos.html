@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Todos los Empleados</title>
+    <style>
+        /* Estilos consistentes con el resto del proyecto */
+        body {
+            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 5px solid #002A66;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        /* Estilos para la tabla de empleados */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead th {
+            background-color: #003B8F;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* Mensaje de carga o error */
+        #mensaje {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Estilo para el botón de regresar */
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #003B8F;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #002A66;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lista de Todos los Empleados</h1>
+</header>
+
+<div class="container">
+    <button class="back-button" onclick="window.location.replace('ejercicio3.html')">
+        ← Regresar
+    </button>
+
+    <table id="tablaEmpleados">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Sexo</th>
+                <th>Edad</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+        </tbody>
+    </table>
+
+    <p id="mensaje"></p>
+</div>
+
+<script>
+
+function cargarEmpleados() {
+
+    fetch(
+        "http://localhost:8080/desordenado3/listartodos"
+    )
+
+    .then(async respuesta => {
+
+        const texto = await respuesta.text();
+
+        if (!respuesta.ok) {
+
+            document.getElementById("tablaEmpleados").style.display = "none";
+
+            document.getElementById("mensaje").innerText =
+                texto;
+
+            return;
+        }
+
+
+        // Si no hay empleados
+        if (
+            texto
+                .toLowerCase()
+                .includes("no hay empleados registrados")
+        ) {
+
+            document.getElementById("tablaEmpleados").style.display = "none";
+
+            document.getElementById("mensaje").innerText =
+                "No hay empleados registrados";
+
+            return;
+        }
+
+
+        // Limpiar mensaje
+        document.getElementById("mensaje").innerText = "";
+
+        // Mostrar tabla
+        document.getElementById("tablaEmpleados").style.display = "table";
+
+        // Convertir la respuesta a filas
+        mostrarEmpleados(texto);
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("tablaEmpleados").style.display = "none";
+
+        document.getElementById("mensaje").innerText =
+            "No se pudo conectar con el servidor Java.";
+
+    });
+
+}
+
+
+
+function mostrarEmpleados(texto) {
+
+    const cuerpoTabla =
+        document.getElementById("cuerpoTabla");
+
+    // Limpiar tabla anterior
+    cuerpoTabla.innerHTML = "";
+
+
+    // Separar empleados por salto de línea
+    const lineas =
+        texto
+            .trim()
+            .split("\n");
+
+
+    let numero = 1;
+
+
+    lineas.forEach(linea => {
+
+        linea = linea.trim();
+
+        if (linea === "") {
+            return;
+        }
+
+
+        // Cada empleado viene:
+        // Nombre|Sexo|Edad
+        const datos =
+            linea.split("|");
+
+
+        // Deben existir exactamente 3 datos
+        if (datos.length < 3) {
+            return;
+        }
+
+
+        const nombre =
+            datos[0].trim();
+
+        const sexoOriginal =
+            datos[1].trim().toUpperCase();
+
+        const edad =
+            datos[2].trim();
+
+
+        // Convertir M/F a texto
+        let sexo;
+
+        if (sexoOriginal === "M") {
+
+            sexo = "Masculino";
+
+        } else if (sexoOriginal === "F") {
+
+            sexo = "Femenino";
+
+        } else {
+
+            sexo = sexoOriginal;
+        }
+
+
+        // Crear nueva fila
+        const fila =
+            document.createElement("tr");
+
+
+        fila.innerHTML = `
+            <td>${numero}</td>
+            <td>${nombre}</td>
+            <td>${sexo}</td>
+            <td>${edad}</td>
+        `;
+
+
+        cuerpoTabla.appendChild(fila);
+
+        numero++;
+
+    });
+
+}
+
+
+// Cargar automáticamente al abrir la página
+cargarEmpleados();
+
+</script>
+
+</body>
+</html>
+

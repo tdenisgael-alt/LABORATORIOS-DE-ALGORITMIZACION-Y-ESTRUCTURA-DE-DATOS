@@ -614,8 +614,28 @@ function verificarEstadoArreglo() {
     }
 }
 
+// -----------------------------------------------------
+// MODO OSCURO
+// -----------------------------------------------------
+function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    actualizarBotonTheme();
+}
+
+function actualizarBotonTheme() {
+    const btn = document.getElementById("btnThemeToggle");
+    if (!btn) return;
+    const isDark = document.documentElement.classList.contains("dark-mode");
+    btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+}
+
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", verificarEstadoArreglo);
+    document.addEventListener("DOMContentLoaded", () => {
+        verificarEstadoArreglo();
+        actualizarBotonTheme();
+    });
 } else {
     verificarEstadoArreglo();
+    actualizarBotonTheme();
 }

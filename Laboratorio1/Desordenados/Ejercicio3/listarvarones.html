@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Todos los Clientes</title>
+    <title>Lista de Empleados Varones</title>
     <style>
         /* Estilos consistentes con el resto del proyecto */
         body {
@@ -34,7 +34,7 @@
             font-size: 2.2rem;
         }
 
-        /* Estilos para la tabla de clientes */
+        /* Estilos para la tabla de empleados */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -178,29 +178,28 @@
 <body>
 
 <header>
-    <h1>Lista de Clientes Registrados</h1>
+    <h1>Lista de Empleados Varones</h1>
 </header>
 
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <button class="back-button" style="margin-bottom: 0;" onclick="window.location.replace('ejercicio2.html')">
+        <button class="back-button" style="margin-bottom: 0;" onclick="window.location.replace('ejercicio3.html')">
             ← Regresar
         </button>
         <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
     </div>
 
-    <table id="tablaClientes">
+    <table id="tablaEmpleados">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Nombre Completo</th>
-                <th>Teléfono</th>
-                <th>Saldo</th>
-                <th>Moroso</th>
+                <th>Nombre</th>
+                <th>Sexo</th>
+                <th>Edad</th>
             </tr>
         </thead>
         <tbody id="cuerpoTabla">
-            <!-- Las filas de los clientes se insertarán aquí -->
+            <!-- Las filas de los empleados se insertarán aquí -->
         </tbody>
     </table>
 
@@ -209,78 +208,75 @@
 
 <script>
     /**
-     * Llama al servidor para obtener la lista de clientes
+     * Llama al servidor para obtener la lista de empleados varones
      * y la muestra en la tabla.
      */
-    async function cargarClientes() {
+    async function cargarVarones() {
+        const tabla = document.getElementById("tablaEmpleados");
         const cuerpoTabla = document.getElementById("cuerpoTabla");
         const mensajeDiv = document.getElementById("mensaje");
 
         try {
             // 1. Hacer la petición al servidor
             const respuesta = await fetch(
-                "http://localhost:8080/desordenado2/listartodos"
+                "http://localhost:8080/desordenado3/listarvarones"
             );
 
             const textoRespuesta = await respuesta.text();
 
             // 2. Comprobar si hubo un error en el servidor
             if (!respuesta.ok) {
+                tabla.style.display = "none";
+                mensajeDiv.style.display = "block";
                 mensajeDiv.textContent = `Error: ${textoRespuesta}`;
                 return;
             }
 
-            // 3. Comprobar si no hay clientes
+            // 3. Comprobar si no hay empleados varones
+            const textoMin = textoRespuesta.toLowerCase();
             if (
-                textoRespuesta.toLowerCase().includes("no hay clientes") ||
-                textoRespuesta.toLowerCase().includes("arreglo vac")
+                textoMin.includes("no hay empleados") ||
+                textoMin.includes("no hay varones") ||
+                textoMin.includes("arreglo vac") ||
+                textoRespuesta.trim() === "" ||
+                textoMin === "servidor java en ejecucion"
             ) {
-                mensajeDiv.textContent = "No hay clientes registrados.";
+                tabla.style.display = "none";
+                mensajeDiv.style.display = "block";
+                mensajeDiv.textContent = "No hay empleados varones registrados.";
                 return;
             }
 
-            // Ocultar el mensaje de "Cargando..."
-            mensajeDiv.style.display = "none";
-
-            // 4. Procesar la respuesta para mostrarla en la tabla
-            let bloques = [];
-            if (/---+/.test(textoRespuesta)) {
-                bloques = textoRespuesta.split(/---+/).filter(b => b.trim());
-            } else if (/Nombre:/i.test(textoRespuesta)) {
-                bloques = textoRespuesta.replace(/^Nombre:/i, '').split(/Nombre:/i).filter(b => b.trim());
-            } else {
-                bloques = [textoRespuesta];
-            }
-
+            // 4. Procesar la respuesta separada por líneas (\n) y campos (|)
+            const lineas = textoRespuesta.split(/\r?\n/).filter(l => l.trim().length > 0);
             let numero = 1;
 
-            bloques.forEach(bloque => {
-                const lineas = bloque.trim().split('\n');
-                let nombre = "", telefono = "", saldo = "", moroso = "";
+            lineas.forEach(linea => {
+                const l = linea.trim();
 
-                lineas.forEach((linea, index) => {
-                    const l = linea.trim();
-                    if (/^nombre:/i.test(l)) {
-                        nombre = l.replace(/^nombre:/i, "").trim();
-                    } else if (/^tel[eé]fono:/i.test(l)) {
-                        telefono = l.replace(/^tel[eé]fono:/i, "").trim();
-                    } else if (/^saldo:/i.test(l)) {
-                        saldo = l.replace(/^saldo:/i, "").trim();
-                    } else if (/^(es\s+)?moroso:/i.test(l)) {
-                        moroso = l.replace(/^(es\s+)?moroso:/i, "").trim();
-                    } else if (index === 0 && !nombre && l.length > 0) {
-                        nombre = l;
-                    }
-                });
+                // Ignorar encabezados o mensajes del servidor
+                if (l.toLowerCase().includes("servidor java en ejecucion") || l.startsWith("---")) {
+                    return;
+                }
 
-                // Formatear moroso a Sí / No
-                const morosoLower = moroso.toLowerCase();
-                if (morosoLower === "true" || morosoLower === "si" || morosoLower === "sí") {
-                    moroso = "Sí";
-                } else if (morosoLower === "false" || morosoLower === "no") {
-                    moroso = "No";
-                } else if (!moroso) {
-                    moroso = "No";
+                let nombre = "", sexo = "", edad = "";
+
+                if (l.includes("|")) {
+                    const partes = l.split("|");
+                    nombre = partes[0] ? partes[0].trim() : "";
+                    sexo = partes[1] ? partes[1].trim() : "";
+                    edad = partes[2] ? partes[2].trim() : "";
+                } else if (/^nombre:/i.test(l)) {
+                    nombre = l.replace(/^nombre:/i, "").trim();
+                } else {
+                    nombre = l;
+                }
+
+                // Filtrar / formatear sexo a Masculino
+                let sexoFormateado = "Masculino";
+                if (sexo.toUpperCase() === "F" || sexo.toLowerCase() === "femenino") {
+                    // Si viniera un registro femenino por alguna razón, no listarlo en varones
+                    return;
                 }
 
                 if (nombre) {
@@ -288,9 +284,8 @@
                     fila.innerHTML = `
                         <td>${numero}</td>
                         <td>${nombre}</td>
-                        <td>${telefono || "-"}</td>
-                        <td>${saldo || "-"}</td>
-                        <td>${moroso}</td>
+                        <td>${sexoFormateado}</td>
+                        <td>${edad || "-"}</td>
                     `;
                     cuerpoTabla.appendChild(fila);
                     numero++;
@@ -298,35 +293,25 @@
             });
 
             if (numero === 1) {
+                tabla.style.display = "none";
                 mensajeDiv.style.display = "block";
-                mensajeDiv.textContent = "No hay clientes registrados.";
+                mensajeDiv.textContent = "No hay empleados varones registrados.";
+            } else {
+                tabla.style.display = "table";
+                mensajeDiv.style.display = "none";
             }
 
         } catch (error) {
             console.error("Error de conexión:", error);
+            tabla.style.display = "none";
+            mensajeDiv.style.display = "block";
             mensajeDiv.textContent = "Error de conexión: No se pudo conectar con el servidor Java.";
         }
     }
 
     // Llamar a la función cuando la página se cargue
-    cargarClientes();
-
-    function toggleTheme() {
-        const isDark = document.documentElement.classList.toggle("dark-mode");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-        actualizarBotonTheme();
-    }
-
-    function actualizarBotonTheme() {
-        const btn = document.getElementById("btnThemeToggle");
-        if (!btn) return;
-        const isDark = document.documentElement.classList.contains("dark-mode");
-        btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
-    }
-
-    document.addEventListener("DOMContentLoaded", actualizarBotonTheme);
+    cargarVarones();
 </script>
 
 </body>
 </html>
-

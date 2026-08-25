@@ -115,6 +115,12 @@
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="ejercicio2.css">
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
     <!-- Añadir la librería SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -126,7 +132,10 @@
     <div class="container">
         <main>
             <div class="menu-container">
-                <h2>Menú de Opciones</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #003B8F; padding-bottom: 10px; margin-bottom: 15px;">
+                    <h2 style="margin: 0; border: none; padding: 0;">Menú de Opciones</h2>
+                    <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+                </div>
 
                 <!-- CONFIGURACIÓN DEL TAMAÑO DEL ARREGLO -->
                 <div id="configuracionArreglo" class="form-section">

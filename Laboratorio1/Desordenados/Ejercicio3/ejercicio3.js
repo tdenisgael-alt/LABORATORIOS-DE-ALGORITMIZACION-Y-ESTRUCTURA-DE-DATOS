@@ -22,7 +22,7 @@ function iniciarArreglo() {
 
     // Enviar el tamaño al servidor Java
     fetch(
-        "http://localhost:8080/desordenado2/iniciar",
+        "http://localhost:8080/desordenado3/iniciar",
         {
             method: "POST",
             headers: {
@@ -35,7 +35,7 @@ function iniciarArreglo() {
         const mensaje = await respuesta.text();
 
         if (respuesta.ok) {
-            sessionStorage.setItem("arregloIniciado_desordenado2", "true");
+            sessionStorage.setItem("arregloIniciado_desordenado3", "true");
 
             Swal.fire({
                 icon: "success",
@@ -87,19 +87,24 @@ function mostrarAlta() {
     document.getElementById("formAlta").style.display = "block";
 }
 
-function mostrarModificar() {
-    ocultarFormularios();
-    document.getElementById("formModificar").style.display = "block";
-}
-
 function mostrarBaja() {
     ocultarFormularios();
     document.getElementById("formBaja").style.display = "block";
 }
 
+function mostrarModificar() {
+    ocultarFormularios();
+    document.getElementById("formModificar").style.display = "block";
+}
+
 function mostrarUno() {
     ocultarFormularios();
     document.getElementById("formListarUno").style.display = "block";
+}
+
+function listarVarones() {
+    ocultarFormularios();
+    window.location.replace("listarvarones.html");
 }
 
 function listarTodos() {
@@ -108,23 +113,22 @@ function listarTodos() {
 }
 
 function cerrarVentana() {
-    sessionStorage.removeItem("arregloIniciado_desordenado2");
+    sessionStorage.removeItem("arregloIniciado_desordenado3");
     window.location.replace("../../laboratorio1.html");
 }
 
 // -----------------------------------------------------
-// 1. DAR DE ALTA CLIENTE
+// 1. DAR DE ALTA EMPLEADO
 // -----------------------------------------------------
 
-function darDeAltaCliente() {
+function darDeAltaEmpleado() {
     // Obtener los datos del formulario
-    const nombre = document.getElementById("nombreCliente").value.trim();
-    const telefono = document.getElementById("telefonoCliente").value.trim();
-    const saldo = document.getElementById("saldoCliente").value.trim();
-    const moroso = document.getElementById("morosoCliente").value;
+    const nombre = document.getElementById("nombreEmpleado").value.trim();
+    const sexo = document.getElementById("sexoEmpleado").value;
+    const edad = document.getElementById("edadEmpleado").value.trim();
 
     // Comprobar que todos los campos estén llenos
-    if (nombre === "" || telefono === "" || saldo === "") {
+    if (nombre === "" || sexo === "" || edad === "") {
         Swal.fire({
             icon: "warning",
             title: "Campos incompletos",
@@ -133,16 +137,25 @@ function darDeAltaCliente() {
         return;
     }
 
+    // Validar edad numérica válida
+    if (parseInt(edad) <= 0 || isNaN(parseInt(edad))) {
+        Swal.fire({
+            icon: "warning",
+            title: "Dato inválido",
+            text: "Por favor, ingrese una edad válida mayor que 0."
+        });
+        return;
+    }
+
     // Preparar los datos para enviarlos a Java
     const datos =
         "nombre=" + encodeURIComponent(nombre) +
-        "&telefono=" + encodeURIComponent(telefono) +
-        "&saldo=" + encodeURIComponent(saldo) +
-        "&moroso=" + encodeURIComponent(moroso);
+        "&sexo=" + encodeURIComponent(sexo) +
+        "&edad=" + encodeURIComponent(edad);
 
     // Enviar los datos al servidor Java
     fetch(
-        "http://localhost:8080/desordenado2/alta",
+        "http://localhost:8080/desordenado3/alta",
         {
             method: "POST",
             headers: {
@@ -176,10 +189,9 @@ function darDeAltaCliente() {
             });
 
             // Limpiar campos
-            document.getElementById("nombreCliente").value = "";
-            document.getElementById("telefonoCliente").value = "";
-            document.getElementById("saldoCliente").value = "";
-            document.getElementById("morosoCliente").value = "false";
+            document.getElementById("nombreEmpleado").value = "";
+            document.getElementById("sexoEmpleado").value = "M";
+            document.getElementById("edadEmpleado").value = "";
 
         } else {
             Swal.fire({
@@ -200,94 +212,17 @@ function darDeAltaCliente() {
 }
 
 // -----------------------------------------------------
-// 2. MODIFICAR ESTADO MOROSO
+// 2. DAR DE BAJA EMPLEADO
 // -----------------------------------------------------
 
-function modificarEstadoMoroso() {
-    const nombre = document.getElementById("nombreModificar").value.trim();
-    const moroso = document.getElementById("morosoModificar").value;
-
-    // Validar que se haya ingresado el nombre
-    if (nombre === "") {
-        Swal.fire({
-            icon: "warning",
-            title: "Campo vacío",
-            text: "Ingrese el nombre del cliente."
-        });
-        return;
-    }
-
-    // Preparar los datos para enviarlos a Java
-    const datos =
-        "nombre=" + encodeURIComponent(nombre) +
-        "&moroso=" + encodeURIComponent(moroso);
-
-    // Enviar al servidor Java
-    fetch(
-        "http://localhost:8080/desordenado2/modificar",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: datos
-        }
-    )
-    .then(async respuesta => {
-        const mensaje = await respuesta.text();
-
-        if (respuesta.ok) {
-            if (
-                mensaje.toLowerCase().includes("modificado") ||
-                mensaje.toLowerCase().includes("correctamente") ||
-                mensaje.toLowerCase().includes("actualizado")
-            ) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Estado modificado",
-                    text: mensaje
-                });
-
-                // Limpiar campos
-                document.getElementById("nombreModificar").value = "";
-                document.getElementById("morosoModificar").value = "false";
-            } else {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Cliente no encontrado",
-                    text: mensaje
-                });
-            }
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: mensaje
-            });
-        }
-    })
-    .catch(error => {
-        console.error(error);
-        Swal.fire({
-            icon: "error",
-            title: "Error de conexión",
-            text: "No se pudo conectar con el servidor Java."
-        });
-    });
-}
-
-// -----------------------------------------------------
-// 3. DAR DE BAJA CLIENTE
-// -----------------------------------------------------
-
-function darDeBajaCliente() {
+function darDeBajaEmpleado() {
     const nombre = document.getElementById("nombreBaja").value.trim();
 
     if (nombre === "") {
         Swal.fire({
             icon: "warning",
             title: "Campo vacío",
-            text: "Ingrese el nombre del cliente."
+            text: "Ingrese el nombre del empleado."
         });
         return;
     }
@@ -295,7 +230,7 @@ function darDeBajaCliente() {
     const datos = "nombre=" + encodeURIComponent(nombre);
 
     fetch(
-        "http://localhost:8080/desordenado2/baja",
+        "http://localhost:8080/desordenado3/baja",
         {
             method: "POST",
             headers: {
@@ -314,7 +249,7 @@ function darDeBajaCliente() {
             ) {
                 Swal.fire({
                     icon: "success",
-                    title: "Cliente eliminado",
+                    title: "Empleado eliminado",
                     text: mensaje
                 });
 
@@ -345,17 +280,104 @@ function darDeBajaCliente() {
 }
 
 // -----------------------------------------------------
-// 4. LISTAR UN CLIENTE
+// 3. ACTUALIZAR EDAD
 // -----------------------------------------------------
 
-function listarUnCliente() {
+function modificarEdadEmpleado() {
+    const nombre = document.getElementById("nombreModificar").value.trim();
+    const edad = document.getElementById("edadModificar").value.trim();
+
+    // Validar que se hayan llenado los campos
+    if (nombre === "" || edad === "") {
+        Swal.fire({
+            icon: "warning",
+            title: "Campos incompletos",
+            text: "Por favor, complete el nombre y la nueva edad."
+        });
+        return;
+    }
+
+    // Validar edad numérica válida
+    if (parseInt(edad) <= 0 || isNaN(parseInt(edad))) {
+        Swal.fire({
+            icon: "warning",
+            title: "Dato inválido",
+            text: "Por favor, ingrese una edad válida mayor que 0."
+        });
+        return;
+    }
+
+    // Preparar los datos para enviarlos a Java
+    const datos =
+        "nombre=" + encodeURIComponent(nombre) +
+        "&edad=" + encodeURIComponent(edad);
+
+    // Enviar al servidor Java
+    fetch(
+        "http://localhost:8080/desordenado3/modificar",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: datos
+        }
+    )
+    .then(async respuesta => {
+        const mensaje = await respuesta.text();
+
+        if (respuesta.ok) {
+            if (
+                mensaje.toLowerCase().includes("modificado") ||
+                mensaje.toLowerCase().includes("correctamente") ||
+                mensaje.toLowerCase().includes("actualizado")
+            ) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Edad actualizada",
+                    text: mensaje
+                });
+
+                // Limpiar campos
+                document.getElementById("nombreModificar").value = "";
+                document.getElementById("edadModificar").value = "";
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Empleado no encontrado",
+                    text: mensaje
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: mensaje
+            });
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        Swal.fire({
+            icon: "error",
+            title: "Error de conexión",
+            text: "No se pudo conectar con el servidor Java."
+        });
+    });
+}
+
+// -----------------------------------------------------
+// 5. LISTAR UN EMPLEADO
+// -----------------------------------------------------
+
+function listarUnEmpleado() {
     const nombre = document.getElementById("nombreListar").value.trim();
 
     if (nombre === "") {
         Swal.fire({
             icon: "warning",
             title: "Campo vacío",
-            text: "Ingrese el nombre del cliente."
+            text: "Ingrese el nombre del empleado."
         });
         return;
     }
@@ -363,7 +385,7 @@ function listarUnCliente() {
     const datos = "nombre=" + encodeURIComponent(nombre);
 
     fetch(
-        "http://localhost:8080/desordenado2/listaruno",
+        "http://localhost:8080/desordenado3/listaruno",
         {
             method: "POST",
             headers: {
@@ -384,7 +406,7 @@ function listarUnCliente() {
             return;
         }
 
-        // Comprobar si Java encontró al cliente
+        // Comprobar si Java encontró al empleado
         if (
             mensaje.toLowerCase().includes("no fue encontrado") ||
             mensaje.toLowerCase().includes("no encontrado") ||
@@ -392,20 +414,31 @@ function listarUnCliente() {
         ) {
             Swal.fire({
                 icon: "warning",
-                title: "Cliente no encontrado",
+                title: "Empleado no encontrado",
                 text: mensaje
             });
         } else {
-            // Reemplazar true/false por Sí/No para el usuario
-            let mensajeFormateado = mensaje
-                .replace(/:\s*true\b/gi, ": Sí")
-                .replace(/:\s*false\b/gi, ": No")
-                .replace(/\btrue\b/gi, "Sí")
-                .replace(/\bfalse\b/gi, "No");
+            let mensajeFormateado = "";
+
+            // Si viene con formato pipe: Nombre|Sexo|Edad
+            if (mensaje.includes("|")) {
+                const partes = mensaje.trim().split("|");
+                const nom = partes[0] ? partes[0].trim() : "";
+                let sex = partes[1] ? partes[1].trim() : "";
+                if (sex.toUpperCase() === "M" || sex.toLowerCase() === "masculino") sex = "Masculino";
+                else if (sex.toUpperCase() === "F" || sex.toLowerCase() === "femenino") sex = "Femenino";
+                const ed = partes[2] ? partes[2].trim() : "";
+                mensajeFormateado = `Nombre: ${nom}\nSexo: ${sex}\nEdad: ${ed}`;
+            } else {
+                // Formatear sexo para mostrar Masculino/Femenino al usuario
+                mensajeFormateado = mensaje
+                    .replace(/Sexo:\s*M\b/gi, "Sexo: Masculino")
+                    .replace(/Sexo:\s*F\b/gi, "Sexo: Femenino");
+            }
 
             Swal.fire({
                 icon: "success",
-                title: "Datos del cliente",
+                title: "Datos del empleado",
                 html: "<pre style='text-align:left; font-size:1rem; font-family: inherit;'>" +
                       mensajeFormateado +
                       "</pre>"
@@ -429,7 +462,7 @@ function listarUnCliente() {
 // -----------------------------------------------------
 
 function verificarEstadoArreglo() {
-    if (sessionStorage.getItem("arregloIniciado_desordenado2") === "true") {
+    if (sessionStorage.getItem("arregloIniciado_desordenado3") === "true") {
         const config = document.getElementById("configuracionArreglo");
         const menu = document.getElementById("menuOpciones");
         if (config) config.style.display = "none";
@@ -462,4 +495,3 @@ if (document.readyState === "loading") {
     verificarEstadoArreglo();
     actualizarBotonTheme();
 }
-
