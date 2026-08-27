@@ -237,6 +237,7 @@
             document.documentElement.classList.add("dark-mode");
         }
     </script>
+    <link rel="stylesheet" href="sweetalert-uni.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -258,16 +259,16 @@
             <div class="apartado">
                 <h2>Arreglos Ordenados</h2>
                 <div class="sub-seccion">
-                    <h3>Sección 1.1</h3>
-                    <button onclick="proximamente('Sección 1.1 – Arreglos Ordenados')">Abrir ejercicio</button>
+                    <h3>Ejercicio 1</h3>
+                    <button onclick="abrirVentanaOrdenado1()">Abrir ejercicio</button>
                 </div>
                 <div class="sub-seccion">
-                    <h3>Sección 1.2</h3>
-                    <button onclick="proximamente('Sección 1.2 – Arreglos Ordenados')">Abrir ejercicio</button>
+                    <h3>Ejercicio 2</h3>
+                    <button onclick="abrirVentanaOrdenado2()">Abrir ejercicio</button>
                 </div>
                 <div class="sub-seccion">
-                    <h3>Sección 1.3</h3>
-                    <button onclick="proximamente('Sección 1.3 – Arreglos Ordenados')">Abrir ejercicio</button>
+                    <h3>Ejercicio 3</h3>
+                    <button onclick="abrirVentanaOrdenado3()">Abrir ejercicio</button>
                 </div>
             </div>
 
@@ -305,6 +306,30 @@
     </footer>
 
     <script>
+        /**
+         * Abre el ejercicio 1 de arreglos ordenados.
+         */
+        function abrirVentanaOrdenado1() {
+            sessionStorage.removeItem("arregloIniciado_ordenado1");
+            window.location.replace('Ordenados/Ejercicio1/ejercicio1.html');
+        }
+
+        /**
+         * Abre el ejercicio 2 reemplazando la página actual.
+         */
+        function abrirVentanaOrdenado2() {
+            sessionStorage.removeItem("arregloIniciado_ordenado2");
+            window.location.replace('Ordenados/Ejercicio2/ejercicio2.html');
+        }
+
+        /**
+         * Abre el ejercicio 3 reemplazando la página actual.
+         */
+        function abrirVentanaOrdenado3() {
+            sessionStorage.removeItem("arregloIniciado_ordenado3");
+            window.location.replace('Ordenados/Ejercicio3/ejercicio3.html');
+        }
+
         /**
          * Abre el ejercicio 1 reemplazando la página actual.
          */

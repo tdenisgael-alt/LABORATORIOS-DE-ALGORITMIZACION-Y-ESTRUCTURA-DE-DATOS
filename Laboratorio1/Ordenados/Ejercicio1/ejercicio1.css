@@ -1,0 +1,241 @@
+body {
+    background-color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+header {
+    background-color: #003B8F;
+    color: #FFFFFF;
+    padding: 1rem 20px;
+    text-align: center;
+    border-bottom: 5px solid #002A66;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+.menu-container {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 2px solid #003B8F;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-header h2 {
+    color: #003B8F;
+    margin: 0;
+}
+
+.menu-options button,
+.form-section button {
+    padding: 8px 16px;
+    background-color: #003B8F;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-options button:hover,
+.form-section button:hover {
+    background-color: #002A66;
+}
+
+.form-section {
+    background-color: #f9f9f9;
+    border-left: 4px solid #999;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 0 4px 4px 0;
+}
+
+.form-section h4 {
+    margin-top: 0;
+    color: #555;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section select {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    margin-top: 4px;
+}
+
+.theme-toggle-btn {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    color: #333;
+    white-space: nowrap;
+}
+
+.theme-toggle-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.dark-mode body,
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-mode header {
+    background-color: #0d2850;
+    border-bottom-color: #001940;
+}
+
+.dark-mode .menu-container {
+    background-color: #1e1e1e;
+    border-color: #333333;
+    color: #e0e0e0;
+}
+
+.dark-mode .menu-header {
+    border-bottom-color: #64B5F6;
+}
+
+.dark-mode .menu-header h2 {
+    color: #64B5F6;
+}
+
+.dark-mode .form-section {
+    background-color: #252525;
+    border-left-color: #64B5F6;
+}
+
+.dark-mode .form-section h4 {
+    color: #90CAF9;
+}
+
+.dark-mode .form-section input[type="text"],
+.dark-mode .form-section input[type="number"],
+.dark-mode .form-section select {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border-color: #555555;
+}
+
+.dark-mode .form-section input::placeholder {
+    color: #888888;
+}
+
+.dark-mode .menu-options button,
+.dark-mode .form-section button {
+    background-color: #1976D2;
+}
+
+.dark-mode .menu-options button:hover,
+.dark-mode .form-section button:hover {
+    background-color: #1565C0;
+}
+
+.dark-mode .theme-toggle-btn {
+    background-color: #2c2c2c;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+.dark-mode .theme-toggle-btn:hover {
+    background-color: #3d3d3d;
+}
+
+.dark-mode .swal2-popup {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .swal2-title,
+.dark-mode .swal2-html-container {
+    color: #e0e0e0 !important;
+}
+
+.employee-details {
+    margin: 0;
+    text-align: left;
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.65rem;
+    }
+
+    .container {
+        padding: 0 12px;
+    }
+
+    .menu-container {
+        padding: 15px;
+    }
+
+    .menu-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .form-section input[type="text"],
+    .form-section input[type="number"],
+    .form-section select {
+        width: 100%;
+    }
+
+    .menu-options button,
+    .form-section button {
+        width: 100%;
+        margin-right: 0;
+    }
+}
