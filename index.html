@@ -17,11 +17,12 @@
 
         html {
             scroll-behavior: smooth;
+            --escala-integrantes: 1.03;
         }
 
         /* Contenedor principal para centrar el contenido */
         .container {
-            max-width: 800px;
+            max-width: 1120px;
             margin: 20px auto; /* Centra el contenedor y añade espacio arriba/abajo */
             padding: 0 20px; /* Espacio a los lados */
         }
@@ -116,12 +117,23 @@
         .equipo-section {
             margin-bottom: 35px;
             scroll-margin-top: 90px;
+            min-height: max(500px, calc(100vh - 275px));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .equipo-contenido {
+            transform: scale(var(--escala-integrantes));
+            transform-origin: center;
+            will-change: transform;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .equipo-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
+            gap: 24px;
         }
 
         .integrante-card {
@@ -136,8 +148,8 @@
 
         .integrante-foto {
             display: block;
-            width: 170px;
-            height: 170px;
+            width: 210px;
+            height: 210px;
             max-width: 100%;
             margin: 0 auto 15px;
             border-radius: 50%;
@@ -162,7 +174,7 @@
         }
 
         .imagen-ampliable .integrante-foto {
-            transition: transform 0.25s ease;
+            transition: transform 0.12s ease-out;
         }
 
         .imagen-ampliable:hover .integrante-foto,
@@ -248,14 +260,74 @@
             margin: 0;
         }
 
+        .datos-grupo {
+            margin-top: 22px;
+            text-align: center;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .datos-grupo p {
+            margin: 2px 0;
+        }
+
+        .datos-grupo strong {
+            color: #003B8F;
+        }
+
         .laboratorios-section {
             scroll-margin-top: 90px;
         }
 
+        .laboratorios-lista {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            max-width: 820px;
+            margin: 0 auto;
+            gap: 14px;
+            min-height: 0;
+        }
+
         /* Estilo para que el enlace del laboratorio ocupe toda la tarjeta */
         .lab-link {
+            display: block;
+            width: 100%;
             text-decoration: none; /* Quita el subrayado del enlace */
             color: inherit; /* Hereda el color del texto del padre */
+            transform: translate3d(0, var(--desplazamiento-lab, 0), 0) scale3d(var(--escala-lab, 0.92), var(--escala-lab, 0.92), 1);
+            transform-origin: center;
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .laboratorios-lista .materia {
+            box-sizing: border-box;
+            min-height: 180px;
+            margin: 0;
+            padding: 12px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .laboratorios-lista .materia h1 {
+            margin: 0 0 8px;
+            font-size: 1.15rem;
+            line-height: 1.2;
+        }
+
+        .laboratorios-lista .materia h2 {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        .laboratorios-lista .proximamente-card::after {
+            content: "🔒";
+            top: 5px;
+            right: 6px;
         }
 
         /* Estilo para el pie de página */
@@ -355,6 +427,14 @@
             color: #c7c7c7;
         }
 
+        .dark-mode .datos-grupo {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .datos-grupo strong {
+            color: #90CAF9;
+        }
+
         .dark-mode .theme-toggle-btn {
             background-color: #2c2c2c;
             border-color: #555;
@@ -418,6 +498,11 @@
                 margin: 0 auto;
                 box-sizing: border-box;
             }
+
+            .laboratorios-lista {
+                gap: 10px;
+            }
+
         }
 
         @media (max-width: 480px) {
@@ -460,6 +545,19 @@
                 top: -14px;
                 right: -8px;
             }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .equipo-contenido,
+            .laboratorios-section,
+            .lab-link,
+            .integrante-foto,
+            .imagen-ampliable:hover .integrante-foto,
+            .imagen-ampliable:focus-visible .integrante-foto {
+                transform: scale(1);
+                transition: none;
+            }
         }
     </style>
     <link rel="stylesheet" href="Laboratorio1/sweetalert-uni.css">
@@ -477,7 +575,7 @@
         <span class="university-name">UNIVERSIDAD NACIONAL DE INGENIERÍA</span>
         <nav class="main-nav" aria-label="Navegación principal">
             <a class="nav-link" href="#inicio">Inicio</a>
-            <a class="nav-link" href="#laboratorios">Laboratorios</a>
+            <a class="nav-link" href="#laboratorios" onclick="irALaboratorios(event)">Laboratorios</a>
             <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
         </nav>
     </div>
@@ -491,84 +589,100 @@
             <section class="equipo-section" aria-labelledby="tituloIntegrantes">
                 <h2 id="tituloIntegrantes" class="section-title">Integrantes</h2>
 
-                <div class="equipo-grid">
-                    <article class="integrante-card">
-                        <button class="imagen-ampliable" onclick="abrirImagen('img/CT.jpeg', 'Carlos Humberto Torres Membreño')" aria-label="Ampliar foto de Carlos Humberto Torres Membreño">
-                            <img class="integrante-foto foto-ct" src="img/CT.jpeg" alt="Carlos Humberto Torres Membreño">
-                        </button>
-                        <h3>Carlos Humberto Torres Membreño</h3>
-                        <p class="carnet">2025-2556U</p>
-                    </article>
+                <div class="equipo-contenido">
+                    <div class="equipo-grid">
+                        <article class="integrante-card">
+                            <button class="imagen-ampliable" onclick="abrirImagen('img/CT.jpeg', 'Carlos Humberto Torres Membreño')" aria-label="Ampliar foto de Carlos Humberto Torres Membreño">
+                                <img class="integrante-foto foto-ct" src="img/CT.jpeg" alt="Carlos Humberto Torres Membreño">
+                            </button>
+                            <h3>Carlos Humberto Torres Membreño</h3>
+                            <p class="carnet">2025-2556U</p>
+                        </article>
 
-                    <article class="integrante-card">
-                        <button class="imagen-ampliable" onclick="abrirImagen('img/YO.jpg', 'Denis Gael Vallecillo Treminio')" aria-label="Ampliar foto de Denis Gael Vallecillo Treminio">
-                            <img class="integrante-foto" src="img/YO.jpg" alt="Denis Gael Vallecillo Treminio">
-                        </button>
-                        <h3>Denis Gael Vallecillo Treminio</h3>
-                        <p class="carnet">2024-1837U</p>
-                    </article>
+                        <article class="integrante-card">
+                            <button class="imagen-ampliable" onclick="abrirImagen('img/YO.jpg', 'Denis Gael Vallecillo Treminio')" aria-label="Ampliar foto de Denis Gael Vallecillo Treminio">
+                                <img class="integrante-foto" src="img/YO.jpg" alt="Denis Gael Vallecillo Treminio">
+                            </button>
+                            <h3>Denis Gael Vallecillo Treminio</h3>
+                            <p class="carnet">2024-1837U</p>
+                        </article>
 
-                    <article class="integrante-card">
-                        <button class="imagen-ampliable" onclick="abrirImagen('img/CV.jpeg', 'Carlos Bayardo Valdivia Alaniz')" aria-label="Ampliar foto de Carlos Bayardo Valdivia Alaniz">
-                            <img class="integrante-foto" src="img/CV.jpeg" alt="Carlos Bayardo Valdivia Alaniz">
-                        </button>
-                        <h3>Carlos Bayardo Valdivia Alaniz</h3>
-                        <p class="carnet">2025-1323U</p>
-                    </article>
+                        <article class="integrante-card">
+                            <button class="imagen-ampliable" onclick="abrirImagen('img/CV.jpeg', 'Carlos Bayardo Valdivia Alaniz')" aria-label="Ampliar foto de Carlos Bayardo Valdivia Alaniz">
+                                <img class="integrante-foto" src="img/CV.jpeg" alt="Carlos Bayardo Valdivia Alaniz">
+                            </button>
+                            <h3>Carlos Bayardo Valdivia Alaniz</h3>
+                            <p class="carnet">2025-1323U</p>
+                        </article>
+                    </div>
+
+                    <div class="datos-grupo">
+                        <p><strong>Nombre del docente:</strong> MSc. Ing. Eliezer Aburto Plata</p>
+                        <p><strong>Grupo:</strong> 2M4-COM-S</p>
+                    </div>
                 </div>
             </section>
 
             <section id="laboratorios" class="laboratorios-section" aria-labelledby="tituloLaboratorios">
                 <h2 id="tituloLaboratorios" class="section-title">Laboratorios</h2>
 
-            <a href="Laboratorio1/laboratorio1.html" onclick="window.location.replace('Laboratorio1/laboratorio1.html'); return false;" class="lab-link">
-                <section class="materia">
-                    <h1>LABORATORIO 1</h1>
-                    <h2>Arreglos Ordenados y Desordenados</h2>
-                </section>
-            </a>
+                <div class="laboratorios-lista">
+                    <a href="Laboratorio1/laboratorio1.html" onclick="window.location.replace('Laboratorio1/laboratorio1.html'); return false;" class="lab-link">
+                            <section class="materia">
+                                <h1>LABORATORIO 1</h1>
+                                <h2>Arreglos Ordenados y Desordenados</h2>
+                            </section>
+                        </a>
 
-            <a href="#" onclick="proximamente('Laboratorio 2'); return false;" class="lab-link">
-                <section class="materia proximamente-card">
-                    <h1>LABORATORIO 2</h1>
-                    <h2>Contenido del Laboratorio</h2>
-                </section>
-            </a>
+                        <a href="#" onclick="proximamente('Laboratorio 2'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 2</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                        </a>
 
-            <a href="#" onclick="proximamente('Laboratorio 3'); return false;" class="lab-link">
-                <section class="materia proximamente-card">
-                    <h1>LABORATORIO 3</h1>
-                    <h2>Contenido del Laboratorio</h2>
-                </section>
-            </a>
+                        <a href="#" onclick="proximamente('Laboratorio 3'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 3</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                        </a>
 
-            <a href="#" onclick="proximamente('Laboratorio 4'); return false;" class="lab-link">
-                <section class="materia proximamente-card">
-                    <h1>LABORATORIO 4</h1>
-                    <h2>Contenido del Laboratorio</h2>
-                </section>
-            </a>
+                        <a href="#" onclick="proximamente('Laboratorio 4'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 4</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                        </a>
 
-            <a href="#" onclick="proximamente('Laboratorio 5'); return false;" class="lab-link">
-                <section class="materia proximamente-card">
-                    <h1>LABORATORIO 5</h1>
-                    <h2>Contenido del Laboratorio</h2>
-                </section>
-            </a>
+                        <a href="#" onclick="proximamente('Laboratorio 5'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 5</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                        </a>
 
-            <a href="#" onclick="proximamente('Laboratorio 6'); return false;" class="lab-link">
-                <section class="materia proximamente-card">
-                    <h1>LABORATORIO 6</h1>
-                    <h2>Contenido del Laboratorio</h2>
-                </section>
-            </a>
+                        <a href="#" onclick="proximamente('Laboratorio 6'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 6</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                        </a>
 
-            <a href="#" onclick="proximamente('Laboratorio 7'); return false;" class="lab-link">
-                <section class="materia proximamente-card">
-                    <h1>LABORATORIO 7</h1>
-                    <h2>Contenido del Laboratorio</h2>
-                </section>
-            </a>
+                        <a href="#" onclick="proximamente('Laboratorio 7'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 7</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                        </a>
+
+                        <a href="#" onclick="proximamente('Laboratorio 8'); return false;" class="lab-link">
+                            <section class="materia proximamente-card">
+                                <h1>LABORATORIO 8</h1>
+                                <h2>Contenido del Laboratorio</h2>
+                            </section>
+                    </a>
+                </div>
             </section>
         </main>
     </div>
@@ -586,6 +700,85 @@
     </footer>
 
     <script>
+        let actualizacionEscalaPendiente = false;
+        let posicionCursorLaboratorios = null;
+
+        function actualizarEscalasPagina() {
+            const recorrido = 550;
+            const progreso = Math.min(Math.max(window.scrollY / recorrido, 0), 1);
+            const escala = 1.03 - (progreso * 0.25);
+            const seccionLaboratorios = document.getElementById("laboratorios");
+            const tarjetasLaboratorios = Array.from(
+                seccionLaboratorios.querySelectorAll(".lab-link")
+            );
+            const inicioOla = seccionLaboratorios.offsetTop - 90;
+            const progresoOla = Math.min(
+                Math.max((window.scrollY - inicioOla) / 700, 0),
+                1
+            );
+            let indiceDestacado = Math.round(
+                progresoOla * (tarjetasLaboratorios.length - 1)
+            );
+
+            if (posicionCursorLaboratorios !== null) {
+                let distanciaMenor = Infinity;
+
+                tarjetasLaboratorios.forEach((tarjeta, indice) => {
+                    const rectangulo = tarjeta.getBoundingClientRect();
+                    const centroTarjeta = rectangulo.top + (rectangulo.height / 2);
+                    const distancia = Math.abs(centroTarjeta - posicionCursorLaboratorios);
+
+                    if (distancia < distanciaMenor) {
+                        distanciaMenor = distancia;
+                        indiceDestacado = indice;
+                    }
+                });
+            }
+
+            document.documentElement.style.setProperty(
+                "--escala-integrantes",
+                escala.toFixed(3)
+            );
+
+            tarjetasLaboratorios.forEach((tarjeta, indice) => {
+                const esDestacada = indice === indiceDestacado;
+                const escalaOla = esDestacada ? 1.28 : 0.82;
+                const desplazamientoOla = esDestacada
+                    ? 0
+                    : indice < indiceDestacado ? -14 : 14;
+
+                tarjeta.style.setProperty("--escala-lab", escalaOla.toFixed(3));
+                tarjeta.style.setProperty("--desplazamiento-lab", `${desplazamientoOla}px`);
+                tarjeta.style.zIndex = esDestacada ? "2" : "1";
+            });
+
+            actualizacionEscalaPendiente = false;
+        }
+
+        function solicitarActualizacionEscala() {
+            if (actualizacionEscalaPendiente) {
+                return;
+            }
+
+            actualizacionEscalaPendiente = true;
+            window.requestAnimationFrame(actualizarEscalasPagina);
+        }
+
+        window.addEventListener("scroll", solicitarActualizacionEscala, { passive: true });
+        window.addEventListener("resize", solicitarActualizacionEscala);
+
+        const seccionLaboratoriosInteractiva = document.getElementById("laboratorios");
+        seccionLaboratoriosInteractiva.addEventListener("pointermove", event => {
+            posicionCursorLaboratorios = event.clientY;
+            solicitarActualizacionEscala();
+        });
+        seccionLaboratoriosInteractiva.addEventListener("pointerleave", () => {
+            posicionCursorLaboratorios = null;
+            solicitarActualizacionEscala();
+        });
+
+        actualizarEscalasPagina();
+
         function abrirImagen(ruta, nombre) {
             const modal = document.getElementById("imagenModal");
             const imagen = document.getElementById("imagenAmpliada");
@@ -630,6 +823,19 @@
             if (!btn) return;
             const isDark = document.documentElement.classList.contains("dark-mode");
             btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+        }
+
+        function irALaboratorios(event) {
+            event.preventDefault();
+            posicionCursorLaboratorios = null;
+
+            const seccionLaboratorios = document.getElementById("laboratorios");
+            const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            seccionLaboratorios.scrollIntoView({
+                behavior: reducirMovimiento ? "auto" : "smooth",
+                block: "start"
+            });
         }
 
         function proximamente(nombre) {
