@@ -151,6 +151,90 @@
             object-position: center 68%;
         }
 
+        .imagen-ampliable {
+            display: block;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            padding: 0;
+            margin: 0 auto;
+            cursor: zoom-in;
+        }
+
+        .imagen-ampliable .integrante-foto {
+            transition: transform 0.25s ease;
+        }
+
+        .imagen-ampliable:hover .integrante-foto,
+        .imagen-ampliable:focus-visible .integrante-foto {
+            transform: scale(1.04);
+        }
+
+        .imagen-ampliable:focus-visible {
+            outline: 3px solid #003B8F;
+            outline-offset: 6px;
+        }
+
+        .imagen-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.88);
+            box-sizing: border-box;
+        }
+
+        .imagen-modal.activa {
+            display: flex;
+        }
+
+        .imagen-modal-contenido {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .imagen-modal-foto {
+            display: block;
+            max-width: 100%;
+            max-height: 82vh;
+            margin: 0 auto;
+            border-radius: 10px;
+            object-fit: contain;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .imagen-modal-nombre {
+            color: #FFFFFF;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 12px 45px 0;
+        }
+
+        .imagen-modal-cerrar {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 42px;
+            height: 42px;
+            border: 2px solid #FFFFFF;
+            border-radius: 50%;
+            background-color: #003B8F;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .imagen-modal-cerrar:hover,
+        .imagen-modal-cerrar:focus-visible {
+            background-color: #002A66;
+        }
+
         .integrante-card h3 {
             color: #003B8F;
             font-size: 1.05rem;
@@ -367,6 +451,15 @@
                 font-size: 1.55rem;
                 padding: 0 12px;
             }
+
+            .imagen-modal {
+                padding: 18px;
+            }
+
+            .imagen-modal-cerrar {
+                top: -14px;
+                right: -8px;
+            }
         }
     </style>
     <link rel="stylesheet" href="Laboratorio1/sweetalert-uni.css">
@@ -400,19 +493,25 @@
 
                 <div class="equipo-grid">
                     <article class="integrante-card">
-                        <img class="integrante-foto foto-ct" src="img/CT.jpeg" alt="Carlos Humberto Torres Membreño">
+                        <button class="imagen-ampliable" onclick="abrirImagen('img/CT.jpeg', 'Carlos Humberto Torres Membreño')" aria-label="Ampliar foto de Carlos Humberto Torres Membreño">
+                            <img class="integrante-foto foto-ct" src="img/CT.jpeg" alt="Carlos Humberto Torres Membreño">
+                        </button>
                         <h3>Carlos Humberto Torres Membreño</h3>
                         <p class="carnet">2025-2556U</p>
                     </article>
 
                     <article class="integrante-card">
-                        <img class="integrante-foto" src="img/YO.jpg" alt="Denis Gael Vallecillo Treminio">
+                        <button class="imagen-ampliable" onclick="abrirImagen('img/YO.jpg', 'Denis Gael Vallecillo Treminio')" aria-label="Ampliar foto de Denis Gael Vallecillo Treminio">
+                            <img class="integrante-foto" src="img/YO.jpg" alt="Denis Gael Vallecillo Treminio">
+                        </button>
                         <h3>Denis Gael Vallecillo Treminio</h3>
                         <p class="carnet">2024-1837U</p>
                     </article>
 
                     <article class="integrante-card">
-                        <img class="integrante-foto" src="img/CV.jpeg" alt="Carlos Bayardo Valdivia Alaniz">
+                        <button class="imagen-ampliable" onclick="abrirImagen('img/CV.jpeg', 'Carlos Bayardo Valdivia Alaniz')" aria-label="Ampliar foto de Carlos Bayardo Valdivia Alaniz">
+                            <img class="integrante-foto" src="img/CV.jpeg" alt="Carlos Bayardo Valdivia Alaniz">
+                        </button>
                         <h3>Carlos Bayardo Valdivia Alaniz</h3>
                         <p class="carnet">2025-1323U</p>
                     </article>
@@ -474,11 +573,52 @@
         </main>
     </div>
 
+    <div id="imagenModal" class="imagen-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="imagenModalNombre" onclick="cerrarImagenDesdeFondo(event)">
+        <div class="imagen-modal-contenido">
+            <button class="imagen-modal-cerrar" onclick="cerrarImagen()" aria-label="Cerrar imagen ampliada">×</button>
+            <img id="imagenAmpliada" class="imagen-modal-foto" src="" alt="">
+            <p id="imagenModalNombre" class="imagen-modal-nombre"></p>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 - Denis Vallecillo, Carlos Torres, Carlos Valdivia. </p>
     </footer>
 
     <script>
+        function abrirImagen(ruta, nombre) {
+            const modal = document.getElementById("imagenModal");
+            const imagen = document.getElementById("imagenAmpliada");
+            const nombreImagen = document.getElementById("imagenModalNombre");
+
+            imagen.src = ruta;
+            imagen.alt = nombre;
+            nombreImagen.textContent = nombre;
+            modal.classList.add("activa");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            modal.querySelector(".imagen-modal-cerrar").focus();
+        }
+
+        function cerrarImagen() {
+            const modal = document.getElementById("imagenModal");
+            modal.classList.remove("activa");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+
+        function cerrarImagenDesdeFondo(event) {
+            if (event.target.id === "imagenModal") {
+                cerrarImagen();
+            }
+        }
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                cerrarImagen();
+            }
+        });
+
         function toggleTheme() {
             const isDark = document.documentElement.classList.toggle("dark-mode");
             localStorage.setItem("theme", isDark ? "dark" : "light");
