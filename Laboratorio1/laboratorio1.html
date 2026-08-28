@@ -118,19 +118,76 @@
             background-color: #002A66; /* Tono más oscuro para el hover */
         }
 
-        /* Estilo para botones de ejercicios */
-        .sub-seccion button {
-            padding: 8px 16px;
-            background-color: #003B8F; /* Color principal de la página */
-            color: white;
+        /* Botones inclinados para las acciones de cada ejercicio */
+        .accion-boton {
+            --color-accion: #003B8F;
+            position: relative;
+            display: grid;
+            grid-template-columns: 54px auto;
+            align-items: stretch;
+            min-height: 44px;
+            min-width: 164px;
+            padding: 0;
+            overflow: hidden;
             border: none;
-            border-radius: 4px;
+            background: var(--color-accion);
+            color: #FFFFFF;
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+            box-shadow: 0 5px 10px rgba(0, 59, 143, 0.18);
             cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1;
+            text-decoration: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
         }
-        .sub-seccion button:hover {
-            background-color: #002A66; /* Tono más oscuro */
+
+        .accion-boton--documento {
+            --color-accion: #1976D2;
+        }
+
+        .accion-boton::after {
+            content: "";
+            position: absolute;
+            top: -8px;
+            bottom: -8px;
+            left: 45px;
+            width: 10px;
+            background-color: #999;
+            transform: skewX(-18deg);
+            pointer-events: none;
+        }
+
+        .accion-icono {
+            display: grid;
+            place-items: center;
+            background-color: #FFFFFF;
+            color: var(--color-accion);
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 13px) 100%, 0 100%);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .accion-texto {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 18px 0 12px;
+            white-space: nowrap;
+        }
+
+        .accion-boton:hover,
+        .accion-boton:focus-visible {
+            color: #FFFFFF;
+            filter: brightness(0.92);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 14px rgba(0, 59, 143, 0.25);
+            outline: none;
+        }
+
+        .accion-boton:focus-visible {
+            outline: 3px solid #64B5F6;
+            outline-offset: 3px;
         }
 
         .acciones-ejercicio {
@@ -235,14 +292,22 @@
             color: #90CAF9;
         }
 
-        .dark-mode button,
+        .dark-mode button:not(.accion-boton),
         .dark-mode .back-button {
             background-color: #1976D2;
         }
 
-        .dark-mode button:hover,
+        .dark-mode button:not(.accion-boton):hover,
         .dark-mode .back-button:hover {
             background-color: #1565C0;
+        }
+
+        .dark-mode .accion-boton--abrir {
+            --color-accion: #0D47A1;
+        }
+
+        .dark-mode .accion-boton--documento {
+            --color-accion: #1976D2;
         }
 
         .dark-mode .theme-toggle-btn {
@@ -291,8 +356,8 @@
                         <p>Empleados ordenados por nombre</p>
                     </div>
                     <div class="acciones-ejercicio">
-                        <button onclick="abrirVentanaOrdenado1()">Abrir ejercicio</button>
-                        <button type="button">Documento</button>
+                        <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaOrdenado1()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
+                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio1/Documento/Ejercicio_1_Ordenados_Empleados.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -301,8 +366,8 @@
                         <p>Departamentos ordenados por extensión</p>
                     </div>
                     <div class="acciones-ejercicio">
-                        <button onclick="abrirVentanaOrdenado2()">Abrir ejercicio</button>
-                        <button type="button">Documento</button>
+                        <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaOrdenado2()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
+                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio2/Documento/Ejercicio_2_Ordenados_Departamentos.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -311,8 +376,8 @@
                         <p>Vendedores ordenados por nombre</p>
                     </div>
                     <div class="acciones-ejercicio">
-                        <button onclick="abrirVentanaOrdenado3()">Abrir ejercicio</button>
-                        <button type="button">Documento</button>
+                        <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaOrdenado3()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
+                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio3/Documento/Ejercicio_3_Ordenados_Vendedores.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
             </div>
@@ -325,8 +390,8 @@
                         <p>Gestión de alumnos</p>
                     </div>
                     <div class="acciones-ejercicio">
-                        <button onclick="abrirVentanaEjercicio1()">Abrir ejercicio</button>
-                        <button type="button">Documento</button>
+                        <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio1()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
+                        <a class="accion-boton accion-boton--documento" href="Desordenados/Ejercicio1/Documento/Ejercicio_1_Desordenados_Alumnos.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -335,8 +400,8 @@
                         <p>Gestión de clientes</p>
                     </div>
                     <div class="acciones-ejercicio">
-                        <button onclick="abrirVentanaEjercicio2()">Abrir ejercicio</button>
-                        <button type="button">Documento</button>
+                        <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio2()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
+                        <button class="accion-boton accion-boton--documento" type="button"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></button>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -345,8 +410,8 @@
                         <p>Gestión de empleados</p>
                     </div>
                     <div class="acciones-ejercicio">
-                        <button onclick="abrirVentanaEjercicio3()">Abrir ejercicio</button>
-                        <button type="button">Documento</button>
+                        <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio3()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
+                        <button class="accion-boton accion-boton--documento" type="button"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></button>
                     </div>
                 </div>
             </div>
