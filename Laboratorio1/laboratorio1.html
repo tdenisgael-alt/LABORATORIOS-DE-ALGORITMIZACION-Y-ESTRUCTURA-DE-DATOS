@@ -87,11 +87,19 @@
             padding: 15px;
             margin-top: 20px;
             border-radius: 0 4px 4px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
 
-        .sub-seccion h3 {
-            margin-top: 0;
+        .ejercicio-info h3 {
+            margin: 0 0 5px;
             color: #555;
+        }
+
+        .ejercicio-info p {
+            margin: 0;
         }
 
         /* Estilo para el botón de regresar */
@@ -123,6 +131,25 @@
         }
         .sub-seccion button:hover {
             background-color: #002A66; /* Tono más oscuro */
+        }
+
+        .acciones-ejercicio {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            .sub-seccion {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .acciones-ejercicio {
+                flex-wrap: wrap;
+            }
         }
 
         /* Estilos para el formulario de alta */
@@ -257,46 +284,70 @@
 
         <main class="lab-content">
             <div class="apartado">
-                <h2>Arreglos Ordenados</h2>
+                <h2>ARREGLOS ORDENADOS</h2>
                 <div class="sub-seccion">
-                    <h3>Ejercicio 1</h3>
-                    <button onclick="abrirVentanaOrdenado1()">Abrir ejercicio</button>
+                    <div class="ejercicio-info">
+                        <h3>Ejercicio 1</h3>
+                        <p>Empleados ordenados por nombre</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <button onclick="abrirVentanaOrdenado1()">Abrir ejercicio</button>
+                        <button type="button">Documento</button>
+                    </div>
                 </div>
                 <div class="sub-seccion">
-                    <h3>Ejercicio 2</h3>
-                    <button onclick="abrirVentanaOrdenado2()">Abrir ejercicio</button>
+                    <div class="ejercicio-info">
+                        <h3>Ejercicio 2</h3>
+                        <p>Departamentos ordenados por extensión</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <button onclick="abrirVentanaOrdenado2()">Abrir ejercicio</button>
+                        <button type="button">Documento</button>
+                    </div>
                 </div>
                 <div class="sub-seccion">
-                    <h3>Ejercicio 3</h3>
-                    <button onclick="abrirVentanaOrdenado3()">Abrir ejercicio</button>
+                    <div class="ejercicio-info">
+                        <h3>Ejercicio 3</h3>
+                        <p>Vendedores ordenados por nombre</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <button onclick="abrirVentanaOrdenado3()">Abrir ejercicio</button>
+                        <button type="button">Documento</button>
+                    </div>
                 </div>
             </div>
 
             <div class="apartado">
-                <h2>Arreglos Desordenados</h2>
+                <h2>ARREGLOS DESORDENADOS</h2>
                 <div class="sub-seccion">
-                    <h3>Ejercicio 1</h3>
-
-                    <button onclick="abrirVentanaEjercicio1()">
-                        Abrir ejercicio
-                    </button>
-
+                    <div class="ejercicio-info">
+                        <h3>Ejercicio 1</h3>
+                        <p>Gestión de alumnos</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <button onclick="abrirVentanaEjercicio1()">Abrir ejercicio</button>
+                        <button type="button">Documento</button>
+                    </div>
                 </div>
                 <div class="sub-seccion">
-                    <h3>Ejercicio 2</h3>
-
-                    <button onclick="abrirVentanaEjercicio2()">
-                        Abrir ejercicio
-                    </button>
-
+                    <div class="ejercicio-info">
+                        <h3>Ejercicio 2</h3>
+                        <p>Gestión de clientes</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <button onclick="abrirVentanaEjercicio2()">Abrir ejercicio</button>
+                        <button type="button">Documento</button>
+                    </div>
                 </div>
                 <div class="sub-seccion">
-                    <h3>Ejercicio 3</h3>
-
-                    <button onclick="abrirVentanaEjercicio3()">
-                        Abrir ejercicio
-                    </button>
-
+                    <div class="ejercicio-info">
+                        <h3>Ejercicio 3</h3>
+                        <p>Gestión de empleados</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <button onclick="abrirVentanaEjercicio3()">Abrir ejercicio</button>
+                        <button type="button">Documento</button>
+                    </div>
                 </div>
             </div>
         </main>
