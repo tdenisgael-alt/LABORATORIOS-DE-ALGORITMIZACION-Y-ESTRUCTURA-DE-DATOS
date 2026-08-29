@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Laboratorio 2 de Algoritmos y Estructuras de Datos">
+    <title>Laboratorio 2 | Algoritmos y Estructuras de Datos</title>
+    <style>
+        :root {
+            --azul: #003b8f;
+            --azul-oscuro: #002a66;
+            --fondo: #f4f7fb;
+            --texto: #263238;
+            --blanco: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--fondo);
+            color: var(--texto);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px clamp(18px, 5vw, 48px);
+            background: var(--blanco);
+            border-bottom: 1px solid #dce3ec;
+        }
+
+        .top-bar img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .university-name {
+            color: var(--azul);
+            font-size: clamp(0.95rem, 2vw, 1.2rem);
+            font-weight: 700;
+        }
+
+        .top-bar nav {
+            margin-left: auto;
+        }
+
+        .nav-link,
+        .back-button {
+            color: var(--azul);
+            font-weight: 650;
+            text-decoration: none;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            color: var(--azul-oscuro);
+            text-decoration: underline;
+        }
+
+        header {
+            padding: 42px 20px;
+            background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
+            color: var(--blanco);
+            text-align: center;
+            border-bottom: 5px solid var(--azul-oscuro);
+        }
+
+        header p,
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        main {
+            width: min(880px, calc(100% - 36px));
+            margin: 34px auto;
+            flex: 1;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+
+        .contenido {
+            padding: clamp(24px, 5vw, 46px);
+            background: var(--blanco);
+            border: 1px solid #dce3ec;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0, 42, 102, 0.08);
+            text-align: center;
+        }
+
+        .contenido h2 {
+            margin: 0 0 10px;
+            color: var(--azul);
+            font-size: clamp(1.45rem, 4vw, 2rem);
+        }
+
+        .contenido p {
+            margin: 0 auto 26px;
+            max-width: 620px;
+        }
+
+        .imagen-laboratorio {
+            display: block;
+            width: min(100%, 640px);
+            height: auto;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+        }
+
+        footer {
+            padding: 18px;
+            color: #62717f;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        @media (max-width: 560px) {
+            .top-bar {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .top-bar nav {
+                width: 100%;
+                margin-left: 64px;
+            }
+        }
+    </style>
+</head>
+<body id="inicio">
+    <div class="top-bar">
+        <img src="img/uni.png" alt="Logo de la universidad">
+        <span class="university-name">Universidad Nacional de Ingeniería</span>
+        <nav aria-label="Navegación principal">
+            <a class="nav-link" href="../index.html">Página principal</a>
+        </nav>
+    </div>
+
+    <header>
+        <h1>Laboratorio 2</h1>
+        <p>Algoritmos y Estructuras de Datos</p>
+    </header>
+
+    <main>
+        <a class="back-button" href="../index.html" aria-label="Regresar a la página principal">
+            <span aria-hidden="true">←</span> Regresar
+        </a>
+
+        <section class="contenido" aria-labelledby="titulo-contenido">
+            <h2 id="titulo-contenido">Contenido del laboratorio</h2>
+            <p>Esta página está lista para incorporar los ejercicios, documentos y recursos del Laboratorio 2.</p>
+            <img class="imagen-laboratorio" src="img/C.png" alt="Imagen del Laboratorio 2">
+        </section>
+    </main>
+
+    <footer>
+        Algoritmos y Estructuras de Datos · Laboratorio 2
+    </footer>
+</body>
+</html>
