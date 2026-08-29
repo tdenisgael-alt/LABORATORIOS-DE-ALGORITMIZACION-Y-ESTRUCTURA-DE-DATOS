@@ -561,6 +561,7 @@
         }
     </style>
     <link rel="stylesheet" href="Laboratorio1/sweetalert-uni.css">
+    <link rel="stylesheet" href="navbar.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         if (localStorage.getItem("theme") === "dark") {
@@ -576,7 +577,7 @@
         <nav class="main-nav" aria-label="Navegación principal">
             <a class="nav-link" href="#inicio">Inicio</a>
             <a class="nav-link" href="#laboratorios" onclick="irALaboratorios(event)">Laboratorios</a>
-            <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+            <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-pressed="false" aria-label="Activar modo oscuro" onclick="toggleTheme()">🌙 Modo Oscuro</button>
         </nav>
     </div>
 
@@ -823,6 +824,8 @@
             if (!btn) return;
             const isDark = document.documentElement.classList.contains("dark-mode");
             btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+            btn.setAttribute("aria-pressed", String(isDark));
+            btn.setAttribute("aria-label", isDark ? "Activar modo claro" : "Activar modo oscuro");
         }
 
         function irALaboratorios(event) {

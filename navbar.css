@@ -1,0 +1,234 @@
+/* Barra de navegación compartida por todas las páginas del sitio. */
+.top-bar {
+    --nav-primary: #003b8f;
+    --nav-primary-dark: #002a66;
+    --nav-surface: #eef4fb;
+    --nav-focus: rgba(0, 59, 143, 0.28);
+    position: relative;
+    top: auto;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 10px clamp(18px, 5vw, 48px);
+    background: #ffffff;
+    border-bottom: 1px solid #dce3ec;
+    color: #263238;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.top-bar,
+.top-bar * {
+    box-sizing: border-box;
+}
+
+.top-bar img {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    flex: 0 0 50px;
+    object-fit: contain;
+}
+
+.top-bar .university-name {
+    min-width: 0;
+    color: #003b8f;
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.top-bar nav,
+.top-bar .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 10px);
+    width: auto;
+    margin-left: auto;
+}
+
+.top-bar .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--nav-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.top-bar .theme-toggle-btn {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    margin: 0;
+    padding: 9px 15px;
+    border: 1px solid var(--nav-primary);
+    border-radius: 999px;
+    background: var(--nav-primary);
+    color: #ffffff;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.top-bar .nav-link:hover {
+    border-color: #c8d8eb;
+    background: var(--nav-surface);
+    color: var(--nav-primary-dark);
+    box-shadow: 0 4px 12px rgba(0, 59, 143, 0.1);
+    transform: translateY(-1px);
+}
+
+.top-bar .theme-toggle-btn:hover {
+    border-color: var(--nav-primary-dark);
+    background: var(--nav-primary-dark);
+    color: #ffffff;
+    box-shadow: 0 5px 14px rgba(0, 42, 102, 0.22);
+    transform: translateY(-1px);
+}
+
+.top-bar .nav-link:active,
+.top-bar .theme-toggle-btn:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.top-bar .nav-link:focus-visible,
+.top-bar .theme-toggle-btn:focus-visible {
+    outline: 3px solid var(--nav-focus);
+    outline-offset: 2px;
+}
+
+.top-bar .nav-link[aria-current="page"],
+.top-bar .nav-link[aria-current="location"] {
+    border-color: #c8d8eb;
+    background: var(--nav-surface);
+    color: var(--nav-primary-dark);
+}
+
+html.dark-mode .top-bar,
+body.dark-mode .top-bar {
+    --nav-primary: #90caf9;
+    --nav-primary-dark: #bbdefb;
+    --nav-surface: #263d52;
+    --nav-focus: rgba(144, 202, 249, 0.35);
+    background: #1e1e1e;
+    border-bottom-color: #333333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .top-bar .university-name,
+html.dark-mode .top-bar .nav-link,
+body.dark-mode .top-bar .university-name,
+body.dark-mode .top-bar .nav-link {
+    color: #90caf9;
+}
+
+html.dark-mode .top-bar .theme-toggle-btn,
+body.dark-mode .top-bar .theme-toggle-btn {
+    border-color: #90caf9;
+    background: #90caf9;
+    color: #102a43;
+}
+
+html.dark-mode .top-bar .theme-toggle-btn:hover,
+body.dark-mode .top-bar .theme-toggle-btn:hover {
+    border-color: #bbdefb;
+    background: #bbdefb;
+    color: #102a43;
+}
+
+@media (max-width: 900px) {
+    .top-bar {
+        flex-wrap: wrap;
+    }
+
+    .top-bar nav,
+    .top-bar .main-nav {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 560px) {
+    .top-bar {
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+    }
+
+    .top-bar nav,
+    .top-bar .main-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+        gap: 8px;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .top-bar .nav-link,
+    .top-bar .theme-toggle-btn {
+        width: 100%;
+        min-height: 44px;
+        padding: 9px 10px;
+        font-size: 0.86rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .top-bar nav,
+    .top-bar .main-nav {
+        grid-template-columns: 1fr;
+    }
+
+    .top-bar .university-name {
+        flex: 1 1 calc(100% - 60px);
+        text-align: left;
+    }
+}
+
+@media (hover: none) {
+    .top-bar .nav-link:hover,
+    .top-bar .theme-toggle-btn:hover {
+        box-shadow: none;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .top-bar .nav-link,
+    .top-bar .theme-toggle-btn {
+        transition: none;
+    }
+}

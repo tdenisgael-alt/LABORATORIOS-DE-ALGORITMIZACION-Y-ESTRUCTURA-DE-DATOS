@@ -515,6 +515,7 @@
         }
     </script>
     <link rel="stylesheet" href="sweetalert-uni.css">
+    <link rel="stylesheet" href="../navbar.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body id="inicio">
@@ -525,7 +526,7 @@
             <a class="nav-link" href="#ordenados">Ordenados</a>
             <a class="nav-link" href="#desordenados">Desordenados</a>
             <a class="nav-link" href="#descargas">Descargas</a>
-            <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+            <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-pressed="false" aria-label="Activar modo oscuro" onclick="toggleTheme()">🌙 Modo Oscuro</button>
         </nav>
     </div>
 
@@ -702,6 +703,8 @@
             if (!btn) return;
             const isDark = document.documentElement.classList.contains("dark-mode");
             btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+            btn.setAttribute("aria-pressed", String(isDark));
+            btn.setAttribute("aria-label", isDark ? "Activar modo claro" : "Activar modo oscuro");
         }
 
         function proximamente(nombre) {
