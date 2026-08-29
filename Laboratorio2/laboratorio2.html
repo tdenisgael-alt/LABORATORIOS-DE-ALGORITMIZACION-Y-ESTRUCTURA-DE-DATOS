@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Laboratorio 2 de Algoritmos y Estructuras de Datos">
-    <title>Laboratorio 2 | Algoritmos y Estructuras de Datos</title>
+    <meta name="description" content="Laboratorio 2: Métodos de Ordenación y Búsqueda">
+    <title>Laboratorio 2 | Métodos de Ordenación y Búsqueda</title>
     <style>
         :root {
             --azul: #003b8f;
@@ -131,6 +131,43 @@
             box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
         }
 
+        .estado-cooking {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+            color: var(--azul);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 800;
+            letter-spacing: 0.14em;
+        }
+
+        .simbolo-cargando {
+            width: 22px;
+            height: 22px;
+            box-sizing: border-box;
+            border: 3px solid rgba(0, 59, 143, 0.22);
+            border-top-color: var(--azul);
+            border-radius: 50%;
+            animation: girar 0.85s linear infinite;
+        }
+
+        .dark-mode .estado-cooking {
+            color: #90caf9;
+        }
+
+        .dark-mode .simbolo-cargando {
+            border-color: rgba(144, 202, 249, 0.28);
+            border-top-color: #90caf9;
+        }
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         footer {
             padding: 18px;
             color: #62717f;
@@ -149,6 +186,12 @@
                 margin-left: 64px;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .simbolo-cargando {
+                animation: none;
+            }
+        }
     </style>
     <link rel="stylesheet" href="../interfaz-lab1.css">
     <link rel="stylesheet" href="../navbar.css">
@@ -164,7 +207,7 @@
 
     <header>
         <h1>Laboratorio 2</h1>
-        <p>Algoritmos y Estructuras de Datos</p>
+        <p>MÉTODOS DE ORDENACIÓN Y BÚSQUEDA</p>
     </header>
 
     <main>
@@ -173,14 +216,18 @@
         </a>
 
         <section class="contenido" aria-labelledby="titulo-contenido">
-            <h2 id="titulo-contenido">Contenido del laboratorio</h2>
-            <p>Esta página está lista para incorporar los ejercicios, documentos y recursos del Laboratorio 2.</p>
-            <img class="imagen-laboratorio" src="img/C.png" alt="Imagen del Laboratorio 2">
+            <h2 id="titulo-contenido">MÉTODOS DE ORDENACIÓN Y BÚSQUEDA</h2>
+            <p>Los ejercicios, documentos y recursos de Métodos de Ordenación y Búsqueda están en preparación.</p>
+            <img class="imagen-laboratorio" src="img/C.png" alt="Contenido en preparación de Métodos de Ordenación y Búsqueda">
+            <div class="estado-cooking" role="status" aria-label="Contenido en preparación">
+                <span>COOKING...</span>
+                <span class="simbolo-cargando" aria-hidden="true"></span>
+            </div>
         </section>
     </main>
 
     <footer>
-        Algoritmos y Estructuras de Datos · Laboratorio 2
+        Laboratorio 2 · MÉTODOS DE ORDENACIÓN Y BÚSQUEDA
     </footer>
 </body>
 </html>
