@@ -6,6 +6,9 @@
     <title>Laboratorio 1: Ordenados y Desordenados</title>
     <style>
         /* Estilos generales (copiados de index.html para consistencia) */
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             background-color: #FFFFFF;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -38,6 +41,30 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: #003B8F;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .nav-link {
+            padding: 7px 10px;
+            border-radius: 16px;
+            color: #003B8F;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            background-color: #e8f0fb;
+            color: #002A66;
+            outline: none;
         }
 
         header {
@@ -211,6 +238,37 @@
             color: #003B8F;
         }
 
+        .accion-boton--descarga .accion-icono {
+            color: #003B8F;
+        }
+
+        .icono-descarga {
+            position: relative;
+            display: block;
+            width: 16px;
+            height: 17px;
+        }
+
+        .icono-descarga::before,
+        .icono-descarga::after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            width: 8px;
+            height: 8px;
+            border-right: 3px solid currentColor;
+            border-bottom: 3px solid currentColor;
+            transform: rotate(45deg);
+        }
+
+        .icono-descarga::before {
+            top: 0;
+        }
+
+        .icono-descarga::after {
+            top: 6px;
+        }
+
         .accion-texto {
             display: flex;
             align-items: center;
@@ -286,8 +344,14 @@
             align-items: center;
             gap: 6px;
             transition: all 0.3s ease;
-            margin-left: auto;
+            margin-left: 8px;
             color: #333;
+        }
+
+        #ordenados,
+        #desordenados,
+        #descargas {
+            scroll-margin-top: 20px;
         }
 
         .theme-toggle-btn:hover {
@@ -308,6 +372,16 @@
 
         .dark-mode .top-bar .university-name {
             color: #64B5F6;
+        }
+
+        .dark-mode .nav-link {
+            color: #90CAF9;
+        }
+
+        .dark-mode .nav-link:hover,
+        .dark-mode .nav-link:focus-visible {
+            background-color: #2c2c2c;
+            color: #FFFFFF;
         }
 
         .dark-mode header {
@@ -366,6 +440,24 @@
         .dark-mode footer {
             color: #888888;
         }
+
+        @media (max-width: 900px) {
+            .top-bar {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px 20px;
+            }
+
+            .main-nav {
+                width: 100%;
+                flex-wrap: wrap;
+                margin-left: 0;
+            }
+
+            .theme-toggle-btn {
+                margin-left: auto;
+            }
+        }
     </style>
     <script>
         if (localStorage.getItem("theme") === "dark") {
@@ -375,11 +467,16 @@
     <link rel="stylesheet" href="sweetalert-uni.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
+<body id="inicio">
     <div class="top-bar">
         <img src="img/uni.png" alt="Logo Universidad">
         <span class="university-name">UNIVERSIDAD NACIONAL DE INGENIERÍA</span>
-        <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+        <nav class="main-nav" aria-label="Navegación del laboratorio">
+            <a class="nav-link" href="#ordenados">Ordenados</a>
+            <a class="nav-link" href="#desordenados">Desordenados</a>
+            <a class="nav-link" href="#descargas">Descargas</a>
+            <button id="btnThemeToggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+        </nav>
     </div>
 
     <header>
@@ -391,7 +488,7 @@
         <a href="../index.html" onclick="window.location.replace('../index.html'); return false;" class="back-button">← Salir</a>
 
         <main class="lab-content">
-            <div class="apartado">
+            <div id="ordenados" class="apartado">
                 <h2>ARREGLOS ORDENADOS</h2>
                 <div class="sub-seccion">
                     <div class="ejercicio-info">
@@ -425,7 +522,7 @@
                 </div>
             </div>
 
-            <div class="apartado">
+            <div id="desordenados" class="apartado">
                 <h2>ARREGLOS DESORDENADOS</h2>
                 <div class="sub-seccion">
                     <div class="ejercicio-info">
@@ -455,6 +552,37 @@
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio3()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
                         <a class="accion-boton accion-boton--documento" href="Desordenados/Ejercicio3/Documento/Ejercicio_3_Desordenados_Empleados.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="descargas" class="apartado">
+                <h2>DESCARGAS DEL LABORATORIO</h2>
+                <div class="sub-seccion">
+                    <div class="ejercicio-info">
+                        <h3>Proyecto web (VS Code)</h3>
+                        <p>Archivos HTML, CSS y JavaScript del Laboratorio 1</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <a class="accion-boton accion-boton--documento accion-boton--descarga" href="Descargas/WEB.zip" download><span class="accion-icono" aria-hidden="true"><span class="icono-descarga"></span></span><span class="accion-texto">Descargar ZIP</span></a>
+                    </div>
+                </div>
+                <div class="sub-seccion">
+                    <div class="ejercicio-info">
+                        <h3>Código Java</h3>
+                        <p>Clases Java de los ejercicios ordenados y desordenados</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <a class="accion-boton accion-boton--documento accion-boton--descarga" href="Descargas/CODIGOS.zip" download><span class="accion-icono" aria-hidden="true"><span class="icono-descarga"></span></span><span class="accion-texto">Descargar ZIP</span></a>
+                    </div>
+                </div>
+                <div class="sub-seccion">
+                    <div class="ejercicio-info">
+                        <h3>Servidor Java</h3>
+                        <p>Servidor Java para ejecutar las operaciones del laboratorio</p>
+                    </div>
+                    <div class="acciones-ejercicio">
+                        <a class="accion-boton accion-boton--documento accion-boton--descarga" href="Descargas/SERVIDOR.zip" download><span class="accion-icono" aria-hidden="true"><span class="icono-descarga"></span></span><span class="accion-texto">Descargar ZIP</span></a>
                     </div>
                 </div>
             </div>
