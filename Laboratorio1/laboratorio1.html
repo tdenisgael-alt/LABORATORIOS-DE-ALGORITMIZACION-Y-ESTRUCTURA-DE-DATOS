@@ -168,6 +168,49 @@
             font-weight: 700;
         }
 
+        .icono-documento {
+            position: relative;
+            display: block;
+            width: 16px;
+            height: 20px;
+            box-sizing: border-box;
+            border: 2px solid currentColor;
+            border-radius: 2px;
+            background-color: #FFFFFF;
+            z-index: 1;
+        }
+
+        .icono-documento::before {
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 20px;
+            box-sizing: border-box;
+            border: 2px solid currentColor;
+            border-radius: 2px;
+            background:
+                linear-gradient(135deg, currentColor 0 49%, #FFFFFF 50%) top left / 5px 5px no-repeat,
+                #FFFFFF;
+            z-index: -1;
+        }
+
+        .icono-documento::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 9px;
+            height: 9px;
+            background-color: currentColor;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .accion-boton--documento .accion-icono {
+            color: #003B8F;
+        }
+
         .accion-texto {
             display: flex;
             align-items: center;
@@ -357,7 +400,7 @@
                     </div>
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaOrdenado1()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
-                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio1/Documento/Ejercicio_1_Ordenados_Empleados.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
+                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio1/Documento/Ejercicio_1_Ordenados_Empleados.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -367,7 +410,7 @@
                     </div>
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaOrdenado2()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
-                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio2/Documento/Ejercicio_2_Ordenados_Departamentos.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
+                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio2/Documento/Ejercicio_2_Ordenados_Departamentos.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -377,7 +420,7 @@
                     </div>
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaOrdenado3()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
-                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio3/Documento/Ejercicio_3_Ordenados_Vendedores.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
+                        <a class="accion-boton accion-boton--documento" href="Ordenados/Ejercicio3/Documento/Ejercicio_3_Ordenados_Vendedores.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
             </div>
@@ -391,7 +434,7 @@
                     </div>
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio1()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
-                        <a class="accion-boton accion-boton--documento" href="Desordenados/Ejercicio1/Documento/Ejercicio_1_Desordenados_Alumnos.pdf" target="_blank"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></a>
+                        <a class="accion-boton accion-boton--documento" href="Desordenados/Ejercicio1/Documento/Ejercicio_1_Desordenados_Alumnos.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -401,7 +444,7 @@
                     </div>
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio2()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
-                        <button class="accion-boton accion-boton--documento" type="button"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></button>
+                        <a class="accion-boton accion-boton--documento" href="Desordenados/Ejercicio2/Documento/Ejercicio_2_Desordenados_Clientes.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
                 <div class="sub-seccion">
@@ -411,7 +454,7 @@
                     </div>
                     <div class="acciones-ejercicio">
                         <button class="accion-boton accion-boton--abrir" onclick="abrirVentanaEjercicio3()"><span class="accion-icono" aria-hidden="true">↗</span><span class="accion-texto">Abrir ejercicio</span></button>
-                        <button class="accion-boton accion-boton--documento" type="button"><span class="accion-icono" aria-hidden="true">📄</span><span class="accion-texto">Documento</span></button>
+                        <a class="accion-boton accion-boton--documento" href="Desordenados/Ejercicio3/Documento/Ejercicio_3_Desordenados_Empleados.pdf" target="_blank"><span class="accion-icono" aria-hidden="true"><span class="icono-documento"></span></span><span class="accion-texto">Documento</span></a>
                     </div>
                 </div>
             </div>
