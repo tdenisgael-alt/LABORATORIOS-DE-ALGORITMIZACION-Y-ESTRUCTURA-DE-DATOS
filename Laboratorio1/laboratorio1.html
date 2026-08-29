@@ -29,6 +29,7 @@
             padding: 10px 40px;
             display: flex;
             align-items: center;
+            gap: 10px;
             border-bottom: 1px solid #e0e0e0;
         }
 
@@ -41,11 +42,14 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: #003B8F;
+            min-width: 0;
         }
 
         .main-nav {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
             gap: 6px;
             margin-left: auto;
         }
@@ -441,7 +445,7 @@
             color: #888888;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1050px) {
             .top-bar {
                 flex-wrap: wrap;
                 gap: 8px;
@@ -452,10 +456,56 @@
                 width: 100%;
                 flex-wrap: wrap;
                 margin-left: 0;
+                justify-content: center;
             }
 
             .theme-toggle-btn {
-                margin-left: auto;
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .top-bar {
+                justify-content: center;
+                padding: 10px 14px;
+            }
+
+            .top-bar img {
+                height: 42px;
+                margin-right: 0;
+            }
+
+            .top-bar .university-name {
+                flex: 1 1 220px;
+                font-size: 1rem;
+                line-height: 1.25;
+                text-align: center;
+            }
+
+            .main-nav {
+                gap: 4px;
+            }
+
+            .nav-link,
+            .theme-toggle-btn {
+                padding: 7px 9px;
+                font-size: 0.84rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .top-bar .university-name {
+                flex-basis: 100%;
+            }
+
+            .main-nav {
+                gap: 3px;
+            }
+
+            .nav-link,
+            .theme-toggle-btn {
+                padding: 6px 8px;
+                font-size: 0.8rem;
             }
         }
     </style>
