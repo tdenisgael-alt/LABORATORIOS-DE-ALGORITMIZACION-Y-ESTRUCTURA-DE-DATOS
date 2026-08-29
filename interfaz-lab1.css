@@ -1,0 +1,365 @@
+/* Sistema visual compartido, basado en la interfaz del Laboratorio 1. */
+:root {
+    --lab-azul: #003b8f;
+    --lab-azul-oscuro: #002a66;
+    --lab-azul-claro: #1976d2;
+    --lab-fondo: #ffffff;
+    --lab-superficie: #fdfdfd;
+    --lab-superficie-suave: #f9f9f9;
+    --lab-texto: #333333;
+    --lab-texto-secundario: #555555;
+    --lab-borde: #e5e7eb;
+    --lab-radio: 8px;
+    --lab-sombra: 0 8px 24px rgba(0, 42, 102, 0.08);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--lab-fondo);
+    color: var(--lab-texto);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+}
+
+body > header {
+    padding: 1rem clamp(16px, 4vw, 40px);
+    background: var(--lab-azul);
+    color: #ffffff;
+    text-align: center;
+    border-bottom: 5px solid var(--lab-azul-oscuro);
+}
+
+body > header h1 {
+    margin: 0;
+    color: inherit;
+    font-size: clamp(1.65rem, 4vw, 2.2rem);
+    line-height: 1.25;
+}
+
+body > header p {
+    margin: 7px 0 0;
+    color: inherit;
+    opacity: 0.9;
+}
+
+.container {
+    width: min(100% - 32px, 1100px);
+    margin: 24px auto;
+    padding: 0;
+}
+
+.lab-content,
+.menu-container {
+    font-family: "Times New Roman", Times, serif;
+}
+
+:is(.apartado, .menu-container, .contenido, .equipo-section, .laboratorios-section) {
+    background: var(--lab-superficie);
+    border: 1px solid var(--lab-borde);
+    border-radius: var(--lab-radio);
+    box-shadow: var(--lab-sombra);
+}
+
+:is(.apartado, .menu-container, .contenido) {
+    padding: clamp(18px, 4vw, 24px);
+}
+
+:is(.apartado, .menu-container, .contenido) > h2,
+.menu-header h2,
+.section-title {
+    color: var(--lab-azul);
+}
+
+:is(.apartado, .menu-container, .contenido) > h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--lab-azul);
+}
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--lab-azul);
+}
+
+.menu-header h2 {
+    margin: 0;
+}
+
+.sub-seccion,
+.form-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--lab-superficie-suave);
+    border-left: 4px solid #999999;
+    border-radius: 0 4px 4px 0;
+}
+
+.form-section h4,
+.ejercicio-info h3 {
+    color: var(--lab-texto-secundario);
+}
+
+.form-section label {
+    display: inline-block;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.form-section :is(input[type="text"], input[type="number"], input[type="email"], input[type="search"], select, textarea) {
+    width: 100%;
+    min-height: 42px;
+    margin-bottom: 14px;
+    padding: 9px 10px;
+    box-sizing: border-box;
+    border: 1px solid #c8cdd3;
+    border-radius: 4px;
+    background: #ffffff;
+    color: var(--lab-texto);
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-section textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form-section :is(input, select, textarea):focus-visible {
+    border-color: var(--lab-azul-claro);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.18);
+}
+
+.menu-options button,
+.form-section button,
+.back-button,
+.close-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    margin: 0 8px 10px 0;
+    padding: 9px 16px;
+    box-sizing: border-box;
+    border: 1px solid var(--lab-azul);
+    border-radius: 5px;
+    background: var(--lab-azul);
+    color: #ffffff;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.menu-options button:hover,
+.form-section button:hover,
+.back-button:hover,
+.close-button:hover {
+    border-color: var(--lab-azul-oscuro);
+    background: var(--lab-azul-oscuro);
+    color: #ffffff;
+    box-shadow: 0 5px 14px rgba(0, 42, 102, 0.18);
+    transform: translateY(-1px);
+}
+
+.menu-options button:focus-visible,
+.form-section button:focus-visible,
+.back-button:focus-visible,
+.close-button:focus-visible {
+    outline: 3px solid rgba(25, 118, 210, 0.24);
+    outline-offset: 2px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid var(--lab-borde);
+    border-radius: var(--lab-radio);
+    background: var(--lab-superficie);
+    box-shadow: var(--lab-sombra);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--lab-superficie);
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    text-align: left;
+}
+
+thead th {
+    background: var(--lab-azul);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+tbody tr:hover {
+    background: #e9eef5;
+}
+
+footer {
+    color: #777777;
+}
+
+html.dark-mode,
+.dark-mode body,
+body.dark-mode {
+    color-scheme: dark;
+}
+
+html.dark-mode body,
+body.dark-mode {
+    --lab-fondo: #121212;
+    --lab-superficie: #1e1e1e;
+    --lab-superficie-suave: #252525;
+    --lab-texto: #e0e0e0;
+    --lab-texto-secundario: #90caf9;
+    --lab-borde: #333333;
+    --lab-sombra: 0 8px 24px rgba(0, 0, 0, 0.24);
+    background: var(--lab-fondo);
+    color: var(--lab-texto);
+}
+
+html.dark-mode body > header,
+body.dark-mode > header {
+    background: #0d2850;
+    border-bottom-color: #001940;
+}
+
+html.dark-mode :is(.apartado, .menu-container, .contenido, .equipo-section, .laboratorios-section, .table-container),
+body.dark-mode :is(.apartado, .menu-container, .contenido, .equipo-section, .laboratorios-section, .table-container) {
+    background: var(--lab-superficie);
+    border-color: var(--lab-borde);
+    color: var(--lab-texto);
+}
+
+html.dark-mode :is(.apartado, .menu-container, .contenido) > h2,
+html.dark-mode .menu-header h2,
+html.dark-mode .section-title,
+body.dark-mode :is(.apartado, .menu-container, .contenido) > h2,
+body.dark-mode .menu-header h2,
+body.dark-mode .section-title {
+    color: #64b5f6;
+}
+
+html.dark-mode .menu-header,
+body.dark-mode .menu-header {
+    border-bottom-color: #64b5f6;
+}
+
+html.dark-mode :is(.sub-seccion, .form-section),
+body.dark-mode :is(.sub-seccion, .form-section) {
+    background: var(--lab-superficie-suave);
+    border-left-color: #64b5f6;
+}
+
+html.dark-mode .form-section :is(input, select, textarea),
+body.dark-mode .form-section :is(input, select, textarea) {
+    border-color: #555555;
+    background: #2c2c2c;
+    color: #ffffff;
+}
+
+html.dark-mode .menu-options button,
+html.dark-mode .form-section button,
+html.dark-mode .back-button,
+html.dark-mode .close-button,
+body.dark-mode .menu-options button,
+body.dark-mode .form-section button,
+body.dark-mode .back-button,
+body.dark-mode .close-button {
+    border-color: var(--lab-azul-claro);
+    background: var(--lab-azul-claro);
+}
+
+html.dark-mode table,
+body.dark-mode table {
+    background: var(--lab-superficie);
+}
+
+html.dark-mode thead th,
+body.dark-mode thead th {
+    background: #0d2850;
+}
+
+html.dark-mode tbody tr:nth-child(odd),
+body.dark-mode tbody tr:nth-child(odd) {
+    background: #181818;
+}
+
+html.dark-mode tbody tr:nth-child(even),
+body.dark-mode tbody tr:nth-child(even) {
+    background: #1e1e1e;
+}
+
+html.dark-mode tbody tr:hover,
+body.dark-mode tbody tr:hover {
+    background: #2a2a2a;
+}
+
+html.dark-mode :is(th, td),
+body.dark-mode :is(th, td) {
+    border-color: #333333;
+    color: var(--lab-texto);
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: min(100% - 24px, 1100px);
+        margin: 18px auto;
+    }
+
+    :is(.apartado, .menu-container, .contenido) {
+        padding: 15px;
+    }
+
+    .menu-header,
+    .sub-seccion,
+    .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .menu-options button,
+    .form-section button,
+    .toolbar .back-button,
+    .toolbar .theme-toggle-btn {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-options button,
+    .form-section button,
+    .back-button,
+    .close-button {
+        transition: none;
+    }
+}

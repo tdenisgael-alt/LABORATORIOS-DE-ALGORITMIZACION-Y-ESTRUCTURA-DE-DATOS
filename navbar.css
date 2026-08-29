@@ -1,12 +1,16 @@
 /* Barra de navegación compartida por todas las páginas del sitio. */
+html {
+    scroll-padding-top: 86px;
+}
+
 .top-bar {
     --nav-primary: #003b8f;
     --nav-primary-dark: #002a66;
     --nav-surface: #eef4fb;
     --nav-focus: rgba(0, 59, 143, 0.28);
-    position: relative;
-    top: auto;
-    z-index: 100;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -14,6 +18,7 @@
     padding: 10px clamp(18px, 5vw, 48px);
     background: #ffffff;
     border-bottom: 1px solid #dce3ec;
+    box-shadow: 0 3px 12px rgba(0, 42, 102, 0.07);
     color: #263238;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
@@ -144,6 +149,7 @@ body.dark-mode .top-bar {
     --nav-focus: rgba(144, 202, 249, 0.35);
     background: #1e1e1e;
     border-bottom-color: #333333;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.28);
     color: #e0e0e0;
 }
 
@@ -169,6 +175,10 @@ body.dark-mode .top-bar .theme-toggle-btn:hover {
 }
 
 @media (max-width: 900px) {
+    html {
+        scroll-padding-top: 145px;
+    }
+
     .top-bar {
         flex-wrap: wrap;
     }
@@ -182,6 +192,10 @@ body.dark-mode .top-bar .theme-toggle-btn:hover {
 }
 
 @media (max-width: 560px) {
+    html {
+        scroll-padding-top: 190px;
+    }
+
     .top-bar {
         align-items: center;
         gap: 10px;
