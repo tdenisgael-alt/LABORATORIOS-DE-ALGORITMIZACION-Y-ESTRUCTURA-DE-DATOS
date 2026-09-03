@@ -42,8 +42,12 @@
     const searchValueLabel = document.getElementById("lab2-search-value-label");
     const searchHelp = document.getElementById("lab2-search-help");
     const searchValue = document.getElementById("lab2-search-value");
-    const unsortedResult = document.getElementById("lab2-unsorted-result");
-    const sortedResult = document.getElementById("lab2-sorted-result");
+    const unsortedBoxes = document.getElementById("lab2-unsorted-boxes");
+    const sortedBoxes = document.getElementById("lab2-sorted-boxes");
+    const unsortedSize = document.getElementById("lab2-unsorted-size");
+    const sortedSize = document.getElementById("lab2-sorted-size");
+    const unsortedIndices = document.getElementById("lab2-unsorted-indices");
+    const sortedIndices = document.getElementById("lab2-sorted-indices");
     const unsortedPositionLabel = document.getElementById("lab2-unsorted-position-label");
     const sortedPositionLabel = document.getElementById("lab2-sorted-position-label");
     const unsortedPosition = document.getElementById("lab2-unsorted-position");
@@ -128,7 +132,6 @@
         selectedMethodName = selectedButton.dataset.method;
         selectedMethod.textContent = selectedMethodName;
         menuMethod.textContent = selectedMethodName;
-        menuMethod.hidden = false;
         actionMethod.textContent = selectedMethodName;
         actionMethodLabel.hidden = false;
         setMethodsPanelOpen(false);
@@ -271,11 +274,27 @@
             return invalidArray("Todos los valores deben ser números enteros válidos.", arrayValues);
         }
 
-        if (new Set(numericValues).size !== numericValues.length) {
-            if (showWarning) {
-                showSwalError("Números duplicados", "No se permiten números repetidos en el arreglo.");
+        const duplicates = [];
+        const seen = new Set();
+        numericValues.forEach((num) => {
+            if (seen.has(num) && !duplicates.includes(num)) {
+                duplicates.push(num);
             }
-            return invalidArray("No se permiten números repetidos.", arrayValues);
+            seen.add(num);
+        });
+
+        if (duplicates.length > 0) {
+            const duplicatesText = duplicates.length === 1
+                ? `El número ${duplicates[0]} está repetido.`
+                : `Los siguientes números están repetidos: ${duplicates.join(", ")}.`;
+
+            if (showWarning) {
+                showSwalError(
+                    duplicates.length === 1 ? "Número repetido" : "Números repetidos",
+                    `No se permiten valores duplicados en el arreglo. ${duplicatesText}`
+                );
+            }
+            return invalidArray(`No se permiten números repetidos (${duplicates.join(", ")}).`, arrayValues);
         }
 
         return {
@@ -285,14 +304,55 @@
         };
     }
 
+    function renderArrayBoxes(container, values, type) {
+        if (!container) return;
+        container.innerHTML = "";
+
+        if (!Array.isArray(values) || values.length === 0) {
+            const emptyNotice = document.createElement("span");
+            emptyNotice.className = "lab2-array-empty";
+            emptyNotice.textContent = "Sin elementos";
+            container.appendChild(emptyNotice);
+            return;
+        }
+
+        values.forEach((val) => {
+            const box = document.createElement("div");
+            box.className = `lab2-array-box lab2-array-box--${type}`;
+            box.textContent = String(val);
+            container.appendChild(box);
+        });
+    }
+
     function showArrays(unsorted, sorted) {
-        unsortedResult.textContent = `[${unsorted.join(", ")}]`;
-        sortedResult.textContent = `[${sorted.join(", ")}]`;
+        renderArrayBoxes(unsortedBoxes, unsorted, "unsorted");
+        renderArrayBoxes(sortedBoxes, sorted, "ordered");
+
+        const unsortedLen = Array.isArray(unsorted) ? unsorted.length : 0;
+        const sortedLen = Array.isArray(sorted) ? sorted.length : 0;
+
+        if (unsortedSize) unsortedSize.textContent = String(unsortedLen);
+        if (sortedSize) sortedSize.textContent = String(sortedLen);
+
+        if (unsortedIndices) {
+            unsortedIndices.textContent = unsortedLen > 0 ? `0 a ${unsortedLen - 1}` : "0 a 0";
+        }
+        if (sortedIndices) {
+            sortedIndices.textContent = sortedLen > 0 ? `0 a ${sortedLen - 1}` : "0 a 0";
+        }
     }
 
     function showSortError(message) {
-        unsortedResult.textContent = message;
-        sortedResult.textContent = "No hay resultados para mostrar.";
+        if (unsortedBoxes) {
+            unsortedBoxes.innerHTML = `<span class="lab2-array-empty lab2-array-empty--error">${message}</span>`;
+        }
+        if (sortedBoxes) {
+            sortedBoxes.innerHTML = `<span class="lab2-array-empty">No hay resultados para mostrar.</span>`;
+        }
+        if (unsortedSize) unsortedSize.textContent = "0";
+        if (sortedSize) sortedSize.textContent = "0";
+        if (unsortedIndices) unsortedIndices.textContent = "0 a 0";
+        if (sortedIndices) sortedIndices.textContent = "0 a 0";
     }
 
     function focusInvalidField(validationResult) {
@@ -430,56 +490,67 @@
         return data;
     }
 
-    async function executeSort() {
-        const methodConfig = requireSelectedMethod();
+ async function executeSort() {
+    const methodConfig = requireSelectedMethod();
 
-        if (!methodConfig) {
-            return;
-        }
-
-        const arrayInput = readArrayInput(true);
-
-        if (arrayInput.message) {
-            focusInvalidField(arrayInput);
-            return;
-        }
-
-        const controller = beginRequest("sort");
-
-        if (!controller) {
-            return;
-        }
-
-        unsortedResult.textContent = "Consultando el arreglo original en Java...";
-        sortedResult.textContent = "Ordenando el arreglo en Java...";
-
-        try {
-            const data = await postForm(
-                methodConfig.route,
-                {
-                    tam: arrayInput.tam,
-                    elementos: arrayInput.elementos
-                },
-                controller.signal
-            );
-
-            validateServerArrays(data);
-            showArrays(data.original, data.ordenado);
-            resultsPanel.hidden = false;
-
-            showSwalSuccess(
-                "¡Arreglo ordenado!",
-                `El arreglo fue ordenado exitosamente mediante el método ${selectedMethodName}.`
-            );
-        } catch (error) {
-            if (error.name !== "AbortError") {
-                showSortError(error.message || "No fue posible ordenar el arreglo.");
-                showSwalError("Error al ordenar", error.message || "No fue posible ordenar el arreglo.");
-            }
-        } finally {
-            finishRequest(controller);
-        }
+    if (!methodConfig) {
+        return;
     }
+
+    const arrayInput = readArrayInput(true);
+
+    if (arrayInput.message) {
+        focusInvalidField(arrayInput);
+        return;
+    }
+
+    const controller = beginRequest("sort");
+
+    if (!controller) {
+        return;
+    }
+
+    try {
+        const data = await postForm(
+            methodConfig.route,
+            {
+                tam: arrayInput.tam,
+                elementos: arrayInput.elementos
+            },
+            controller.signal
+        );
+
+        validateServerArrays(data);
+
+        // Mostrar el arreglo original y el arreglo ordenado
+        // utilizando el nuevo diseño de casillas.
+        showArrays(data.original, data.ordenado);
+
+        // Mostrar el panel de comparación de arreglos.
+        resultsPanel.hidden = false;
+
+        showSwalSuccess(
+            "¡Arreglo ordenado!",
+            `El arreglo fue ordenado exitosamente mediante el método ${selectedMethodName}.`
+        );
+
+    } catch (error) {
+
+        if (error.name !== "AbortError") {
+            showSortError(
+                error.message || "No fue posible ordenar el arreglo."
+            );
+
+            showSwalError(
+                "Error al ordenar",
+                error.message || "No fue posible ordenar el arreglo."
+            );
+        }
+
+    } finally {
+        finishRequest(controller);
+    }
+}
 
     function readSearchValue(arrayLength) {
         searchValue.removeAttribute("aria-invalid");
@@ -601,8 +672,12 @@
 
     function resetResults() {
         resultsPanel.hidden = true;
-        unsortedResult.textContent = "Aquí aparecerá el resultado";
-        sortedResult.textContent = "Aquí aparecerá el resultado";
+        if (unsortedBoxes) unsortedBoxes.innerHTML = "";
+        if (sortedBoxes) sortedBoxes.innerHTML = "";
+        if (unsortedSize) unsortedSize.textContent = "0";
+        if (sortedSize) sortedSize.textContent = "0";
+        if (unsortedIndices) unsortedIndices.textContent = "0 a 0";
+        if (sortedIndices) sortedIndices.textContent = "0 a 0";
         hideSearchValues();
         arraySize.removeAttribute("aria-invalid");
         arrayValues.removeAttribute("aria-invalid");

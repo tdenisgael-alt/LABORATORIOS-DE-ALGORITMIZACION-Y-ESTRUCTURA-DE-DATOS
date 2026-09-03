@@ -79,7 +79,7 @@
                                 <span></span>
                                 <span></span>
                             </span>
-                            <span id="lab2-menu-method" class="lab2-menu-method" hidden>Ninguno</span>
+                            <span id="lab2-menu-method" class="lab2-menu-method">Métodos</span>
                         </button>
                     </div>
 
@@ -103,7 +103,7 @@
                         </p>
 
                         <button id="lab2-methods-back" class="back-button lab2-sidebar-back" type="button" aria-label="Cerrar métodos de ordenamiento">
-                            <span aria-hidden="true">←</span> Regresar
+                            <span aria-hidden="true">×</span> Cerrar
                         </button>
                     </aside>
 
@@ -151,15 +151,57 @@
                         </div>
                     </div>
 
-                    <div class="lab2-result-grid">
-                        <article class="lab2-result-card">
-                            <h3>Arreglo desordenado</h3>
-                            <p id="lab2-unsorted-result" class="lab2-result-placeholder">Aquí aparecerá el resultado</p>
-                        </article>
-                        <article class="lab2-result-card lab2-result-card--ordered">
-                            <h3>Arreglo ordenado</h3>
-                            <p id="lab2-sorted-result" class="lab2-result-placeholder">Aquí aparecerá el resultado</p>
-                        </article>
+                    <div class="lab2-result-container">
+                        <div class="lab2-result-grid">
+                            <article class="lab2-result-card lab2-result-card--unsorted">
+                                <div class="lab2-result-card-header">
+                                    <span class="lab2-result-card-icon" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14h6"></path><path d="M9 10h6"></path><path d="M9 18h4"></path></svg>
+                                    </span>
+                                    <h3>Arreglo desordenado</h3>
+                                </div>
+                                <div id="lab2-unsorted-boxes" class="lab2-array-boxes" aria-label="Elementos del arreglo desordenado">
+                                    <!-- Casillas generadas dinámicamente -->
+                                </div>
+                                <div class="lab2-array-meta">
+                                    <span class="lab2-meta-size">Tamaño: <strong id="lab2-unsorted-size">0</strong></span>
+                                    <span class="lab2-meta-divider" aria-hidden="true">|</span>
+                                    <span class="lab2-meta-indices">Índices: <strong id="lab2-unsorted-indices">0 a 0</strong></span>
+                                </div>
+                            </article>
+
+                            <div class="lab2-result-arrow" aria-hidden="true" title="Transformación ordenada">
+                                <span>⇄</span>
+                            </div>
+
+                            <article class="lab2-result-card lab2-result-card--ordered">
+                                <div class="lab2-result-card-header">
+                                    <span class="lab2-result-card-icon" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                                    </span>
+                                    <h3>Arreglo ordenado</h3>
+                                </div>
+                                <div id="lab2-sorted-boxes" class="lab2-array-boxes" aria-label="Elementos del arreglo ordenado">
+                                    <!-- Casillas generadas dinámicamente -->
+                                </div>
+                                <div class="lab2-array-meta">
+                                    <span class="lab2-meta-size">Tamaño: <strong id="lab2-sorted-size">0</strong></span>
+                                    <span class="lab2-meta-divider" aria-hidden="true">|</span>
+                                    <span class="lab2-meta-indices">Índices: <strong id="lab2-sorted-indices">0 a 0</strong></span>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="lab2-result-legend" aria-label="Leyenda de colores">
+                            <span class="lab2-legend-item">
+                                <span class="lab2-legend-box lab2-legend-box--unsorted" aria-hidden="true"></span>
+                                Desordenado
+                            </span>
+                            <span class="lab2-legend-item">
+                                <span class="lab2-legend-box lab2-legend-box--ordered" aria-hidden="true"></span>
+                                Ordenado
+                            </span>
+                        </div>
                     </div>
                 </section>
 
