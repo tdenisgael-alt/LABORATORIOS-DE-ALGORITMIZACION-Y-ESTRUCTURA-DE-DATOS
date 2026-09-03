@@ -3,231 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Laboratorio 2: Métodos de Ordenación y Búsqueda">
-    <title>Laboratorio 2 | Métodos de Ordenación y Búsqueda</title>
-    <style>
-        :root {
-            --azul: #003b8f;
-            --azul-oscuro: #002a66;
-            --fondo: #f4f7fb;
-            --texto: #263238;
-            --blanco: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            background: var(--fondo);
-            color: var(--texto);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        .top-bar {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 10px clamp(18px, 5vw, 48px);
-            background: var(--blanco);
-            border-bottom: 1px solid #dce3ec;
-        }
-
-        .top-bar img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-        }
-
-        .university-name {
-            color: var(--azul);
-            font-size: clamp(0.95rem, 2vw, 1.2rem);
-            font-weight: 700;
-        }
-
-        .top-bar nav {
-            margin-left: auto;
-        }
-
-        .nav-link,
-        .back-button {
-            color: var(--azul);
-            font-weight: 650;
-            text-decoration: none;
-        }
-
-        .nav-link:hover,
-        .nav-link:focus-visible {
-            color: var(--azul-oscuro);
-            text-decoration: underline;
-        }
-
-        header {
-            padding: 42px 20px;
-            background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
-            color: var(--blanco);
-            text-align: center;
-            border-bottom: 5px solid var(--azul-oscuro);
-        }
-
-        header p,
-        header h1 {
-            margin: 0;
-        }
-
-        header p {
-            margin-top: 8px;
-            opacity: 0.9;
-        }
-
-        main {
-            width: min(880px, calc(100% - 36px));
-            margin: 34px auto;
-            flex: 1;
-        }
-
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            margin-bottom: 20px;
-        }
-
-        .contenido {
-            padding: clamp(24px, 5vw, 46px);
-            background: var(--blanco);
-            border: 1px solid #dce3ec;
-            border-radius: 14px;
-            box-shadow: 0 12px 30px rgba(0, 42, 102, 0.08);
-            text-align: center;
-        }
-
-        .contenido h2 {
-            margin: 0 0 10px;
-            color: var(--azul);
-            font-size: clamp(1.45rem, 4vw, 2rem);
-        }
-
-        .contenido p {
-            margin: 0 auto 26px;
-            max-width: 620px;
-        }
-
-        .imagen-laboratorio {
-            display: block;
-            width: min(100%, 640px);
-            height: auto;
-            margin: 0 auto;
-            border-radius: 10px;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
-        }
-
-        .estado-cooking {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 24px;
-            color: var(--azul);
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            font-weight: 800;
-            letter-spacing: 0.14em;
-        }
-
-        .simbolo-cargando {
-            width: 22px;
-            height: 22px;
-            box-sizing: border-box;
-            border: 3px solid rgba(0, 59, 143, 0.22);
-            border-top-color: var(--azul);
-            border-radius: 50%;
-            animation: girar 0.85s linear infinite;
-        }
-
-        .dark-mode .estado-cooking {
-            color: #90caf9;
-        }
-
-        .dark-mode .simbolo-cargando {
-            border-color: rgba(144, 202, 249, 0.28);
-            border-top-color: #90caf9;
-        }
-
-        @keyframes girar {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        footer {
-            padding: 18px;
-            color: #62717f;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        @media (max-width: 560px) {
-            .top-bar {
-                align-items: flex-start;
-                flex-wrap: wrap;
-            }
-
-            .top-bar nav {
-                width: 100%;
-                margin-left: 64px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .simbolo-cargando {
-                animation: none;
-            }
-        }
-    </style>
+    <meta name="description" content="Laboratorio 2: Métodos de Ordenamiento y Búsqueda">
+    <title>Laboratorio 2 | Métodos de Ordenamiento y Búsqueda</title>
     <link rel="stylesheet" href="../interfaz-lab1.css">
     <link rel="stylesheet" href="../navbar.css">
+    <link rel="stylesheet" href="../Laboratorio1/sweetalert-uni.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle("dark-mode");
+            if (document.body) {
+                document.body.classList.toggle("dark-mode", isDark);
+            }
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            actualizarBotonTheme();
+        }
+
+        function actualizarBotonTheme() {
+            const btn = document.getElementById("btnThemeToggle");
+            if (!btn) return;
+            const isDark = document.documentElement.classList.contains("dark-mode");
+            btn.innerHTML = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+            btn.setAttribute("aria-pressed", String(isDark));
+            btn.setAttribute("aria-label", isDark ? "Activar modo claro" : "Activar modo oscuro");
+        }
+
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const isDark = localStorage.getItem("theme") === "dark" || document.documentElement.classList.contains("dark-mode");
+            if (isDark) {
+                document.documentElement.classList.add("dark-mode");
+                if (document.body) {
+                    document.body.classList.add("dark-mode");
+                }
+            }
+            actualizarBotonTheme();
+        });
+    </script>
+    <link rel="stylesheet" href="laboratorio2.css">
 </head>
-<body id="inicio">
+<body id="inicio" class="lab2-page">
     <div class="top-bar">
         <img src="img/uni.png" alt="Logo de la universidad">
         <span class="university-name">Universidad Nacional de Ingeniería</span>
-        <nav aria-label="Navegación principal">
-            <a class="nav-link" href="../index.html">Página principal</a>
+        <nav class="main-nav" aria-label="Navegación principal">
+            <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-pressed="false" aria-label="Activar modo oscuro" onclick="toggleTheme()">🌙 Modo Oscuro</button>
         </nav>
     </div>
 
     <header>
-        <h1>Laboratorio 2</h1>
-        <p>MÉTODOS DE ORDENACIÓN Y BÚSQUEDA</p>
+        <h1>Laboratorio 2: Métodos de Ordenamiento y Búsqueda</h1>
     </header>
 
-    <main>
-        <a class="back-button" href="../index.html" aria-label="Regresar a la página principal">
-            <span aria-hidden="true">←</span> Regresar
-        </a>
+    <main class="lab2-main">
+        <div class="lab2-top-actions">
+            <a class="back-button lab2-exit-button" href="../index.html" aria-label="Salir del Laboratorio 2 y regresar a la página principal">
+                <span aria-hidden="true">←</span> Salir
+            </a>
+        </div>
 
-        <section class="contenido" aria-labelledby="titulo-contenido">
-            <h2 id="titulo-contenido">MÉTODOS DE ORDENACIÓN Y BÚSQUEDA</h2>
-            <p>Los ejercicios, documentos y recursos de Métodos de Ordenación y Búsqueda están en preparación.</p>
-            <img class="imagen-laboratorio" src="img/C.png" alt="Contenido en preparación de Métodos de Ordenación y Búsqueda">
-            <div class="estado-cooking" role="status" aria-label="Contenido en preparación">
-                <span>COOKING...</span>
-                <span class="simbolo-cargando" aria-hidden="true"></span>
-            </div>
-        </section>
+        <div class="lab2-workspace">
+            <section class="lab2-content" aria-label="Área de trabajo del Laboratorio 2">
+                <article class="lab2-input-panel" aria-labelledby="lab2-input-title">
+                    <div class="lab2-section-heading">
+                        <div>
+                            <span class="lab2-eyebrow">Datos de entrada</span>
+                            <h2 id="lab2-input-title">Arreglo desordenado</h2>
+                        </div>
+                        <button id="lab2-methods-toggle" class="lab2-menu-toggle" type="button" aria-label="Abrir métodos de ordenamiento" aria-controls="lab2-methods-panel" aria-expanded="false" aria-haspopup="dialog">
+                            <span class="lab2-menu-icon" aria-hidden="true">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                            <span id="lab2-menu-method" class="lab2-menu-method" hidden>Ninguno</span>
+                        </button>
+                    </div>
+
+                    <aside id="lab2-methods-panel" class="lab2-methods-panel" role="dialog" aria-labelledby="lab2-methods-title" hidden>
+                        <div class="lab2-panel-heading">
+                            <h2 id="lab2-methods-title">Métodos de ordenamiento</h2>
+                        </div>
+
+                        <div class="lab2-method-list" role="group" aria-label="Seleccionar método de ordenamiento">
+                            <button class="lab2-method-button" type="button" data-method="Burbuja" aria-pressed="false">Burbuja</button>
+                            <button class="lab2-method-button" type="button" data-method="Burbuja con señal" aria-pressed="false">Burbuja con señal</button>
+                            <button class="lab2-method-button" type="button" data-method="Sacudida" aria-pressed="false">Sacudida</button>
+                            <button class="lab2-method-button" type="button" data-method="Baraja" aria-pressed="false">Baraja</button>
+                            <button class="lab2-method-button" type="button" data-method="Selección" aria-pressed="false">Selección</button>
+                            <button class="lab2-method-button" type="button" data-method="Shell" aria-pressed="false">Shell</button>
+                        </div>
+
+                        <p class="lab2-selected-method" aria-live="polite">
+                            Método seleccionado:
+                            <strong id="lab2-selected-method">Ninguno</strong>
+                        </p>
+
+                        <button id="lab2-methods-back" class="back-button lab2-sidebar-back" type="button" aria-label="Cerrar métodos de ordenamiento">
+                            <span aria-hidden="true">←</span> Regresar
+                        </button>
+                    </aside>
+
+                    <form id="lab2-array-form" novalidate>
+                        <div class="lab2-size-row">
+                            <div class="lab2-field">
+                                <label for="lab2-array-size">Tamaño del arreglo</label>
+                                <input id="lab2-array-size" name="arraySize" type="number" min="1" step="1" inputmode="numeric" placeholder="Ejemplo: 8">
+                            </div>
+                            <div class="lab2-size-actions">
+                                <button id="lab2-size-toggle-button" class="lab2-button lab2-button--primary" type="button">
+                                    <span id="lab2-size-toggle-icon" aria-hidden="true">✓</span>
+                                    <span id="lab2-size-toggle-text">Aceptar</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="lab2-field">
+                            <label for="lab2-array-values">Números enteros</label>
+                            <textarea id="lab2-array-values" name="arrayValues" rows="5" spellcheck="false" aria-describedby="lab2-array-help" placeholder="Ejemplo: 14, 3, 27, 8, 1" disabled></textarea>
+                            <p class="lab2-help" id="lab2-array-help">Ingresa exactamente la cantidad indicada. Separa los números con comas.</p>
+                        </div>
+
+                        <div class="lab2-main-actions">
+                            <button id="lab2-sort-button" class="lab2-button lab2-button--primary" type="button">
+                                <span aria-hidden="true">↕</span>
+                                Ordenar
+                            </button>
+                            <button id="lab2-search-button" class="lab2-button lab2-button--primary" type="button" aria-controls="lab2-search-panel" aria-expanded="false">
+                                <span aria-hidden="true">⌕</span>
+                                Buscar
+                            </button>
+                        </div>
+                    </form>
+                </article>
+
+                <section id="lab2-results-panel" class="lab2-results" aria-labelledby="lab2-results-title" hidden>
+                    <div class="lab2-results-heading">
+                        <div>
+                            <span class="lab2-eyebrow">Resultado</span>
+                            <h2 id="lab2-results-title">Comparación de arreglos</h2>
+                            <p id="lab2-action-method-label" class="lab2-action-method" aria-live="polite" hidden>
+                                Método: <strong id="lab2-action-method">Ninguno</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="lab2-result-grid">
+                        <article class="lab2-result-card">
+                            <h3>Arreglo desordenado</h3>
+                            <p id="lab2-unsorted-result" class="lab2-result-placeholder">Aquí aparecerá el resultado</p>
+                        </article>
+                        <article class="lab2-result-card lab2-result-card--ordered">
+                            <h3>Arreglo ordenado</h3>
+                            <p id="lab2-sorted-result" class="lab2-result-placeholder">Aquí aparecerá el resultado</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="lab2-search-panel" class="lab2-search-panel" aria-labelledby="lab2-search-title" hidden>
+                    <div class="lab2-section-heading">
+                        <div>
+                            <span class="lab2-eyebrow">Búsqueda</span>
+                            <h2 id="lab2-search-title">Búsqueda binaria</h2>
+                        </div>
+                        <button id="lab2-search-close" class="lab2-search-close" type="button" aria-label="Cerrar búsqueda">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <form id="lab2-search-form" novalidate>
+                        <fieldset class="lab2-search-mode">
+                            <legend>Buscar por</legend>
+                            <div class="lab2-search-options">
+                                <label>
+                                    <input type="radio" name="searchMode" value="number" checked>
+                                    <span>Por número</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="searchMode" value="index">
+                                    <span>Por índice</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <div class="lab2-field">
+                            <label id="lab2-search-value-label" for="lab2-search-value">Número a buscar</label>
+                            <input id="lab2-search-value" name="searchValue" type="number" step="1" inputmode="numeric" aria-describedby="lab2-search-help" placeholder="Ingresa un número entero">
+                            <p id="lab2-search-help" class="lab2-help">Se buscará el número en el arreglo desordenado y en el ordenado.</p>
+                        </div>
+
+                        <div class="lab2-search-actions">
+                            <button class="lab2-button lab2-button--primary" type="submit">
+                                <span aria-hidden="true">⌕</span>
+                                Ejecutar búsqueda
+                            </button>
+                        </div>
+
+                        <div class="lab2-search-result" aria-live="polite">
+                            <div class="lab2-search-row">
+                                <span id="lab2-unsorted-position-label">Posición en el arreglo desordenado</span>
+                                <strong id="lab2-unsorted-position" hidden></strong>
+                            </div>
+                            <div class="lab2-search-row">
+                                <span id="lab2-sorted-position-label">Posición en el arreglo ordenado</span>
+                                <strong id="lab2-sorted-position" hidden></strong>
+                            </div>
+                            <p id="lab2-search-message" class="lab2-search-message">Aquí aparecerá el resultado de la búsqueda.</p>
+                        </div>
+                    </form>
+                </section>
+            </section>
+        </div>
     </main>
 
     <footer>
-        Laboratorio 2 · MÉTODOS DE ORDENACIÓN Y BÚSQUEDA
+        Algoritmos y Estructuras de Datos · Laboratorio 2
     </footer>
+
+    <script src="laboratorio2.js"></script>
 </body>
 </html>
