@@ -1,0 +1,165 @@
+.lab3-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--lab-fondo);
+}
+
+.lab3-hero {
+    padding: 22px clamp(16px, 4vw, 40px);
+}
+
+.lab3-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.lab3-hero p {
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.lab3-main {
+    width: min(880px, calc(100% - 32px));
+    margin: 34px auto 0;
+    flex: 1;
+}
+
+.lab3-top-actions {
+    margin-bottom: 10px;
+}
+
+.lab3-top-actions .back-button {
+    gap: 7px;
+    margin: 0;
+}
+
+.lab3-card {
+    padding: clamp(22px, 4vw, 28px);
+    border: 1px solid #dce3ec;
+    border-radius: 8px;
+    background: var(--lab-fondo);
+    box-shadow: var(--lab-sombra);
+    text-align: center;
+}
+
+.lab3-card h2 {
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--lab-azul);
+    color: var(--lab-azul);
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.lab3-description {
+    max-width: 680px;
+    margin: 14px auto 24px;
+    color: var(--lab-texto);
+    line-height: 1.55;
+}
+
+.lab3-image {
+    display: block;
+    width: min(640px, 100%);
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 42, 102, 0.18);
+}
+
+.lab3-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 22px;
+    color: var(--lab-azul);
+}
+
+.lab3-status strong {
+    font-size: 1.18rem;
+    letter-spacing: 0.16em;
+}
+
+.lab3-spinner {
+    width: 22px;
+    height: 22px;
+    box-sizing: border-box;
+    border: 3px solid #cbd9e8;
+    border-top-color: var(--lab-azul);
+    border-radius: 50%;
+    animation: lab3-spin 0.85s linear infinite;
+}
+
+.lab3-page footer {
+    margin-top: 34px;
+    padding: 18px;
+    color: #777777;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+html.dark-mode .lab3-page {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+html.dark-mode .lab3-card {
+    border-color: #333333;
+    background: #1e1e1e;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .lab3-card h2 {
+    border-bottom-color: #1976d2;
+    color: #64b5f6;
+}
+
+html.dark-mode .lab3-description {
+    color: #e0e0e0;
+}
+
+html.dark-mode .lab3-status {
+    color: #90caf9;
+}
+
+html.dark-mode .lab3-spinner {
+    border-color: #3a5975;
+    border-top-color: #90caf9;
+}
+
+html.dark-mode .lab3-page footer {
+    color: #888888;
+}
+
+@keyframes lab3-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .lab3-main {
+        width: min(100% - 24px, 880px);
+        margin-top: 22px;
+    }
+
+    .lab3-card {
+        padding: 18px;
+    }
+
+    .lab3-description {
+        margin-bottom: 18px;
+    }
+
+    .lab3-status strong {
+        font-size: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lab3-spinner {
+        animation: none;
+    }
+}
