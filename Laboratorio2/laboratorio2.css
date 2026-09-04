@@ -5,6 +5,10 @@
     background: #f4f7fb;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .lab2-page .lab2-main {
     width: min(1180px, calc(100% - 32px));
     margin: 32px auto 42px;
@@ -307,6 +311,293 @@
     display: grid;
     gap: 26px;
     min-width: 0;
+}
+
+.lab2-resource-section {
+    margin-top: 38px;
+}
+
+.lab2-resource-heading {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--lab-azul);
+}
+
+.lab2-resource-heading h2 {
+    margin: 0;
+    color: var(--lab-azul);
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    line-height: 1.25;
+}
+
+.lab2-resource-intro {
+    max-width: 760px;
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 0.98rem;
+    line-height: 1.55;
+}
+
+.lab2-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.lab2-resource-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 350px;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 26px;
+    border: 1px solid #dce3ec;
+    border-radius: 12px;
+    background: var(--lab-fondo);
+    box-shadow: var(--lab-sombra);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lab2-resource-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 4px;
+    background: var(--lab-azul);
+}
+
+.lab2-resource-card:hover {
+    border-color: #cbd9e8;
+    box-shadow: 0 12px 28px rgba(0, 42, 102, 0.2);
+    transform: translateY(-3px);
+}
+
+.lab2-resource-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.lab2-resource-icon {
+    display: grid;
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--lab-azul);
+    color: #ffffff;
+    box-shadow: 0 5px 14px rgba(0, 42, 102, 0.2);
+}
+
+.lab2-resource-icon svg {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.lab2-resource-type {
+    display: inline-block;
+    padding: 6px 9px;
+    border: 1px solid #cbd9e8;
+    border-radius: 999px;
+    background: #eaf2fb;
+    color: var(--lab-azul);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.lab2-resource-card-body {
+    flex: 1;
+}
+
+.lab2-resource-card h3 {
+    margin: 0;
+    color: var(--lab-azul);
+    font-size: 1.2rem;
+    line-height: 1.35;
+}
+
+.lab2-resource-description {
+    margin: 10px 0 0;
+    color: #64748b;
+    line-height: 1.55;
+}
+
+.lab2-resource-card-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #dce3ec;
+}
+
+.lab2-resource-button {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: stretch;
+    width: min(220px, 100%);
+    min-width: 0;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background: var(--lab-azul-claro);
+    color: #ffffff;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    box-shadow: 0 5px 14px rgba(0, 42, 102, 0.2);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+}
+
+.lab2-resource-button-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 44px;
+    z-index: 2;
+    display: block;
+    width: 18px;
+    background: #9aa9ba;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    pointer-events: none;
+}
+
+.lab2-resource-button-icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    color: var(--lab-azul);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+
+.lab2-resource-button-label {
+    align-self: center;
+    min-width: 0;
+    padding: 0 8px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lab2-resource-document-symbol {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 16px;
+    height: 20px;
+    box-sizing: border-box;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+    background: #ffffff;
+}
+
+.lab2-resource-document-symbol::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: -1;
+    width: 16px;
+    height: 20px;
+    box-sizing: border-box;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+    background:
+        linear-gradient(135deg, currentColor 0 49%, #ffffff 50%) top left / 5px 5px no-repeat,
+        #ffffff;
+}
+
+.lab2-resource-document-symbol::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 9px;
+    height: 9px;
+    background: currentColor;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.lab2-resource-download-symbol {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 17px;
+}
+
+.lab2-resource-download-symbol::before,
+.lab2-resource-download-symbol::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-right: 3px solid currentColor;
+    border-bottom: 3px solid currentColor;
+    transform: rotate(45deg);
+}
+
+.lab2-resource-download-symbol::before {
+    top: 0;
+}
+
+.lab2-resource-download-symbol::after {
+    top: 6px;
+}
+
+.lab2-resource-button:hover {
+    background: #1565c0;
+    color: #ffffff;
+    box-shadow: 0 8px 18px rgba(0, 42, 102, 0.22);
+    transform: translateY(-1px);
+}
+
+.lab2-resource-button:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.lab2-resource-button:focus-visible {
+    outline: 3px solid rgba(25, 118, 210, 0.22);
+    outline-offset: 2px;
+}
+
+.lab2-resource-format {
+    display: inline-grid;
+    align-self: center;
+    min-width: 34px;
+    min-height: 26px;
+    place-items: center;
+    box-sizing: border-box;
+    margin-right: 12px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background: #ffffff;
+    color: var(--lab-azul);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
 }
 
 .lab2-input-panel,
@@ -884,6 +1175,10 @@
     .lab2-methods-panel {
         max-height: min(620px, 68vh);
     }
+
+    .lab2-resource-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 600px) {
@@ -935,8 +1230,18 @@
     }
 
     .lab2-method-list,
-    .lab2-result-grid {
+    .lab2-result-grid,
+    .lab2-resource-grid {
         grid-template-columns: 1fr;
+    }
+
+    .lab2-resource-section {
+        margin-top: 30px;
+    }
+
+    .lab2-resource-card {
+        min-height: 0;
+        padding: 20px;
     }
 
     .lab2-title-group {
@@ -981,9 +1286,21 @@
     }
 }
 
+@media (max-width: 380px) {
+    .lab2-page .top-bar .main-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     .lab2-method-button,
     .lab2-button,
+    .lab2-resource-card,
+    .lab2-resource-button,
     .lab2-search-close,
     .lab2-search-panel {
         animation: none;
@@ -1007,7 +1324,8 @@ body.dark-mode.lab2-page {
 html.dark-mode .lab2-input-panel,
 html.dark-mode .lab2-results,
 html.dark-mode .lab2-search-panel,
-html.dark-mode .lab2-methods-panel {
+html.dark-mode .lab2-methods-panel,
+html.dark-mode .lab2-resource-card {
     border-color: #333333;
     background: #1e1e1e;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -1021,17 +1339,56 @@ html.dark-mode .lab2-methods-panel::before {
 
 html.dark-mode .lab2-panel-heading,
 html.dark-mode .lab2-section-heading,
-html.dark-mode .lab2-results-heading {
+html.dark-mode .lab2-results-heading,
+html.dark-mode .lab2-resource-heading {
     border-bottom-color: #1976d2;
 }
 
 html.dark-mode .lab2-panel-heading h2,
 html.dark-mode .lab2-section-heading h2,
-html.dark-mode .lab2-results-heading h2 {
+html.dark-mode .lab2-results-heading h2,
+html.dark-mode .lab2-resource-heading h2,
+html.dark-mode .lab2-resource-card h3 {
     color: #64b5f6;
 }
 
 html.dark-mode .lab2-eyebrow {
+    color: #90caf9;
+}
+
+html.dark-mode .lab2-resource-type {
+    border-color: #3a5975;
+    background: #263d52;
+    color: #90caf9;
+}
+
+html.dark-mode .lab2-resource-intro,
+html.dark-mode .lab2-resource-description {
+    color: #a0aec0;
+}
+
+html.dark-mode .lab2-resource-card::before,
+html.dark-mode .lab2-resource-icon {
+    background: #1976d2;
+}
+
+html.dark-mode .lab2-resource-card-footer {
+    border-top-color: #333333;
+}
+
+html.dark-mode .lab2-resource-button {
+    border-color: #1976d2;
+    background: #1976d2;
+    color: #ffffff;
+}
+
+html.dark-mode .lab2-resource-button:hover {
+    border-color: #1565c0;
+    background: #1565c0;
+}
+
+html.dark-mode .lab2-resource-format {
+    background: #263d52;
     color: #90caf9;
 }
 

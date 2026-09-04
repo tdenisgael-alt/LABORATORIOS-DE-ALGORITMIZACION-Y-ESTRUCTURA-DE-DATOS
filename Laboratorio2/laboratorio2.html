@@ -50,6 +50,9 @@
         <img src="img/uni.png" alt="Logo de la universidad">
         <span class="university-name">Universidad Nacional de Ingeniería</span>
         <nav class="main-nav" aria-label="Navegación principal">
+            <a class="nav-link" href="#ejercicio">Ejercicio</a>
+            <a class="nav-link" href="#documentos">Documentos</a>
+            <a class="nav-link" href="#descargas">Descargas</a>
             <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-pressed="false" aria-label="Activar modo oscuro" onclick="toggleTheme()">🌙 Modo Oscuro</button>
         </nav>
     </div>
@@ -65,7 +68,7 @@
             </a>
         </div>
 
-        <div class="lab2-workspace">
+        <div id="ejercicio" class="lab2-workspace">
             <section class="lab2-content" aria-label="Área de trabajo del Laboratorio 2">
                 <article class="lab2-input-panel" aria-labelledby="lab2-input-title">
                     <div class="lab2-section-heading">
@@ -226,6 +229,122 @@
                 </section>
             </section>
         </div>
+
+        <section id="documentos" class="lab2-resource-section" aria-labelledby="lab2-documents-title">
+            <div class="lab2-resource-heading">
+                <span class="lab2-eyebrow">Material de apoyo</span>
+                <h2 id="lab2-documents-title">Documentos</h2>
+                <p class="lab2-resource-intro">Consulta las guías del laboratorio para desarrollar las clases, el servidor y la interfaz web.</p>
+            </div>
+
+            <div class="lab2-resource-grid lab2-resource-grid--documents">
+                <article class="lab2-resource-card">
+                    <div class="lab2-resource-card-head">
+                        <span class="lab2-resource-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path><path d="M10 13h6M10 17h6"></path></svg>
+                        </span>
+                        <span class="lab2-resource-type">PDF 01</span>
+                    </div>
+                    <div class="lab2-resource-card-body">
+                        <h3>Clases de Ordenamiento y Búsqueda</h3>
+                        <p class="lab2-resource-description">Implementación de los métodos de ordenamiento y búsqueda con Swing y Web.</p>
+                    </div>
+                    <div class="lab2-resource-card-footer">
+                        <a class="lab2-resource-button lab2-resource-button--document" href="./Documentos/Lab2_01_Clases_Ordenamiento_y_Busqueda_SWING_Y_WEB.pdf" target="_blank" rel="noopener noreferrer" aria-label="Ver documento: Clases de Ordenamiento y Búsqueda"><span class="lab2-resource-button-icon" aria-hidden="true"><span class="lab2-resource-document-symbol"></span></span><span class="lab2-resource-button-divider" aria-hidden="true"></span><span class="lab2-resource-button-label">Documento</span><span class="lab2-resource-format">PDF</span></a>
+                    </div>
+                </article>
+
+                <article class="lab2-resource-card">
+                    <div class="lab2-resource-card-head">
+                        <span class="lab2-resource-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path><path d="M10 13h6M10 17h6"></path></svg>
+                        </span>
+                        <span class="lab2-resource-type">PDF 02</span>
+                    </div>
+                    <div class="lab2-resource-card-body">
+                        <h3>Servidor Java y Conexión Web</h3>
+                        <p class="lab2-resource-description">Configuración del servidor Java y comunicación con la aplicación web.</p>
+                    </div>
+                    <div class="lab2-resource-card-footer">
+                        <a class="lab2-resource-button lab2-resource-button--document" href="./Documentos/Lab2_02_Servidor_Java_y_Conexion_Web_DISENO_ACTUALIZADO.pdf" target="_blank" rel="noopener noreferrer" aria-label="Ver documento: Servidor Java y Conexión Web"><span class="lab2-resource-button-icon" aria-hidden="true"><span class="lab2-resource-document-symbol"></span></span><span class="lab2-resource-button-divider" aria-hidden="true"></span><span class="lab2-resource-button-label">Documento</span><span class="lab2-resource-format">PDF</span></a>
+                    </div>
+                </article>
+
+                <article class="lab2-resource-card">
+                    <div class="lab2-resource-card-head">
+                        <span class="lab2-resource-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path><path d="M10 13h6M10 17h6"></path></svg>
+                        </span>
+                        <span class="lab2-resource-type">PDF 03</span>
+                    </div>
+                    <div class="lab2-resource-card-body">
+                        <h3>Interfaz Web: HTML, CSS y JavaScript</h3>
+                        <p class="lab2-resource-description">Estructura y diseño actualizado de la interfaz web del laboratorio.</p>
+                    </div>
+                    <div class="lab2-resource-card-footer">
+                        <a class="lab2-resource-button lab2-resource-button--document" href="./Documentos/Lab2_03_Interfaz_Web_HTML_CSS_JS_DISENO_ACTUALIZADO.pdf" target="_blank" rel="noopener noreferrer" aria-label="Ver documento: Interfaz Web"><span class="lab2-resource-button-icon" aria-hidden="true"><span class="lab2-resource-document-symbol"></span></span><span class="lab2-resource-button-divider" aria-hidden="true"></span><span class="lab2-resource-button-label">Documento</span><span class="lab2-resource-format">PDF</span></a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="descargas" class="lab2-resource-section" aria-labelledby="lab2-downloads-title">
+            <div class="lab2-resource-heading">
+                <span class="lab2-eyebrow">Archivos del laboratorio</span>
+                <h2 id="lab2-downloads-title">Descargas</h2>
+                <p class="lab2-resource-intro">Descarga el código, el servidor Java y los archivos de la interfaz web del Laboratorio 2.</p>
+            </div>
+
+            <div class="lab2-resource-grid lab2-resource-grid--downloads">
+                <article class="lab2-resource-card">
+                    <div class="lab2-resource-card-head">
+                        <span class="lab2-resource-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M5 7h14v14H5z"></path><path d="M8 3h8l2 4H6z"></path><path d="M12 10v7m0 0-3-3m3 3 3-3"></path></svg>
+                        </span>
+                        <span class="lab2-resource-type">Archivo ZIP</span>
+                    </div>
+                    <div class="lab2-resource-card-body">
+                        <h3>Laboratorio 2</h3>
+                        <p class="lab2-resource-description">Clases Java de ordenamiento y búsqueda utilizadas en el laboratorio.</p>
+                    </div>
+                    <div class="lab2-resource-card-footer">
+                        <a class="lab2-resource-button lab2-resource-button--download" href="./Descargas/Lab_2.zip" download><span class="lab2-resource-button-icon" aria-hidden="true"><span class="lab2-resource-download-symbol"></span></span><span class="lab2-resource-button-divider" aria-hidden="true"></span><span class="lab2-resource-button-label">Descargar </span><span class="lab2-resource-format">ZIP</span></a>
+                    </div>
+                </article>
+
+                <article class="lab2-resource-card">
+                    <div class="lab2-resource-card-head">
+                        <span class="lab2-resource-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M5 7h14v14H5z"></path><path d="M8 3h8l2 4H6z"></path><path d="M12 10v7m0 0-3-3m3 3 3-3"></path></svg>
+                        </span>
+                        <span class="lab2-resource-type">Archivo ZIP</span>
+                    </div>
+                    <div class="lab2-resource-card-body">
+                        <h3>Servidor Laboratorio 2</h3>
+                        <p class="lab2-resource-description">Servidor Java preparado para ejecutar las operaciones del laboratorio.</p>
+                    </div>
+                    <div class="lab2-resource-card-footer">
+                        <a class="lab2-resource-button lab2-resource-button--download" href="./Descargas/Servidor_2.zip" download><span class="lab2-resource-button-icon" aria-hidden="true"><span class="lab2-resource-download-symbol"></span></span><span class="lab2-resource-button-divider" aria-hidden="true"></span><span class="lab2-resource-button-label">Descargar </span><span class="lab2-resource-format">ZIP</span></a>
+                    </div>
+                </article>
+
+                <article class="lab2-resource-card">
+                    <div class="lab2-resource-card-head">
+                        <span class="lab2-resource-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M5 7h14v14H5z"></path><path d="M8 3h8l2 4H6z"></path><path d="M12 10v7m0 0-3-3m3 3 3-3"></path></svg>
+                        </span>
+                        <span class="lab2-resource-type">Archivo ZIP</span>
+                    </div>
+                    <div class="lab2-resource-card-body">
+                        <h3>Interfaz Web</h3>
+                        <p class="lab2-resource-description">Archivos HTML, CSS, JavaScript e imágenes de la interfaz web.</p>
+                    </div>
+                    <div class="lab2-resource-card-footer">
+                        <a class="lab2-resource-button lab2-resource-button--download" href="./Descargas/AED%20VSCODE.zip" download><span class="lab2-resource-button-icon" aria-hidden="true"><span class="lab2-resource-download-symbol"></span></span><span class="lab2-resource-button-divider" aria-hidden="true"></span><span class="lab2-resource-button-label">Descargar </span><span class="lab2-resource-format">ZIP</span></a>
+                    </div>
+                </article>
+            </div>
+        </section>
     </main>
 
     <footer>
