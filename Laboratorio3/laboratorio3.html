@@ -1,55 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Laboratorio 3: Recursividad">
-    <title>Laboratorio 3 | Recursividad</title>
-    <script>
-        if (localStorage.getItem("theme") === "dark") {
-            document.documentElement.classList.add("dark-mode");
-        }
-    </script>
-    <link rel="stylesheet" href="../interfaz-lab1.css">
-    <link rel="stylesheet" href="../navbar.css">
-    <link rel="stylesheet" href="laboratorio3.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Laboratorio 3: Recursividad"><title>Laboratorio 3 | Recursividad</title>
+<script>if(localStorage.getItem("theme")==="dark")document.documentElement.classList.add("dark-mode");</script>
+<link rel="stylesheet" href="../interfaz-lab1.css"><link rel="stylesheet" href="../navbar.css"><link rel="stylesheet" href="laboratorio3.css">
 </head>
 <body class="lab3-page">
-    <div class="top-bar">
-        <img src="img/uni.png" alt="Logo de la universidad">
-        <span class="university-name">Universidad Nacional de Ingeniería</span>
-        <nav class="main-nav" aria-label="Navegación principal">
-            <a class="nav-link" href="../index.html">Página principal</a>
-        </nav>
-    </div>
-
-    <header class="lab3-hero">
-        <h1>Laboratorio 3</h1>
-        <p>RECURSIVIDAD</p>
-    </header>
-
-    <main class="lab3-main">
-        <div class="lab3-top-actions">
-            <a class="back-button" href="../index.html" aria-label="Regresar a la página principal">
-                <span aria-hidden="true">←</span> Regresar
-            </a>
-        </div>
-
-        <section class="lab3-card" aria-labelledby="lab3-title">
-            <h2 id="lab3-title">Recursividad</h2>
-            <p class="lab3-description">Los ejercicios, documentos y recursos de Recursividad están en preparación.</p>
-
-            <img class="lab3-image" src="img/C.png" alt="Contenido del Laboratorio 3 en preparación">
-
-            <div class="lab3-status" role="status" aria-live="polite">
-                <strong>COOKING...</strong>
-                <span class="lab3-spinner" aria-hidden="true"></span>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        Laboratorio 3 · RECURSIVIDAD
-    </footer>
-</body>
-</html>
+<div class="top-bar"><img src="img/uni.png" alt="Logo de la universidad"><span class="university-name">Universidad Nacional de Ingeniería</span><nav class="main-nav" aria-label="Navegación principal"><a class="nav-link" href="../index.html">Página principal</a></nav></div>
+<header class="lab3-hero"><h1>Laboratorio 3</h1><p>RECURSIVIDAD</p></header>
+<main class="lab3-main"><div class="lab3-top-actions"><a class="back-button" href="../index.html">← Regresar</a><span id="server-status" class="server-status">Comprobando servidor...</span></div>
+<section class="lab3-card"><h2>Laboratorio de algoritmos recursivos</h2><p class="lab3-description">Selecciona un ejercicio, carga su solución Java y recorre la simulación paso a paso.</p>
+<div class="module-tabs" role="tablist"><button class="module-tab active" data-module="hanoi">Torres de Hanoi</button><button class="module-tab" data-module="rana">Salto de la Rana</button><button class="module-tab" data-module="reinas">8 Reinas</button><button class="module-tab" data-module="quicksort">Quick Sort</button></div><div id="message" class="message" role="status" aria-live="polite"></div>
+<section class="exercise active" id="module-hanoi"><h3>Torres de Hanoi</h3><div class="controls"><label>Discos <input id="hanoi-disks" type="number" min="1" max="7" value="3"></label><button id="hanoi-load">Simular</button><button data-reset="hanoi">Reiniciar</button><button data-action="previous" data-for="hanoi">Anterior</button><button data-action="next" data-for="hanoi">Siguiente</button><button data-action="play" data-for="hanoi">Reproducir</button><label>Velocidad <select data-speed="hanoi"><option value="1200">Lenta</option><option value="600" selected>Normal</option><option value="250">Rápida</option></select></label></div><div class="readout" id="hanoi-readout">Carga una solución para comenzar.</div><div class="towers" id="hanoi-view"></div></section>
+<section class="exercise" id="module-rana"><h3>Salto de la Rana</h3><div class="controls"><button id="rana-load">Cargar solución</button><button data-reset="rana">Reiniciar</button><button data-action="previous" data-for="rana">Anterior</button><button data-action="next" data-for="rana">Siguiente</button><button data-action="play" data-for="rana">Reproducir</button><label>Velocidad <select data-speed="rana"><option value="1200">Lenta</option><option value="600" selected>Normal</option><option value="250">Rápida</option></select></label></div><div class="readout" id="rana-readout">Carga una solución para comenzar.</div><div class="frog-board" id="rana-view"></div></section>
+<section class="exercise" id="module-reinas"><h3>8 Reinas</h3><div class="controls"><button id="reinas-load">Cargar solución</button><button data-reset="reinas">Reiniciar</button><button data-action="previous" data-for="reinas">Quitar anterior</button><button data-action="next" data-for="reinas">Agregar reina</button><button data-action="play" data-for="reinas">Reproducir</button><label>Velocidad <select data-speed="reinas"><option value="1200">Lenta</option><option value="600" selected>Normal</option><option value="250">Rápida</option></select></label></div><div class="readout" id="reinas-readout">Carga una solución para comenzar.</div><div class="chessboard" id="reinas-view"></div></section>
+<section class="exercise" id="module-quicksort"><h3>Quick Sort</h3><div class="controls"><label class="array-input">Arreglo <input id="quick-array" type="text" value="67, 9, 7, 12, 15, 6, 3, 1, 4, 2"></label><button id="quicksort-load">Ordenar</button><button data-reset="quicksort">Reiniciar</button><button data-action="previous" data-for="quicksort">Anterior</button><button data-action="next" data-for="quicksort">Siguiente</button><button data-action="play" data-for="quicksort">Reproducir</button><label>Velocidad <select data-speed="quicksort"><option value="1200">Lenta</option><option value="600" selected>Normal</option><option value="250">Rápida</option></select></label></div><div class="readout" id="quicksort-readout">Carga una solución para comenzar.</div><div class="array-view" id="quicksort-view"></div></section>
+</section></main><footer>Laboratorio 3 · RECURSIVIDAD</footer><script src="laboratorio3.js" defer></script></body></html>
