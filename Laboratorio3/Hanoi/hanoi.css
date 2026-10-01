@@ -1,85 +1,1331 @@
-.hanoi-card{padding:28px 34px}.hanoi-description{margin:8px 0 0;color:var(--muted);max-width:720px}.hanoi-controls{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:26px 0 16px}.hanoi-controls label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-weight:700}.hanoi-controls input,.hanoi-controls select{min-height:40px;padding:8px 10px;border:1px solid #bdcbd5;border-radius:6px;background:var(--surface);color:inherit;font:inherit}.hanoi-controls button,.playback button{min-height:40px;padding:9px 16px;border:1px solid #bdcbd5;border-radius:6px;background:var(--surface);color:var(--uni);font:inherit;font-weight:700;cursor:pointer}.hanoi-controls button.primary,.playback button.primary{border-color:var(--uni-bright);background:var(--uni-bright);color:#fff}.hanoi-controls button:disabled,.playback button:disabled{opacity:.5;cursor:not-allowed}.hanoi-message{margin:14px 0;padding:12px 14px;border-left:4px solid var(--uni-bright);border-radius:4px;background:var(--soft);color:var(--uni);font-weight:600}.hanoi-info{display:grid;grid-template-columns:1fr 2fr;gap:12px;margin:20px 0}.hanoi-info>div{display:flex;flex-direction:column;gap:5px;padding:12px 14px;border:1px solid var(--line);border-radius:7px;background:var(--soft)}.hanoi-info span{font-size:.72rem;letter-spacing:.12em;color:var(--muted);font-weight:800}.hanoi-info strong{color:var(--uni)}.hanoi-board{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,4vw,60px);align-items:end;min-height:390px;padding:34px 4% 20px;background:var(--soft);border:1px solid var(--line);border-radius:10px}.hanoi-tower{display:flex;min-width:0;flex-direction:column;align-items:center}.hanoi-stack{position:relative;display:flex;width:100%;height:250px;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:0}.hanoi-stack::before{content:"";position:absolute;bottom:0;width:10px;height:100%;border-radius:8px 8px 0 0;background:#6d8291;box-shadow:inset 2px 0 #a9bac5}.hanoi-base{width:100%;height:14px;border-radius:5px 5px 2px 2px;background:#4c687a;box-shadow:0 3px 0 #344b5a}.hanoi-tower>strong{margin-top:12px;color:var(--uni);font-size:.9rem;letter-spacing:.08em}.hanoi-disk{z-index:1;width:var(--disk-width);height:27px;min-width:34px;margin:2px 0;border:2px solid #0d4e81;border-radius:999px;background:linear-gradient(#2587c8,#1263a0);box-shadow:0 2px 3px #102a3b40;color:#fff;text-align:center;font-size:.8rem;font-weight:800;line-height:23px}.playback{display:flex;justify-content:center;gap:10px;margin-top:20px}.lab3-page.dark-mode .hanoi-disk,html.dark-mode .hanoi-disk{border-color:#8dcaed;background:#1769aa;color:#fff}.lab3-page.dark-mode .hanoi-stack::before,html.dark-mode .hanoi-stack::before{background:#9aaeba;box-shadow:inset 2px 0 #d0dbe2}.lab3-page.dark-mode .hanoi-base,html.dark-mode .hanoi-base{background:#718999;box-shadow:0 3px 0 #4b6270}.lab3-page.dark-mode .hanoi-info>div,html.dark-mode .hanoi-info>div{background:#304351}.lab3-page.dark-mode .hanoi-controls input,html.dark-mode .hanoi-controls select,html.dark-mode .hanoi-controls button,html.dark-mode .playback button{background:#2c3c48;color:#edf3f7;border-color:#506270}@media(max-width:600px){.hanoi-card{padding:20px 16px}.hanoi-info{grid-template-columns:1fr}.hanoi-board{min-height:300px;padding:22px 2%;gap:6px}.hanoi-stack{height:190px}.hanoi-disk{height:21px;line-height:17px;font-size:.7rem;min-width:25px}.hanoi-controls{align-items:stretch;flex-direction:column}.hanoi-controls>*{width:100%;box-sizing:border-box}.playback{flex-wrap:wrap}.playback button{flex:1;min-width:120px}}
-.mode-switch{display:flex;gap:0;margin:24px 0 8px}.mode-switch button{padding:10px 22px;border:1px solid #bdcbd5;background:var(--surface);color:var(--uni);font:inherit;font-weight:700;cursor:pointer}.mode-switch button:first-child{border-radius:7px 0 0 7px}.mode-switch button:last-child{border-radius:0 7px 7px 0}.mode-switch button.selected{background:var(--uni-bright);border-color:var(--uni-bright);color:#fff}.hanoi-tower.selected{filter:drop-shadow(0 0 7px #2b84bd)}.hanoi-disk.selected{outline:4px solid #f0a323;outline-offset:2px}.hanoi-board{position:relative}.hanoi-flying{position:absolute!important;z-index:20;margin:0!important;pointer-events:none}.hanoi-card button:disabled,.hanoi-card input:disabled,.hanoi-card select:disabled{opacity:.55;cursor:not-allowed}html.dark-mode .mode-switch button{background:#2c3c48;color:#edf3f7;border-color:#506270}html.dark-mode .mode-switch button.selected{background:#1769aa;color:#fff}@media(max-width:600px){.mode-switch button{flex:1}}
-.hanoi-styles{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
-.hanoi-card .hanoi-styles button{background:transparent;color:var(--uni);border:1px solid #63839b}
-.hanoi-card .hanoi-styles button[aria-pressed="true"]{background:#1769aa;color:white;outline:2px solid #62b5ee;outline-offset:2px}
-.hanoi-disk{flex-shrink:0}
-.hanoi-card [hidden]{display:none!important}
-html.dark-mode .hanoi-styles button{color:#cceaff}
-.hanoi-card[data-style="escolar"] .hanoi-board{background:#fff8e6;border:2px solid #d8bb7d}
-.hanoi-card[data-style="escolar"] .hanoi-disk{border-color:#263b50;background:var(--school-color);color:#102030;box-shadow:0 3px 0 #0003}
-.hanoi-disk[data-disk="1"]{--school-color:#ff8585}
-.hanoi-disk[data-disk="2"]{--school-color:#ffbc70}
-.hanoi-disk[data-disk="3"]{--school-color:#ffe375}
-.hanoi-disk[data-disk="4"]{--school-color:#84dba4}
-.hanoi-disk[data-disk="5"]{--school-color:#71d6ef}
-.hanoi-disk[data-disk="6"]{--school-color:#b6a4f4}
-.hanoi-disk[data-disk="7"]{--school-color:#f4a1d5}
-.hanoi-card[data-style="escolar"] .hanoi-tower>strong{color:#35495e}
-html.dark-mode .hanoi-card[data-style="escolar"] .hanoi-board{background:#32352c;border-color:#9f925b}
-html.dark-mode .hanoi-card[data-style="escolar"] .hanoi-tower>strong{color:#fff0c5}
-.hanoi-card[data-style="futurista"] .hanoi-board{background-color:#091b2b;background-image:linear-gradient(#37cdef0b 1px,transparent 1px),linear-gradient(90deg,#37cdef0b 1px,transparent 1px);background-size:24px 24px;border-color:#48cbe6;box-shadow:inset 0 0 25px #12b7e022}
-.hanoi-card[data-style="futurista"] .hanoi-disk{background:#103d58;border-color:#72edff;color:#e4fcff;box-shadow:0 0 10px #26d8ff80,inset 0 0 8px #26d8ff40}
-.hanoi-card[data-style="futurista"] .hanoi-stack::before,.hanoi-card[data-style="futurista"] .hanoi-base{background:#4bc6da;box-shadow:0 0 10px #26d8ff}
-.hanoi-card[data-style="futurista"] .hanoi-tower>strong{color:#a6f5ff}
-.hanoi-card .hanoi-disk.selected{outline:3px solid #ffbc37;outline-offset:3px}
-.hanoi-controls .mode-switch{margin:0}
-.mode-field{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-weight:700}
-.design-control{position:relative}
-.hanoi-card .hanoi-styles{position:absolute;top:calc(100% + 8px);right:0;z-index:50;display:grid;min-width:160px;margin:0;padding:12px;border:1px solid #63839b;border-radius:10px;background:#fff;box-shadow:0 10px 28px #10203040}
-.hanoi-card .hanoi-styles button{text-align:left}
-.hanoi-card .mode-switch button:not(.selected){background:var(--surface);color:var(--uni)}
-html.dark-mode .hanoi-card .hanoi-styles,html.dark-mode .hanoi-card .mode-switch button:not(.selected){background:#22313d;color:#e4f3ff}
-#games-sidebar{position:fixed;inset:0 0 0 auto;margin:0;width:min(360px,90vw);max-width:90vw;height:100dvh;max-height:100dvh;box-sizing:border-box;padding:24px;border:0;border-left:1px solid #9aafbf;background:#fff;color:#123d63;box-shadow:-12px 0 40px #0003}
-#games-sidebar[open]{animation:hanoi-sidebar-in .25s ease-out}
-#games-sidebar::backdrop{background:#08142199}
-.sidebar-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.sidebar-heading h2{margin:0}
-#games-close{font-size:1.8rem;background:transparent;color:inherit;border:0;cursor:pointer;width:44px;height:44px}
-#games-sidebar nav{display:grid;gap:12px}
-#games-sidebar a{display:block;padding:14px;border-radius:8px;color:inherit;text-decoration:none;border:1px solid #a9bbc9}
-#games-sidebar a[aria-current="page"]{background:#1769aa;color:#fff;font-weight:700}
-html.dark-mode #games-sidebar{background:#22313d;color:#d4eeff}
-@keyframes hanoi-sidebar-in{from{transform:translateX(100%)}to{transform:translateX(0)}}
-.hanoi-card[data-style] .hanoi-disk{position:relative;border-radius:50% / 28%;box-shadow:inset 0 3px 3px #ffffff66,inset 0 -6px 3px #001a3c66,0 3px 2px #07192c88,0 5px 8px #07192c33}
-.hanoi-disk::before{content:"";position:absolute;left:9%;right:9%;top:2px;height:22%;border-radius:50%;background:linear-gradient(90deg,transparent,#ffffff80,transparent);pointer-events:none}
-.hanoi-card[data-style="uni"] .hanoi-disk{background:linear-gradient(#4a95c9,#22689b 48%,#124c79);border-color:#89b8da;color:white}
-.hanoi-card[data-style="escolar"] .hanoi-disk{background:linear-gradient(#ffffff40,transparent 45%,#00000022),var(--school-color)}
-.hanoi-card[data-style="futurista"] .hanoi-disk{background:linear-gradient(#49e7ff66,#12699b88 50%,#073451bb);border-color:#8bf3ff;box-shadow:inset 0 3px 3px #c4faff88,inset 0 -5px 3px #001f4daa,0 3px 2px #075073,0 0 12px #21dfff88}
-@media(max-width:600px){.design-control>button{width:100%}.hanoi-card .hanoi-styles{left:0;right:0}.lab3-card-heading{flex-wrap:wrap}.mode-field .mode-switch{width:100%}}
-@media(prefers-reduced-motion:reduce){#games-sidebar[open]{animation:none}}
-.hanoi-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;margin-top:24px;align-items:start}
-.control-panel{min-width:0;padding:18px;background:var(--soft);border:1px solid var(--line);border-radius:10px}
-.control-panel .hanoi-controls{display:grid;gap:14px;margin:0}
-.control-panel .hanoi-controls>*{min-width:0;width:100%;box-sizing:border-box}
-.control-panel .hanoi-info{grid-template-columns:1fr}
-.control-panel .mode-switch button{flex:1;padding:10px}
-.control-panel .design-control>button{width:100%}
-.history-panel h3{font-size:1rem;margin:18px 0 8px}
-#move-history{max-height:160px;overflow:auto;padding-left:26px;font-size:.9rem}
-#history-empty{font-size:.9rem;color:var(--muted)}
-.history-floating{position:absolute;top:10px;right:14px;z-index:35;min-height:38px;padding:8px 14px;border:1px solid var(--uni-bright);border-radius:999px;background:var(--uni-bright);color:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 5px 14px #0b395c40}
-.history-panel{position:absolute;top:58px;right:14px;z-index:40;width:min(320px,calc(100% - 28px));max-height:65%;box-sizing:border-box;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:0 12px 34px #071b2c42;overflow:hidden}
-.history-panel h3{margin:0;font-size:1rem;color:var(--uni)}
-.history-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-#history-close{width:34px;height:34px;padding:0;border:0;background:transparent;color:var(--uni);font-size:1.5rem;cursor:pointer}
-#move-history{max-height:260px;margin:0;overflow:auto}
-html.dark-mode .history-panel{background:#22313d;border-color:#526675;color:#e4eff7}
-html.dark-mode .history-panel h3,html.dark-mode #history-close{color:#b8dcf4}
-#fullscreen-open{width:100%}
-.game-stage{min-width:0;position:relative;background:var(--surface);border-radius:12px}
-.game-stage .hanoi-board{min-height:480px;box-sizing:border-box;padding-top:70px;gap:18px}
-.game-stage .hanoi-stack{height:300px}
-.hanoi-tower small{color:var(--muted);margin-top:4px}
-.game-stage .playback{flex-wrap:wrap;padding:12px;margin:0}
-.hanoi-card:fullscreen,.hanoi-card.fullscreen-fallback{width:100%;height:100dvh;max-width:none;box-sizing:border-box;background:var(--surface);padding:18px;overflow:auto;border-radius:0}
-.hanoi-card.fullscreen-fallback{position:fixed;inset:0;z-index:2000}
-.hanoi-card:fullscreen .hanoi-layout,.hanoi-card.fullscreen-fallback .hanoi-layout{grid-template-columns:minmax(240px,300px) minmax(0,1fr);min-height:calc(100dvh - 135px)}
-.hanoi-card:fullscreen .hanoi-board,.hanoi-card.fullscreen-fallback .hanoi-board{height:calc(100dvh - 230px);min-height:420px;padding-bottom:40px}
-.hanoi-card:fullscreen .hanoi-stack,.hanoi-card.fullscreen-fallback .hanoi-stack{height:clamp(260px,55vh,560px)}
-.hanoi-card:fullscreen .playback,.hanoi-card.fullscreen-fallback .playback{position:sticky;bottom:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 -4px 20px #0002;z-index:30}
-html.dark-mode .control-panel,html.dark-mode .game-stage{--surface:#22313d;--soft:#293c4b;--line:#526675;--muted:#b4c9d8;background:var(--surface);color:#e4eff7}
-@media(max-width:950px){.hanoi-layout{grid-template-columns:230px minmax(0,1fr);gap:14px}.hanoi-card{padding:20px}.game-stage .hanoi-board{gap:6px}}
-@media(max-width:720px){.hanoi-layout,.hanoi-card:fullscreen .hanoi-layout,.hanoi-card.fullscreen-fallback .hanoi-layout{grid-template-columns:1fr}.game-stage .hanoi-board{min-height:350px}.game-stage .hanoi-stack{height:220px}.control-panel .hanoi-controls{grid-template-columns:1fr 1fr}.control-panel .mode-field{grid-column:1/-1}.hanoi-card:fullscreen,.hanoi-card.fullscreen-fallback{padding:8px}.hanoi-card:fullscreen .hanoi-board,.hanoi-card.fullscreen-fallback .hanoi-board{height:auto;min-height:360px}}
-.lab3-page .lab3-main{width:calc(100% - 24px);max-width:none}
-.hanoi-card{width:100%;box-sizing:border-box}
+/* ==========================================================================
+   TORRES DE HANOI - LABORATORIO 3
+   Estilos pulidos UX/UI: Academia UNI, profesional, accesible y responsivo.
+   ========================================================================== */
+
+/* --- Aprovechamiento completo de la pantalla (ancho fluido sin espacios muertos) --- */
+.lab3-page[data-game="hanoi"] .lab3-main {
+  width: calc(100% - 32px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 20px 0 40px;
+  box-sizing: border-box;
+}
+
+.lab3-page[data-game="hanoi"] .top-bar {
+  max-width: none;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* --- Contenedor principal de la tarjeta --- */
+.hanoi-card {
+  padding: 24px 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hanoi-description {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 900px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.lab3-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+}
+
+.lab3-card h2 {
+  margin: 0;
+  color: var(--uni);
+}
+
+.lab3-menu-toggle {
+  border: 0;
+  background: none;
+  color: var(--uni);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* --- Layout: Panel izquierdo + Simulación derecha --- */
+.hanoi-layout {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+/* ==========================================================================
+   PANEL IZQUIERDO DE CONTROL
+   ========================================================================== */
+.control-panel {
+  min-width: 0;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(18, 61, 99, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hanoi-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 1. Selector de Modo: Segmented Control Moderno */
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #eef3f7;
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid #d6e2eb;
+  gap: 2px;
+}
+
+.mode-switch button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+}
+
+.mode-switch button:hover:not(.selected) {
+  color: var(--uni);
+}
+
+.mode-switch button.selected {
+  background: var(--uni);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(18, 61, 99, 0.25);
+}
+
+/* 2. Stepper de Discos */
+.disks-stepper {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  gap: 6px;
+  align-items: center;
+}
+
+.disks-stepper button {
+  height: 40px;
+  padding: 0;
+  border: 1px solid #c2d2de;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--uni);
+  font-size: 1.35rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disks-stepper button:hover:not(:disabled) {
+  background: #f0f6fa;
+  border-color: var(--uni-bright);
+  color: var(--uni-bright);
+}
+
+.disks-stepper input {
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid #c2d2de;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  -moz-appearance: textfield;
+}
+
+.disks-stepper input::-webkit-outer-spin-button,
+.disks-stepper input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+/* 3. Velocidad & 4. Diseño */
+.control-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.control-row .field-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-row select,
+.control-row button {
+  height: 40px;
+  width: 100%;
+  padding: 0 10px;
+  border: 1px solid #c2d2de;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.control-row select:hover:not(:disabled),
+.control-row button:hover:not(:disabled) {
+  border-color: var(--uni-bright);
+}
+
+.design-control {
+  position: relative;
+}
+
+/* Popover de estilos de diseño */
+.hanoi-card .hanoi-styles {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 50;
+  display: grid;
+  gap: 6px;
+  min-width: 170px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #c2d2de;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(16, 32, 48, 0.25);
+}
+
+.hanoi-card .hanoi-styles button {
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--uni);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hanoi-card .hanoi-styles button:hover {
+  background: #f0f6fa;
+}
+
+.hanoi-card .hanoi-styles button[aria-pressed="true"] {
+  background: #1769aa;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* 5. Iniciar solución / Iniciar partida & 6. Reiniciar */
+.control-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+#simulate.primary {
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 1px solid var(--uni);
+  border-radius: 8px;
+  background: var(--uni);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(18, 61, 99, 0.25);
+  transition: all 0.16s ease;
+}
+
+#simulate.primary:hover:not(:disabled) {
+  background: var(--uni-bright);
+  border-color: var(--uni-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(23, 105, 170, 0.32);
+}
+
+#simulate.primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+#reset.secondary {
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 1px solid #c8d5df;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#reset.secondary:hover:not(:disabled) {
+  background: #f1f5f8;
+  border-color: #b5c7d5;
+  color: var(--uni);
+}
+
+/* 7. ESTADO */
+.hanoi-status-card {
+  padding: 12px 14px;
+  background: #f2f7fb;
+  border: 1px solid #d5e4ee;
+  border-left: 4px solid var(--uni-bright);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-heading {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hanoi-message {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--uni);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* 8. MOVIMIENTO ACTUAL Y BARRA DE PROGRESO */
+.hanoi-info {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.counter-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.counter-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.counter-display {
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--uni);
+  line-height: 1.2;
+}
+
+/* Barra de progreso discreta */
+.hanoi-progress-container {
+  width: 100%;
+  height: 6px;
+  background: #e2eaf0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.hanoi-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #123d63, #1769aa);
+  border-radius: 999px;
+  transition: width 0.22s ease-out;
+}
+
+/* 9. Pantalla Completa: discreto y secundario */
+.control-panel #fullscreen-open.btn-fullscreen {
+  width: 100%;
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid #c8d5df;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.control-panel #fullscreen-open.btn-fullscreen:hover:not(:disabled) {
+  background: #f1f5f8;
+  border-color: var(--uni-bright);
+  color: var(--uni);
+}
+
+/* ==========================================================================
+   ÁREA DE SIMULACIÓN (DERECHA)
+   ========================================================================== */
+.game-stage {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(18, 61, 99, 0.05);
+}
+
+/* Botón flotante Historial: discreto y elegante, menos protagonista que ☰ Juegos */
+.hanoi-card #history-toggle.history-floating {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 35;
+  min-height: 32px;
+  padding: 6px 14px;
+  border: 1px solid #c8d5df;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+}
+
+.hanoi-card #history-toggle.history-floating:hover {
+  border-color: var(--uni-bright);
+  color: var(--uni);
+  background: #f8fafc;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Panel flotante de Historial */
+.history-panel {
+  position: absolute;
+  top: 68px;
+  right: 26px;
+  z-index: 40;
+  width: min(320px, calc(100% - 32px));
+  max-height: 65%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 12px 34px rgba(7, 27, 44, 0.25);
+  overflow: hidden;
+}
+
+.history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.history-heading h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--uni);
+}
+
+#history-close {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#history-close:hover {
+  color: var(--uni);
+}
+
+#move-history {
+  max-height: 240px;
+  margin: 0;
+  padding-left: 24px;
+  overflow-y: auto;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+#move-history li {
+  margin: 4px 0;
+}
+
+#history-empty {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin: 8px 0;
+}
+
+/* Tablero de Hanoi */
+.hanoi-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 3.5vw, 56px);
+  align-items: end;
+  justify-items: center;
+  min-height: 490px;
+  padding: 65px clamp(18px, 3.5vw, 52px) 24px;
+  background: linear-gradient(180deg, #fbfcfe 0%, #f1f5f9 100%);
+  border: 1px solid #dce5ec;
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Columnas de Torres */
+.hanoi-tower {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  max-width: 420px;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hanoi-tower.selected {
+  filter: drop-shadow(0 0 10px rgba(43, 132, 189, 0.65));
+}
+
+/* Pila y Poste vertical */
+.hanoi-stack {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 310px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 0;
+  isolation: isolate;
+}
+
+/* Poste: ligeramente más robusto (14px) con sombreado metálico */
+.hanoi-stack::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 14px;
+  height: 100%;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(90deg, #344b5a, #9aaeba 45%, #536d7e 70%, #263d4c);
+  box-shadow: inset 2px 0 #d7e2e8, inset -2px 0 #172b38, 0 0 3px #0c2030;
+  z-index: 0;
+}
+
+/* Base de la torre */
+.hanoi-base {
+  position: relative;
+  z-index: 2;
+  width: 92%;
+  max-width: 380px;
+  height: 18px;
+  border: 1px solid #263f50;
+  border-radius: 6px 6px 3px 3px;
+  background: linear-gradient(180deg, #819aa9 0%, #536f80 45%, #304d5f 100%);
+  box-shadow: inset 0 2px 1px #d4e0e666, inset 0 -4px 2px #172d3b99, 0 4px 0 #1d3544, 0 6px 8px #071a2a44;
+}
+
+.hanoi-base::after {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: -5px;
+  height: 5px;
+  border-radius: 0 0 4px 4px;
+  background: #1a3545;
+  box-shadow: 0 2px 2px #06182766;
+}
+
+/* Etiquetas destacadas de Torre (A/B/C y Origen/Auxiliar/Destino) */
+.hanoi-tower > strong {
+  margin-top: 14px;
+  color: var(--uni);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hanoi-tower small {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 10px;
+  background: rgba(18, 61, 99, 0.07);
+  border: 1px solid rgba(18, 61, 99, 0.12);
+  border-radius: 999px;
+  color: var(--uni);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* ==========================================================================
+   DISCOS DE HANOI (Geometría aprobada 3D preservada)
+   ========================================================================== */
+.hanoi-disk {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--disk-width);
+  height: 27px;
+  min-width: 34px;
+  flex-shrink: 0;
+  margin: 3px 0;
+  border: 2px solid #0a3554;
+  border-radius: 999px / 34%;
+  background: linear-gradient(180deg, #4895ca 0%, #236e9f 34%, #15527e 76%, #0b3554 100%);
+  box-shadow: inset 0 4px 3px #ffffff80, inset 0 -7px 4px #021d3677, 0 4px 0 #061d30, 0 7px 9px #05182a66;
+  color: #fff;
+  line-height: 1;
+  overflow: visible;
+}
+
+.hanoi-disk:not(.hanoi-flying) {
+  transform: scaleX(var(--disk-compress, 1));
+  transform-origin: center center;
+}
+
+.hanoi-disk:not(.hanoi-flying) + .hanoi-disk {
+  margin-top: 4px;
+}
+
+/* Tapas 3D de los discos */
+.hanoi-disk::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: -2px;
+  right: -2px;
+  top: -7px;
+  height: 13px;
+  border: 2px solid #174e75;
+  border-bottom-color: #0b3452;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 42%, #ffffff40 0 13%, transparent 14%), linear-gradient(180deg, #ffffffa0, #438bb5 72%, #1c5c87);
+  box-shadow: inset 0 3px 3px #ffffffb3, 0 2px 2px #061b2b99;
+  pointer-events:none;
+}
+
+.hanoi-disk::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 1px;
+  right: 1px;
+  bottom: -5px;
+  height: 7px;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(180deg, #123b59, #052238);
+  box-shadow: 0 3px 4px #06182799;
+  pointer-events: none;
+}
+
+/* Número del disco con escala inversa para no deformarse */
+.hanoi-disk-number {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 1px 2px #001529, 0 0 2px #001529;
+  pointer-events: none;
+}
+
+.hanoi-disk:not(.hanoi-flying) .hanoi-disk-number {
+  transform: scaleX(calc(1 / var(--disk-compress, 1)));
+}
+
+/* Factores de compresión aprobados */
+.hanoi-disk[data-disk="1"] { --disk-compress: .32; }
+.hanoi-disk[data-disk="2"] { --disk-compress: .475; }
+.hanoi-disk[data-disk="3"] { --disk-compress: .589; }
+.hanoi-disk[data-disk="4"] { --disk-compress: .676; }
+.hanoi-disk[data-disk="5"] { --disk-compress: .746; }
+.hanoi-disk[data-disk="6"] { --disk-compress: .803; }
+.hanoi-disk[data-disk="7"] { --disk-compress: .85; }
+
+/* Selección de disco */
+.hanoi-card .hanoi-disk.selected {
+  outline: 3px solid #ffbc37;
+  outline-offset: 3px;
+}
+
+/* Disco en animación de vuelo */
+.hanoi-flying {
+  position: absolute !important;
+  z-index: 30;
+  margin: 0 !important;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   TEMAS DE DISEÑO: UNI, ESCOLAR, FUTURISTA
+   ========================================================================== */
+/* UNI (por defecto) */
+.hanoi-card[data-style="uni"] .hanoi-disk {
+  background: linear-gradient(180deg, #5da4d1 0%, #2b78a8 35%, #15537f 78%, #0a3554 100%);
+  border-color: #0b3e62;
+}
+
+.hanoi-card[data-style="uni"] .hanoi-disk::before {
+  background: radial-gradient(ellipse at 50% 42%, #d9f2ff40 0 13%, transparent 14%), linear-gradient(180deg, #9bcbe5, #438bb5 72%, #1c5c87);
+  border-color: #1a5b85;
+}
+
+/* Escolar */
+.hanoi-card[data-style="escolar"] .hanoi-board {
+  background: #fff8e6;
+  border: 2px solid #d8bb7d;
+}
+
+.hanoi-card[data-style="escolar"] .hanoi-disk {
+  background: linear-gradient(180deg, #ffffff80 0%, transparent 30%, #0000001f 75%, #00000040 100%), var(--school-color);
+  border-color: #42566a;
+  color: #fff;
+  box-shadow: inset 0 3px 2px #ffffff99, inset 0 -5px 3px #0003, 0 3px 0 #263746, 0 5px 7px #26374655;
+}
+
+.hanoi-card[data-style="escolar"] .hanoi-disk::before {
+  background: radial-gradient(ellipse at 50% 42%, #ffffff80 0 13%, transparent 14%), linear-gradient(180deg, #ffffffd0, var(--school-color) 72%, #566476);
+  border-color: #66788a;
+}
+
+.hanoi-card[data-style="escolar"] .hanoi-disk::after {
+  background: #394b5b;
+}
+
+.hanoi-card[data-style="escolar"] .hanoi-stack::before {
+  background: linear-gradient(90deg, #5c321c, #b87542 42%, #764322 72%, #3b2115);
+  box-shadow: inset 2px 0 #e0a56b, inset -2px 0 #2c160f, 0 0 3px #281209;
+}
+
+.hanoi-card[data-style="escolar"] .hanoi-base {
+  border-color: #4b2a18;
+  background: linear-gradient(180deg, #c1844e, #8b512e 48%, #4e2a18);
+  box-shadow: inset 0 2px 1px #f3c18b, inset 0 -4px 2px #3b1d1099, 0 4px 0 #3b2013, 0 6px 8px #28120955;
+}
+
+.hanoi-card[data-style="escolar"] .hanoi-tower > strong {
+  color: #35495e;
+}
+
+.hanoi-disk[data-disk="1"] { --school-color: #ff8585; }
+.hanoi-disk[data-disk="2"] { --school-color: #ffbc70; }
+.hanoi-disk[data-disk="3"] { --school-color: #ffe375; }
+.hanoi-disk[data-disk="4"] { --school-color: #84dba4; }
+.hanoi-disk[data-disk="5"] { --school-color: #71d6ef; }
+.hanoi-disk[data-disk="6"] { --school-color: #b6a4f4; }
+.hanoi-disk[data-disk="7"] { --school-color: #f4a1d5; }
+
+/* Futurista */
+.hanoi-card[data-style="futurista"] .hanoi-board {
+  background-color: #091b2b;
+  background-image: linear-gradient(#37cdef0b 1px, transparent 1px), linear-gradient(90deg, #37cdef0b 1px, transparent 1px);
+  background-size: 24px 24px;
+  border-color: #48cbe6;
+  box-shadow: inset 0 0 25px rgba(18, 183, 224, 0.15);
+}
+
+.hanoi-card[data-style="futurista"] .hanoi-disk {
+  background: linear-gradient(180deg, #7bf3ff80 0%, #1a8fac99 32%, #0b4e72bb 78%, #062b4bcc 100%);
+  border-color: #8af5ff;
+  color: #eaffff;
+  box-shadow: inset 0 3px 3px #d4fdff99, inset 0 -5px 3px #001f4daa, 0 3px 0 #062337, 0 0 13px #1ee5ff99;
+}
+
+.hanoi-card[data-style="futurista"] .hanoi-disk::before {
+  background: radial-gradient(ellipse at 50% 42%, #eaffff66 0 13%, transparent 14%), linear-gradient(180deg, #d0ffffaa, #2dbcd580 72%, #075074);
+  border-color: #9bffff;
+  box-shadow: inset 0 2px 2px #fff, 0 0 8px #1ee5ff99;
+}
+
+.hanoi-card[data-style="futurista"] .hanoi-disk::after {
+  background: #032a44;
+  box-shadow: 0 0 7px #17dbff;
+}
+
+.hanoi-card[data-style="futurista"] .hanoi-stack::before {
+  background: linear-gradient(90deg, #15516a, #8bffff 45%, #258ba9 70%, #063246);
+  box-shadow: inset 2px 0 #d6ffff, inset -2px 0 #021c2d, 0 0 10px #1ee5ff99;
+}
+
+.hanoi-card[data-style="futurista"] .hanoi-base {
+  border-color: #78f5ff;
+  background: linear-gradient(180deg, #8cffff, #27a9c1 48%, #07516c);
+  box-shadow: inset 0 2px #e0ffff, inset 0 -4px 2px #022f4b, 0 4px 0 #04354c, 0 0 14px #1ee5ff99;
+}
+
+.hanoi-card[data-style="futurista"] .hanoi-tower > strong {
+  color: #a6f5ff;
+}
+
+/* ==========================================================================
+   5. CONTROLES PLAYBACK (ANTERIOR / SIGUIENTE)
+   ========================================================================== */
+.playback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 4px 0;
+}
+
+.playback button {
+  height: 42px;
+  min-width: 140px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c0d1de;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.playback button:hover:not(:disabled) {
+  background: #f0f6fa;
+  border-color: var(--uni-bright);
+  color: var(--uni-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.playback button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Estados disabled claramente visibles */
+button:disabled,
+input:disabled,
+select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed !important;
+}
+
+.playback button:disabled {
+  opacity: 0.45;
+  background: #eef2f5 !important;
+  border-color: #dbe4ea !important;
+  color: #8c9ba5 !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   PANTALLA COMPLETA
+   ========================================================================== */
+.hanoi-card:fullscreen,
+.hanoi-card.fullscreen-fallback {
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  box-sizing: border-box;
+  background: var(--surface);
+  padding: 20px 24px;
+  overflow: auto;
+  border-radius: 0;
+}
+
+.hanoi-card.fullscreen-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+}
+
+.hanoi-card:fullscreen .hanoi-layout,
+.hanoi-card.fullscreen-fallback .hanoi-layout {
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+  min-height: calc(100dvh - 120px);
+}
+
+.hanoi-card:fullscreen .hanoi-board,
+.hanoi-card.fullscreen-fallback .hanoi-board {
+  min-height: 520px;
+  height: calc(100dvh - 220px);
+  padding-bottom: 30px;
+}
+
+.hanoi-card:fullscreen .hanoi-stack,
+.hanoi-card.fullscreen-fallback .hanoi-stack {
+  height: clamp(280px, 50vh, 520px);
+}
+
+/* ==========================================================================
+   SIDEBAR DE JUEGOS
+   ========================================================================== */
+#games-sidebar {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  width: min(360px, 90vw);
+  max-width: 90vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  box-sizing: border-box;
+  padding: 24px;
+  border: 0;
+  border-left: 1px solid #9aafbf;
+  background: #fff;
+  color: #123d63;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.2);
+}
+
+#games-sidebar[open] {
+  animation: hanoi-sidebar-in 0.25s ease-out;
+}
+
+#games-sidebar::backdrop {
+  background: rgba(8, 20, 33, 0.6);
+}
+
+.sidebar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.sidebar-heading h2 {
+  margin: 0;
+}
+
+#games-close {
+  font-size: 1.8rem;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+}
+
+#games-sidebar nav {
+  display: grid;
+  gap: 12px;
+}
+
+#games-sidebar a {
+  display: block;
+  padding: 14px;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #a9bbc9;
+}
+
+#games-sidebar a[aria-current="page"] {
+  background: #1769aa;
+  color: #fff;
+  font-weight: 700;
+}
+
+@keyframes hanoi-sidebar-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Ocultamiento accesible */
+.hanoi-card [hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   MODO OSCURO
+   ========================================================================== */
+html.dark-mode .control-panel,
+html.dark-mode .game-stage {
+  --surface: #202e3b;
+  --soft: #273847;
+  --line: #3b4e5f;
+  --muted: #9fb3c2;
+  background: #202e3b;
+  border-color: #3b4e5f;
+  color: #e4eff7;
+}
+
+html.dark-mode .mode-switch {
+  background: #18232d;
+  border-color: #344857;
+}
+
+html.dark-mode .mode-switch button {
+  color: #8da4b5;
+}
+
+html.dark-mode .mode-switch button.selected {
+  background: var(--uni-bright);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .disks-stepper button,
+html.dark-mode .disks-stepper input,
+html.dark-mode .control-row select,
+html.dark-mode .control-row button {
+  background: #253644;
+  border-color: #3f5466;
+  color: #e1edf5;
+}
+
+html.dark-mode .disks-stepper button:hover:not(:disabled),
+html.dark-mode .control-row select:hover:not(:disabled),
+html.dark-mode .control-row button:hover:not(:disabled) {
+  border-color: #638fae;
+  background: #2d4050;
+}
+
+html.dark-mode #reset.secondary {
+  border-color: #3f5466;
+  color: #9ab0bf;
+}
+
+html.dark-mode #reset.secondary:hover:not(:disabled) {
+  background: #2a3c4a;
+  color: #d8e9f5;
+  border-color: #556f85;
+}
+
+html.dark-mode .hanoi-status-card {
+  background: #192733;
+  border-color: #2f4557;
+  border-left-color: #1769aa;
+}
+
+html.dark-mode .hanoi-message {
+  color: #d1e7f6;
+}
+
+html.dark-mode .counter-card {
+  background: #253644;
+  border-color: #3a4f61;
+}
+
+html.dark-mode .counter-display {
+  color: #9bc9e7;
+}
+
+html.dark-mode .hanoi-progress-container {
+  background: #18232d;
+}
+
+html.dark-mode .hanoi-progress-bar {
+  background: linear-gradient(90deg, #1769aa, #4bb1f5);
+}
+
+html.dark-mode .control-panel #fullscreen-open.btn-fullscreen {
+  border-color: #3f5466;
+  background: transparent;
+  color: #9bb0c0;
+}
+
+html.dark-mode .control-panel #fullscreen-open.btn-fullscreen:hover:not(:disabled) {
+  background: #253644;
+  border-color: #5c7990;
+  color: #e4f0f7;
+}
+
+html.dark-mode .hanoi-card #history-toggle.history-floating {
+  background: #243542;
+  border-color: #3b5060;
+  color: #a8bfd0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .hanoi-card #history-toggle.history-floating:hover {
+  background: #2d4050;
+  border-color: #638fae;
+  color: #e2f1fc;
+}
+
+html.dark-mode .history-panel {
+  background: #22313d;
+  border-color: #526675;
+  color: #e4eff7;
+}
+
+html.dark-mode .history-heading h3,
+html.dark-mode #history-close {
+  color: #b8dcf4;
+}
+
+html.dark-mode #move-history {
+  color: #e4eff7;
+}
+
+html.dark-mode .hanoi-board {
+  background: #192531;
+  border-color: #334757;
+}
+
+html.dark-mode .hanoi-tower > strong {
+  color: #d1e6f5;
+}
+
+html.dark-mode .hanoi-tower small {
+  background: rgba(155, 201, 231, 0.12);
+  border-color: rgba(155, 201, 231, 0.22);
+  color: #9bc9e7;
+}
+
+html.dark-mode .hanoi-styles {
+  background: #22313d;
+  border-color: #506270;
+}
+
+html.dark-mode .hanoi-styles button {
+  color: #cceaff;
+}
+
+html.dark-mode .hanoi-styles button:hover {
+  background: #2d4150;
+}
+
+html.dark-mode .playback button {
+  background: #253644;
+  border-color: #3b5060;
+  color: #e1edf5;
+}
+
+html.dark-mode .playback button:hover:not(:disabled) {
+  background: #2d4150;
+  border-color: #5d87a8;
+  color: #9bc9e7;
+}
+
+html.dark-mode .playback button:disabled {
+  opacity: 0.35;
+  background: #1c2730 !important;
+  border-color: #2f3e4b !important;
+  color: #586d7c !important;
+}
+
+html.dark-mode #games-sidebar {
+  background: #22313d;
+  color: #d4eeff;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 950px) {
+  .hanoi-layout {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .hanoi-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 780px) {
+  .hanoi-layout,
+  .hanoi-card:fullscreen .hanoi-layout,
+  .hanoi-card.fullscreen-fallback .hanoi-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .hanoi-board {
+    min-height: 380px;
+    padding: 55px 12px 18px;
+    gap: clamp(8px, 2vw, 16px);
+  }
+
+  .hanoi-stack {
+    height: 240px;
+  }
+
+  .hanoi-tower > strong {
+    font-size: 0.92rem;
+  }
+
+  .hanoi-tower small {
+    font-size: 0.74rem;
+    padding: 2px 8px;
+  }
+
+  .hanoi-card:fullscreen,
+  .hanoi-card.fullscreen-fallback {
+    padding: 12px;
+  }
+
+  .hanoi-card:fullscreen .hanoi-board,
+  .hanoi-card.fullscreen-fallback .hanoi-board {
+    height: auto;
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hanoi-card {
+    padding: 16px 12px;
+  }
+
+  .control-panel {
+    padding: 16px;
+  }
+
+  .game-stage {
+    padding: 12px;
+  }
+
+  .hanoi-board {
+    min-height: 320px;
+    padding: 48px 6px 14px;
+    gap: 4px;
+  }
+
+  .hanoi-stack {
+    height: 210px;
+  }
+
+  .hanoi-disk {
+    height: 23px;
+    margin: 2px 0;
+  }
+
+  .hanoi-disk-number {
+    font-size: 13px;
+  }
+
+  .hanoi-base {
+    height: 15px;
+  }
+
+  .playback {
+    gap: 8px;
+  }
+
+  .playback button {
+    min-width: 0;
+    flex: 1;
+    padding: 0 10px;
+    font-size: 0.85rem;
+  }
+
+  .history-floating {
+    top: 18px;
+    right: 18px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #games-sidebar[open] {
+    animation: none;
+  }
+  .hanoi-progress-bar {
+    transition: none;
+  }
+}
