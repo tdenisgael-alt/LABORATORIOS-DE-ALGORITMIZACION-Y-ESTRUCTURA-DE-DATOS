@@ -42,6 +42,40 @@
         <button class="lab3-menu-toggle" id="games-open" type="button" aria-controls="games-sidebar" aria-expanded="false">☰ Juegos</button>
       </div>
 
+      <div id="fullscreen-hud" class="fullscreen-hud" hidden aria-label="Controles de pantalla completa">
+        <div class="fullscreen-hud-top">
+          <div class="fullscreen-hud-title">
+            <strong>Torres de Hanoi</strong>
+            <span><span id="fullscreen-mode">Guiado</span> · <span id="fullscreen-disks">3 discos</span></span>
+          </div>
+          <div class="fullscreen-hud-actions">
+            <div id="fullscreen-design-control" class="fullscreen-design-control">
+              <button id="fullscreen-design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">🎨 Diseño</button>
+            </div>
+            <button id="fullscreen-play-top" type="button">▶ Reproducir</button>
+            <button id="fullscreen-exit-top" type="button">✕ Salir</button>
+          </div>
+        </div>
+
+        <div class="fullscreen-hud-readout" aria-live="polite">
+          <strong id="fullscreen-counter">Movimiento 0 / 0</strong>
+          <span id="fullscreen-status">Estado inicial · Discos en Torre A.</span>
+        </div>
+
+        <div class="fullscreen-hud-bottom">
+          <div id="fullscreen-guided-controls" class="fullscreen-guided-controls">
+            <button id="fullscreen-previous" type="button">← Anterior</button>
+            <button id="fullscreen-play" class="fullscreen-primary" type="button">▶ Reproducir</button>
+            <button id="fullscreen-next" type="button">Siguiente →</button>
+          </div>
+          <div id="fullscreen-manual-summary" class="fullscreen-manual-summary" hidden>
+            Movimientos realizados: 0 · Óptimos: 0
+          </div>
+          <button id="fullscreen-reset" type="button">↻ Reiniciar</button>
+          <button id="fullscreen-history" type="button" aria-expanded="false" aria-controls="history-panel">☷ Historial</button>
+        </div>
+      </div>
+
       <div class="hanoi-layout">
         <!-- PANEL IZQUIERDO -->
         <aside class="control-panel" aria-label="Panel de control">
@@ -113,13 +147,41 @@
         <!-- SIMULACIÓN (DERECHA) -->
         <section id="game-stage" class="game-stage" aria-label="Juego de Hanoi">
           <button id="history-toggle" class="history-floating" type="button" aria-expanded="false" aria-controls="history-panel">☷ Historial</button>
-          <section id="history-panel" class="history-panel" hidden>
+          <div id="history-backdrop" class="history-backdrop" hidden></div>
+          <section id="history-panel" class="history-panel" hidden aria-labelledby="history-title">
             <div class="history-heading">
-              <h3>Historial de movimientos</h3>
+              <h3 id="history-title">Historial de movimientos</h3>
               <button id="history-close" type="button" aria-label="Cerrar historial">×</button>
             </div>
-            <ol id="move-history"></ol>
-            <p id="history-empty">Aún no hay movimientos.</p>
+
+            <!-- Resumen de movimientos (Modo Libre) -->
+            <div id="history-summary" class="history-summary" hidden>
+              <div class="history-summary-title" id="history-summary-title">TUS MOVIMIENTOS</div>
+              <div class="history-summary-stats" id="history-summary-stats">
+                <span>Realizados: <strong id="hist-realizados">0</strong></span>
+                <span>Óptimo: <strong id="hist-optimo">0</strong></span>
+              </div>
+              <div id="history-completion" class="history-completion" hidden></div>
+            </div>
+
+            <!-- Estado vacío -->
+            <p id="history-empty" class="history-empty">No hay movimientos registrados todavía.</p>
+
+            <!-- Tabla de movimientos ejecutados -->
+            <div id="history-table-container" class="history-table-container" hidden>
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="th-num">#</th>
+                    <th scope="col" class="th-disk">Disco</th>
+                    <th scope="col" class="th-origin">Origen</th>
+                    <th scope="col" class="th-dest">Destino</th>
+                  </tr>
+                </thead>
+                <tbody id="history-tbody">
+                </tbody>
+              </table>
+            </div>
           </section>
 
           <div id="hanoi-board" class="hanoi-board" aria-label="Simulación de las Torres de Hanoi"></div>

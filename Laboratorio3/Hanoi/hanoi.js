@@ -123,10 +123,40 @@
         ? "Solución completada."
         : `Solución completada con ${manualCount() - state.total} movimientos adicionales.`;
     }
+    updateFullscreenHud();
   }
 
   function manualCount() {
     return state.manual._count || 0;
+  }
+
+  function updateFullscreenHud() {
+    const manual = state.mode === "manual";
+    const current = manual ? manualCount() : state.index;
+    const total = manual ? state.total : state.moves.length;
+    const hasProgress = state.moves.length > 0 && state.index > 0 && state.index < state.moves.length;
+    const playLabel = state.playing ? "⏸ Pausar" : hasProgress ? "▶ Continuar" : "▶ Reproducir";
+
+    $("fullscreen-mode").textContent = manual ? "Libre" : "Guiado";
+    $("fullscreen-disks").textContent = `${state.disks} ${state.disks === 1 ? "disco" : "discos"}`;
+    $("fullscreen-counter").textContent = manual
+      ? `Movimientos ${current} / óptimos ${total || 0}`
+      : `Movimiento ${current} / ${total}`;
+    $("fullscreen-status").textContent = $("message").textContent;
+    $("fullscreen-play").textContent = playLabel;
+    $("fullscreen-play-top").textContent = playLabel;
+    $("fullscreen-play-top").hidden = manual;
+    $("fullscreen-guided-controls").hidden = manual;
+    $("fullscreen-manual-summary").hidden = !manual;
+    $("fullscreen-manual-summary").textContent = `Movimientos realizados: ${current} · Óptimos: ${total || 0}`;
+
+    const playDisabled = !state.connected || (state.animating && !state.playing);
+    $("fullscreen-play").disabled = playDisabled;
+    $("fullscreen-play-top").disabled = playDisabled;
+    $("fullscreen-previous").disabled = state.animating || state.playing || !state.index;
+    $("fullscreen-next").disabled = state.animating || state.playing || state.index >= state.moves.length;
+    $("fullscreen-reset").disabled = state.animating;
+    $("fullscreen-design-toggle").disabled = state.animating;
   }
 
   function lock(flag) {
@@ -140,6 +170,7 @@
     if ($("next")) $("next").disabled = flag || state.playing || state.index >= state.moves.length;
     if ($("disks-minus")) $("disks-minus").disabled = flag || state.disks <= 1;
     if ($("disks-plus")) $("disks-plus").disabled = flag || state.disks >= 7;
+    updateFullscreenHud();
   }
 
   async function animate(move, done) {
@@ -148,6 +179,7 @@
     if (!source) {
       stop();
       $("message").textContent = "No se encontró el disco de origen.";
+      updateFullscreenHud();
       return;
     }
     const destination = board.querySelector(`[data-tower="${move.destino}"] .hanoi-stack`);
@@ -222,6 +254,7 @@
     if (!state.selected) {
       if (!state.manual[name].length) {
         $("message").textContent = "Esa torre está vacía.";
+        updateFullscreenHud();
         return;
       }
       state.selected = name;
@@ -237,6 +270,9 @@
     const from = state.selected, disk = state.manual[from].at(-1), target = state.manual[name].at(-1);
     if (target !== undefined && target < disk) {
       $("message").textContent = "Movimiento inválido: no puedes colocar un disco mayor sobre uno menor.";
+      state.selected = null;
+      render();
+      updateFullscreenHud();
       return;
     }
     const move = { origen: from, destino: name, numero: disk };
@@ -255,6 +291,7 @@
     const input = Number($("disks").value);
     if (!Number.isInteger(input) || input < 1 || input > 7) {
       $("message").textContent = "La cantidad de discos debe estar entre 1 y 7.";
+      updateFullscreenHud();
       return false;
     }
     if (state.animating) return false;
@@ -291,6 +328,7 @@
   function updateStartButton() {
     if (state.mode === "manual") {
       $("simulate").textContent = "Iniciar partida";
+      updateFullscreenHud();
       return;
     }
     if (state.playing) {
@@ -300,6 +338,7 @@
     } else {
       $("simulate").textContent = "Iniciar solución";
     }
+    updateFullscreenHud();
   }
 
   function stop() {
@@ -328,12 +367,14 @@
       $("server-status").textContent = "● Servidor Java conectado";
       $("server-status").className = "server-status online";
       $("simulate").disabled = false;
+      updateFullscreenHud();
     } catch {
       state.connected = false;
       $("server-status").textContent = "● Servidor Java desconectado";
       $("server-status").className = "server-status offline";
       $("simulate").disabled = true;
       $("message").textContent = "Ejecuta Servidor.java para habilitar la simulación.";
+      updateFullscreenHud();
     }
   }
 
@@ -376,24 +417,35 @@
     });
     stylePicker.append(b);
   });
-  document.querySelector(".design-control").append(stylePicker);
+  const normalDesignControl = document.querySelector(".design-control");
+  const fullscreenDesignControl = $("fullscreen-design-control");
+  let activeDesignToggle = $("design-toggle");
+  normalDesignControl.append(stylePicker);
   setStyle("uni");
 
   function closeDesign(focus = true) {
     stylePicker.hidden = true;
     $("design-toggle").setAttribute("aria-expanded", "false");
-    if (focus) $("design-toggle").focus();
+    $("fullscreen-design-toggle").setAttribute("aria-expanded", "false");
+    if (focus && activeDesignToggle.offsetParent !== null) activeDesignToggle.focus();
   }
 
-  $("design-toggle").addEventListener("click", () => {
+  function toggleDesign(toggle) {
+    activeDesignToggle = toggle;
     const open = stylePicker.hidden;
     stylePicker.hidden = !open;
-    $("design-toggle").setAttribute("aria-expanded", String(open));
+    $("design-toggle").setAttribute("aria-expanded", "false");
+    $("fullscreen-design-toggle").setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-expanded", String(open));
     if (open) stylePicker.querySelector('[aria-pressed="true"]').focus();
-  });
+  }
+
+  $("design-toggle").addEventListener("click", () => toggleDesign($("design-toggle")));
+  $("fullscreen-design-toggle").addEventListener("click", () => toggleDesign($("fullscreen-design-toggle")));
 
   document.addEventListener("click", e => {
-    if (!stylePicker.hidden && !document.querySelector(".design-control").contains(e.target)) closeDesign(false);
+    const clickedToggle = e.target === $("design-toggle") || e.target === $("fullscreen-design-toggle");
+    if (!stylePicker.hidden && !stylePicker.contains(e.target) && !clickedToggle) closeDesign(false);
   });
 
   document.addEventListener("keydown", e => {
@@ -421,20 +473,49 @@
   });
 
   const historyPanel = $("history-panel");
+  const historyBackdrop = $("history-backdrop");
+  let activeHistoryToggle = $("history-toggle");
+
   function closeHistory(focus = true) {
-    historyPanel.hidden = true;
-    $("history-toggle").setAttribute("aria-expanded", "false");
-    if (focus) $("history-toggle").focus();
+    if (!historyPanel.hidden) {
+      historyPanel.hidden = true;
+      if (historyBackdrop) historyBackdrop.hidden = true;
+      if ($("history-toggle")) $("history-toggle").setAttribute("aria-expanded", "false");
+      if ($("fullscreen-history")) $("fullscreen-history").setAttribute("aria-expanded", "false");
+      if (focus && activeHistoryToggle && activeHistoryToggle.offsetParent !== null) {
+        activeHistoryToggle.focus();
+      }
+    }
   }
-  $("history-toggle").addEventListener("click", () => {
+
+  function toggleHistory(toggle) {
+    activeHistoryToggle = toggle;
     const open = historyPanel.hidden;
     historyPanel.hidden = !open;
-    $("history-toggle").setAttribute("aria-expanded", String(open));
-    if (open) $("history-close").focus();
-  });
-  $("history-close").addEventListener("click", () => closeHistory());
+    if (historyBackdrop) historyBackdrop.hidden = !open;
+    if ($("history-toggle")) $("history-toggle").setAttribute("aria-expanded", "false");
+    if ($("fullscreen-history")) $("fullscreen-history").setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-expanded", String(open));
+    if (open) {
+      $("history-close").focus();
+      const currentTr = document.querySelector("#history-tbody .current-move");
+      if (currentTr) currentTr.scrollIntoView({ block: "nearest" });
+    }
+  }
+
+  if ($("history-toggle")) $("history-toggle").addEventListener("click", () => toggleHistory($("history-toggle")));
+  if ($("fullscreen-history")) $("fullscreen-history").addEventListener("click", () => toggleHistory($("fullscreen-history")));
+  if ($("history-close")) $("history-close").addEventListener("click", () => closeHistory());
+  if (historyBackdrop) historyBackdrop.addEventListener("click", () => closeHistory());
+
   document.addEventListener("click", event => {
-    if (!historyPanel.hidden && !historyPanel.contains(event.target) && event.target !== $("history-toggle")) closeHistory(false);
+    const clickedToggle = event.target === $("history-toggle") ||
+                          ($("history-toggle") && $("history-toggle").contains(event.target)) ||
+                          event.target === $("fullscreen-history") ||
+                          ($("fullscreen-history") && $("fullscreen-history").contains(event.target));
+    if (!historyPanel.hidden && !historyPanel.contains(event.target) && !clickedToggle && event.target !== historyBackdrop) {
+      closeHistory(false);
+    }
   });
   document.addEventListener("keydown", event => {
     if (event.key === "Escape" && !historyPanel.hidden) {
@@ -449,7 +530,7 @@
     load("manual");
   });
 
-  $("simulate").addEventListener("click", async () => {
+  async function startOrToggle() {
     if (state.mode === "manual") {
       await load("manual");
       return;
@@ -466,7 +547,11 @@
       if (!loaded) return;
     }
     await play();
-  });
+  }
+
+  $("simulate").addEventListener("click", startOrToggle);
+  $("fullscreen-play").addEventListener("click", startOrToggle);
+  $("fullscreen-play-top").addEventListener("click", startOrToggle);
 
   $("disks-minus").addEventListener("click", () => setDisks(state.disks - 1));
   $("disks-plus").addEventListener("click", () => setDisks(state.disks + 1));
@@ -478,24 +563,141 @@
   $("reset").addEventListener("click", reset);
   $("previous").addEventListener("click", () => autoStep(-1));
   $("next").addEventListener("click", () => autoStep(1));
+  $("fullscreen-reset").addEventListener("click", reset);
+  $("fullscreen-previous").addEventListener("click", () => autoStep(-1));
+  $("fullscreen-next").addEventListener("click", () => autoStep(1));
+
+  function getExecutedMoves() {
+    if (state.mode === "manual") {
+      return manualHistory;
+    }
+    const t = {
+      A: Array.from({ length: state.disks }, (_, i) => state.disks - i),
+      B: [],
+      C: []
+    };
+    const executed = [];
+    for (let i = 0; i < state.index; i++) {
+      const m = state.moves[i];
+      if (m) {
+        const disk = (t[m.origen] && t[m.origen].length > 0) ? t[m.origen].pop() : 1;
+        if (t[m.destino]) t[m.destino].push(disk);
+        executed.push({
+          numero: disk,
+          origen: m.origen,
+          destino: m.destino
+        });
+      }
+    }
+    return executed;
+  }
 
   function updateHistory() {
-    const history = state.mode === "manual" ? manualHistory : state.moves.slice(0, state.index);
-    $("move-history").replaceChildren();
-    history.forEach(m => {
-      const li = document.createElement("li");
-      li.textContent = `Torre ${m.origen} → Torre ${m.destino}`;
-      $("move-history").append(li);
-    });
-    $("history-empty").hidden = history.length > 0;
-    $("move-history").scrollTop = $("move-history").scrollHeight;
+    const moves = getExecutedMoves();
+    const emptyMsg = $("history-empty");
+    const tableContainer = $("history-table-container");
+    const tbody = $("history-tbody");
+    const summary = $("history-summary");
+    const summaryTitle = $("history-summary-title");
+    const completionEl = $("history-completion");
+
+    // Modo Libre: sección TUS MOVIMIENTOS y estadísticas
+    if (summary) {
+      if (state.mode === "manual") {
+        summary.hidden = false;
+        if (summaryTitle) summaryTitle.textContent = "TUS MOVIMIENTOS";
+        const count = manualCount();
+        const optimal = state.total || (Math.pow(2, state.disks) - 1);
+        if ($("hist-realizados")) $("hist-realizados").textContent = String(count);
+        if ($("hist-optimo")) $("hist-optimo").textContent = String(optimal);
+
+        if (completionEl) {
+          if (state.manual.C.length === state.disks && count > 0) {
+            completionEl.hidden = false;
+            if (count === optimal) {
+              completionEl.textContent = "✓ Solución óptima";
+              completionEl.className = "history-completion optimal";
+            } else {
+              const diff = count - optimal;
+              completionEl.textContent = `+${diff} movimiento${diff === 1 ? "" : "s"} adicional${diff === 1 ? "" : "es"}`;
+              completionEl.className = "history-completion additional";
+            }
+          } else {
+            completionEl.hidden = true;
+          }
+        }
+      } else {
+        summary.hidden = true;
+      }
+    }
+
+    // Estado vacío si no hay movimientos ejecutados
+    if (!moves.length) {
+      if (emptyMsg) {
+        emptyMsg.hidden = false;
+        emptyMsg.textContent = "No hay movimientos registrados todavía.";
+      }
+      if (tableContainer) tableContainer.hidden = true;
+      if (tbody) tbody.replaceChildren();
+      return;
+    }
+
+    if (emptyMsg) emptyMsg.hidden = true;
+    if (tableContainer) tableContainer.hidden = false;
+
+    if (tbody) {
+      tbody.replaceChildren();
+      moves.forEach((m, idx) => {
+        const tr = document.createElement("tr");
+        const isCurrent = idx === moves.length - 1;
+        if (isCurrent) tr.classList.add("current-move");
+
+        const tdNum = document.createElement("td");
+        tdNum.className = "col-num";
+        tdNum.textContent = String(idx + 1);
+
+        const tdDisk = document.createElement("td");
+        tdDisk.className = "col-disk";
+        tdDisk.textContent = `Disco ${m.numero}`;
+
+        const tdOrigin = document.createElement("td");
+        tdOrigin.className = "col-origin";
+        tdOrigin.textContent = m.origen;
+
+        const tdDest = document.createElement("td");
+        tdDest.className = "col-dest";
+        tdDest.textContent = m.destino;
+
+        tr.append(tdNum, tdDisk, tdOrigin, tdDest);
+        tbody.append(tr);
+      });
+
+      // Auto-scroll al movimiento actual si el panel está abierto
+      if (!historyPanel.hidden && tableContainer) {
+        const currentTr = tbody.querySelector(".current-move");
+        if (currentTr) {
+          currentTr.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }
+    }
   }
 
   const stage = card;
   function syncFullscreen() {
     const full = document.fullscreenElement === stage || stage.classList.contains("fullscreen-fallback");
+    closeDesign(false);
+    if (full) {
+      fullscreenDesignControl.append(stylePicker);
+      activeDesignToggle = $("fullscreen-design-toggle");
+    } else {
+      normalDesignControl.append(stylePicker);
+      activeDesignToggle = $("design-toggle");
+      closeHistory(false);
+    }
+    $("fullscreen-hud").hidden = !full;
     $("fullscreen-exit").hidden = !full;
     $("fullscreen-open").setAttribute("aria-expanded", String(full));
+    updateFullscreenHud();
     if (!full) $("fullscreen-open").focus();
   }
   $("fullscreen-open").addEventListener("click", async () => {
@@ -510,7 +712,7 @@
       stage.classList.add("fullscreen-fallback");
     }
     syncFullscreen();
-    $("fullscreen-exit").focus();
+    $("fullscreen-exit-top").focus();
   });
   async function exitFullscreen() {
     if (document.fullscreenElement === stage) await document.exitFullscreen();
@@ -518,6 +720,7 @@
     syncFullscreen();
   }
   $("fullscreen-exit").addEventListener("click", exitFullscreen);
+  $("fullscreen-exit-top").addEventListener("click", exitFullscreen);
   document.addEventListener("fullscreenchange", syncFullscreen);
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && stage.classList.contains("fullscreen-fallback")) exitFullscreen();
