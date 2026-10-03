@@ -1,1 +1,503 @@
-.lab3-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px}
+.lab3-page[data-game="rana"] .lab3-main { width: 100%; max-width: none; box-sizing: border-box; padding: 20px 16px 48px; }
+.lab3-page[data-game="rana"] .top-bar { max-width: none; padding-left: 20px; padding-right: 20px; }
+.frog-card { width: 100%; min-height: calc(100vh - 190px); box-sizing: border-box; padding: 24px 30px; }
+.lab3-card-heading { margin-bottom: 20px; }
+.frog-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; min-height: calc(100vh - 330px); align-items: stretch; }
+.frog-controls { display: flex; flex-direction: column; gap: 18px; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); }
+.control-section { display: grid; gap: 7px; }
+.control-label { color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border: 1px solid #c6d6de; border-radius: 8px; background: #e7eef2; }
+.mode-switch button { min-height: 36px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font: inherit; font-weight: 700; cursor: pointer; }
+.mode-switch button.selected { background: var(--uni); color: #fff; box-shadow: 0 2px 5px rgba(18, 61, 99, .2); }
+.mode-switch button:disabled { cursor: not-allowed; opacity: .5; }
+.frog-message { min-height: 48px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.frog-actions { display: grid; gap: 9px; }
+.frog-actions button { min-height: 40px; border: 1px solid #b8cbd6; border-radius: 7px; background: var(--surface); color: var(--uni); font: inherit; font-weight: 700; cursor: pointer; }
+.frog-actions button:hover:not(:disabled) { border-color: var(--uni-bright); background: #edf6fb; }
+.frog-actions button:disabled { cursor: not-allowed; opacity: .48; }
+.frog-actions .primary { border-color: var(--uni); background: var(--uni); color: #fff; }
+.frog-actions .primary:hover:not(:disabled) { background: var(--uni-bright); }
+.step-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.counter-card { display: grid; gap: 9px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); }
+.counter-card strong { color: var(--uni); font-size: 1.05rem; }
+.progress-track { height: 7px; overflow: hidden; border-radius: 99px; background: #d8e3e9; }
+.progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: #e97451; transition: width .3s ease; }
+.frog-stage { min-width: 0; min-height: 100%; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: 0 5px 18px #163b520b; }
+.board-heading { position: relative; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; color: var(--muted); font-size: .88rem; }
+.board-heading strong { color: var(--uni); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; }
+.history-toggle { margin-left: auto; padding: 8px 11px; border: 1px solid #b8cbd6; border-radius: 7px; background: var(--surface); color: var(--uni); font: inherit; font-weight: 700; cursor: pointer; }
+.history-toggle:hover { border-color: var(--uni-bright); background: #edf6fb; }
+.history-backdrop { position: fixed; z-index: 20; inset: 0; background: rgba(18, 36, 48, .28); }
+.history-panel { position: fixed; z-index: 21; top: 17vh; right: max(24px, calc((100vw - 1480px) / 2 + 24px)); width: min(520px, calc(100vw - 48px)); padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: 0 18px 50px rgba(15, 35, 48, .26); color: var(--ink); }
+.history-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+.history-heading h3 { margin: 0; color: var(--uni); font-size: 1.05rem; }
+.history-close { width: 34px; height: 34px; border: 1px solid #b8cbd6; border-radius: 6px; background: var(--surface); color: var(--uni); font-size: 1.35rem; line-height: 1; cursor: pointer; }
+.history-summary { margin: 0 0 12px; color: var(--muted); font-size: .88rem; font-weight: 700; }
+.history-empty { margin: 0; padding: 24px 10px; color: var(--muted); text-align: center; }
+.history-scroll { max-height: min(52vh, 390px); overflow: auto; border: 1px solid var(--line); border-radius: 7px; }
+.history-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.history-table th, .history-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+.history-table th { position: sticky; top: 0; background: var(--soft); color: var(--muted); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.history-table tr:last-child td { border-bottom: 0; }
+.history-table .current-move td { background: #fff1ec; color: #994a35; font-weight: 800; }
+.frog-board { position: relative; display: grid; grid-template-columns: repeat(7, minmax(54px, 1fr)); gap: clamp(7px, 1.1vw, 18px); align-items: end; min-height: 270px; padding: 34px 16px 28px; border: 1px solid #c9d8df; border-radius: 10px; background: linear-gradient(180deg, #f8fbfc 0%, #edf4f4 100%); }
+.frog-board::after { position: absolute; right: 12px; bottom: 17px; left: 12px; height: 4px; border-radius: 4px; background: #9fb7b5; content: ""; }
+.frog-slot { position: relative; z-index: 1; display: flex; align-items: flex-end; justify-content: center; height: 190px; border-bottom: 4px solid transparent; }
+.frog-slot.empty { border-bottom-color: #df8d69; }
+.frog-slot.selected { border: 3px solid #1769aa; border-radius: 9px; background: rgba(23, 105, 170, .1); }
+.frog-slot.valid-destination { border: 3px dashed #e97451; border-radius: 9px; background: rgba(233, 116, 81, .1); cursor: pointer; }
+.frog-slot.valid-destination::before { position: absolute; top: 8px; color: #bd543a; content: "Destino"; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+.frog { position: relative; z-index: 2; width: min(74px, 100%); height: 92px; filter: drop-shadow(0 7px 4px rgba(37, 63, 68, .2)); }
+.frog-body { position: absolute; right: 11%; bottom: 2px; left: 11%; height: 64%; border-radius: 52% 52% 38% 38%; background: #3f9b69; border: 3px solid #26734c; }
+.frog-coral .frog-body { background: #e97855; border-color: #aa4938; }
+.frog::before { position: absolute; right: 18%; bottom: 45%; left: 18%; height: 42%; border-radius: 55% 55% 45% 45%; background: inherit; border: 3px solid #26734c; content: ""; }
+.frog-coral::before { border-color: #aa4938; }
+.frog-eye { position: absolute; z-index: 3; top: 12%; width: 22px; height: 22px; border: 3px solid #26734c; border-radius: 50%; background: #f4d76b; }
+.frog-eye::after { position: absolute; top: 5px; left: 7px; width: 7px; height: 9px; border-radius: 50%; background: #24363a; content: ""; }
+.frog-eye.left { left: 17%; }
+.frog-eye.right { right: 17%; }
+.frog-coral .frog-eye { border-color: #aa4938; background: #ffe0a1; }
+.frog-flying { position: absolute; z-index: 10; margin: 0; pointer-events: none; }
+.board-legend { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 22px; color: var(--muted); font-size: .86rem; }
+.board-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend-frog, .legend-empty { display: inline-block; width: 16px; height: 16px; border-radius: 50%; }
+.legend-frog.green { background: #3f9b69; border: 2px solid #26734c; }
+.legend-frog.coral { background: #e97855; border: 2px solid #aa4938; }
+.legend-empty { border: 2px solid #df8d69; background: transparent; }
+html.dark-mode .frog-controls, body.dark-mode .frog-controls { background: #2b3d47; }
+html.dark-mode .mode-switch, body.dark-mode .mode-switch { background: #20333e; border-color: #526b76; }
+html.dark-mode .history-panel, body.dark-mode .history-panel { background: #22313d; border-color: #526b76; }
+html.dark-mode .history-toggle, body.dark-mode .history-toggle, html.dark-mode .history-close, body.dark-mode .history-close { background: #2d414d; color: #d8e8ef; border-color: #526b76; }
+html.dark-mode .history-table th, body.dark-mode .history-table th { background: #2d414d; }
+html.dark-mode .history-table .current-move td, body.dark-mode .history-table .current-move td { background: #563c39; color: #ffd0c0; }
+html.dark-mode .frog-slot.selected, body.dark-mode .frog-slot.selected { border-color: #9bc9e7; background: rgba(155, 201, 231, .12); }
+html.dark-mode .frog-slot.valid-destination, body.dark-mode .frog-slot.valid-destination { border-color: #f29b7d; background: rgba(242, 155, 125, .12); }
+html.dark-mode .frog-stage, body.dark-mode .frog-stage { background: #22313d; }
+html.dark-mode .frog-board, body.dark-mode .frog-board { border-color: #4f6975; background: linear-gradient(180deg, #304753 0%, #263943 100%); }
+html.dark-mode .frog-actions button, body.dark-mode .frog-actions button { background: #2d414d; color: #d8e8ef; border-color: #526b76; }
+html.dark-mode .board-heading strong, body.dark-mode .board-heading strong, html.dark-mode .counter-card strong, body.dark-mode .counter-card strong { color: #9bc9e7; }
+@media (max-width: 900px) { .frog-layout { grid-template-columns: 1fr; } .frog-controls { order: 2; } }
+@media (max-width: 600px) { .frog-card { padding: 18px 14px; } .frog-stage { padding: 14px 8px; } .frog-board { gap: 3px; min-height: 210px; padding: 20px 4px 20px; } .frog-slot { height: 145px; } .frog { height: 70px; } .frog-eye { width: 17px; height: 17px; border-width: 2px; } .frog-eye::after { top: 4px; left: 5px; width: 5px; height: 7px; } .frog-body, .frog::before { border-width: 2px; } .board-legend { gap: 10px; font-size: .76rem; } }
+
+.frog-description { margin: 8px 0 0; color: var(--muted); font-size: .95rem; }
+.games-menu-anchor { position: relative; flex-shrink: 0; }
+#games-menu { position: absolute; top: calc(100% + 10px); right: 0; z-index: 100; width: min(320px, calc(100vw - 32px)); box-sizing: border-box; padding: 16px; border: 1px solid #9aafbf; border-radius: 12px; background: var(--surface); color: var(--uni); box-shadow: 0 12px 30px rgba(0, 0, 0, .2); }
+.games-menu-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.games-menu-heading h2 { margin: 0; font-size: 1rem; }
+#games-close { width: 40px; height: 40px; border: 0; background: transparent; color: inherit; font-size: 1.7rem; cursor: pointer; }
+#games-menu nav { display: grid; gap: 8px; }
+#games-menu nav a { display: block; padding: 11px 12px; border: 1px solid #a9bbc9; border-radius: 8px; color: inherit; text-decoration: none; }
+#games-menu nav a[aria-current="page"] { background: var(--uni-bright); color: #fff; font-weight: 700; }
+.frog-styles { position: absolute; top: calc(100% + 6px); right: 0; z-index: 50; display: grid; gap: 6px; min-width: 150px; padding: 10px; border: 1px solid #c2d2de; border-radius: 9px; background: var(--surface); box-shadow: 0 10px 28px rgba(16, 32, 48, .25); }
+.frog-styles[hidden] { display: none; }
+.frog-styles button { padding: 8px 12px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--uni); font: inherit; font-weight: 600; text-align: left; cursor: pointer; }
+.frog-styles button:hover, .frog-styles button[aria-pressed="true"] { background: var(--uni-bright); color: #fff; }
+.control-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.field-item { display: grid; gap: 7px; }
+.field-item select, .field-item button { width: 100%; min-height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #b8cbd6; border-radius: 7px; background: var(--surface); color: var(--uni); font: inherit; font-weight: 600; cursor: pointer; }
+.design-control { position: relative; }
+.fullscreen-open, .fullscreen-exit { width: 100%; min-height: 38px; border: 1px solid #c8d5df; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; cursor: pointer; }
+.fullscreen-open:hover, .fullscreen-exit:hover { border-color: var(--uni-bright); background: #f1f5f8; color: var(--uni); }
+.fullscreen-hud { position: relative; z-index: 30; margin: -24px -30px 20px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.fullscreen-hud-top, .fullscreen-hud-bottom, .fullscreen-hud-actions, .fullscreen-guided-controls { display: flex; align-items: center; gap: 10px; }
+.fullscreen-hud-top, .fullscreen-hud-bottom { justify-content: space-between; }
+.fullscreen-hud-bottom { margin-top: 12px; }
+.fullscreen-hud-title { display: grid; gap: 3px; color: var(--uni); }
+.fullscreen-hud-title span, .fullscreen-hud-readout span { color: var(--muted); font-size: .82rem; }
+.fullscreen-hud-readout { display: grid; gap: 3px; text-align: right; }
+.fullscreen-hud button { min-height: 34px; padding: 7px 11px; border: 1px solid #b8cbd6; border-radius: 6px; background: var(--surface); color: var(--uni); font: inherit; font-weight: 700; cursor: pointer; }
+.fullscreen-hud .fullscreen-primary { background: var(--uni); color: #fff; }
+.frog-card:fullscreen, .frog-card.fullscreen-fallback { position: fixed; inset: 0; z-index: 2000; width: 100%; height: 100dvh; max-width: none; box-sizing: border-box; overflow: auto; border-radius: 0; padding: 20px 24px; background: var(--surface); }
+.frog-card:fullscreen .frog-layout, .frog-card.fullscreen-fallback .frog-layout { min-height: calc(100dvh - 170px); }
+.frog-card:fullscreen .frog-board, .frog-card.fullscreen-fallback .frog-board { min-height: 440px; }
+.frog-card:fullscreen .history-panel, .frog-card.fullscreen-fallback .history-panel { top: 70px; right: 24px; max-height: min(600px, 80vh); }
+html.dark-mode #games-menu, body.dark-mode #games-menu, html.dark-mode .frog-styles, body.dark-mode .frog-styles { background: #22313d; border-color: #526b76; }
+html.dark-mode #games-menu nav a, body.dark-mode #games-menu nav a { border-color: #526b76; }
+html.dark-mode .field-item select, body.dark-mode .field-item select, html.dark-mode .field-item button, body.dark-mode .field-item button, html.dark-mode .fullscreen-open, body.dark-mode .fullscreen-open, html.dark-mode .fullscreen-exit, body.dark-mode .fullscreen-exit { background: #2d414d; color: #d8e8ef; border-color: #526b76; }
+html.dark-mode .fullscreen-hud, body.dark-mode .fullscreen-hud { background: #22313d; }
+@media (max-width: 600px) { .fullscreen-hud { margin: -18px -14px 16px; padding: 12px; } .fullscreen-hud-top, .fullscreen-hud-bottom { align-items: stretch; flex-direction: column; } .fullscreen-hud-actions, .fullscreen-guided-controls { width: 100%; } .fullscreen-hud-actions { justify-content: space-between; flex-wrap: wrap; } .fullscreen-hud-readout { text-align: left; } .fullscreen-guided-controls button { flex: 1; min-width: 0; padding-inline: 6px; } }
+
+/* Tratamiento visual de la laguna y de las ranas. La geometría del tablero no cambia. */
+.frog-board { overflow: hidden; isolation: isolate; border-color: #a9c7c3; background: radial-gradient(circle at 18% 25%, rgba(255, 255, 255, .72) 0 2px, transparent 3px), radial-gradient(circle at 74% 35%, rgba(255, 255, 255, .5) 0 2px, transparent 3px), linear-gradient(180deg, #e9f7f3 0%, #d2ece6 58%, #c2dfd6 100%); box-shadow: inset 0 -30px 0 rgba(63, 133, 113, .09), inset 0 1px 0 rgba(255, 255, 255, .8); }
+.frog-board::before { position: absolute; z-index: 0; right: 0; bottom: 29px; left: 0; height: 76px; background: repeating-linear-gradient(166deg, transparent 0 22px, rgba(72, 148, 128, .11) 23px 25px, transparent 26px 42px); content: ""; pointer-events: none; }
+.frog-board::after { right: 10px; bottom: 16px; left: 10px; height: 10px; border: 2px solid #6da996; border-top-color: #a8d2c6; border-radius: 50%; background: linear-gradient(180deg, #75b49f, #4f907c); box-shadow: 0 7px 0 rgba(42, 91, 78, .16), 0 -2px 5px rgba(255, 255, 255, .55); }
+.frog-slot { z-index: 1; border-radius: 12px 12px 5px 5px; transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.frog-slot::after { position: absolute; right: 18%; bottom: 13px; left: 18%; height: 7px; border-bottom: 2px solid rgba(54, 119, 103, .32); border-radius: 50%; content: ""; }
+.frog-slot.selected { border-color: #116eaa; background: rgba(70, 161, 203, .18); box-shadow: 0 0 0 4px rgba(17, 110, 170, .13), inset 0 -9px 0 rgba(17, 110, 170, .08); }
+.frog-slot.selected .frog { filter: drop-shadow(0 0 5px rgba(17, 110, 170, .7)) drop-shadow(0 9px 4px rgba(17, 75, 95, .28)); }
+.frog-slot.valid-destination { border-color: #df714c; background: rgba(255, 184, 129, .2); box-shadow: inset 0 -9px 0 rgba(223, 113, 76, .11), 0 0 0 3px rgba(223, 113, 76, .1); }
+.frog-slot.valid-destination::after { border-bottom-color: #df714c; }
+.frog { width: min(88px, 100%); height: 108px; filter: drop-shadow(0 10px 4px rgba(36, 82, 74, .24)); transition: transform .2s ease, filter .2s ease; }
+.frog::before { right: 10%; bottom: 39%; left: 10%; height: 48%; border: 3px solid var(--frog-dark); border-radius: 53% 53% 44% 44%; background: linear-gradient(145deg, rgba(255, 255, 255, .48), transparent 36%), var(--frog-main); box-shadow: inset -5px -7px 0 rgba(0, 0, 0, .11), inset 4px 4px 0 rgba(255, 255, 255, .18); }
+.frog-body { right: 9%; bottom: 1px; left: 9%; height: 62%; border: 3px solid var(--frog-dark); border-radius: 48% 48% 42% 42%; background: linear-gradient(155deg, rgba(255, 255, 255, .35), transparent 33%), var(--frog-main); box-shadow: inset -7px -8px 0 rgba(0, 0, 0, .13), inset 5px 4px 0 rgba(255, 255, 255, .14); }
+.frog-coral .frog-body { border-color: var(--frog-dark); background: linear-gradient(155deg, rgba(255, 255, 255, .35), transparent 33%), var(--frog-main); }
+.frog-body::before, .frog-body::after { position: absolute; bottom: -4px; width: 34%; height: 22%; border: 3px solid var(--frog-dark); border-radius: 50%; background: var(--frog-main); content: ""; }
+.frog-body::before { left: -10%; transform: rotate(-17deg); }
+.frog-body::after { right: -10%; transform: rotate(17deg); }
+.frog-green { --frog-main: #42a96f; --frog-dark: #246b4a; }
+.frog-coral { --frog-main: #ef795b; --frog-dark: #a94d3d; }
+.frog-eye { top: 8%; width: 26px; height: 26px; border: 3px solid var(--frog-dark); background: radial-gradient(circle at 35% 30%, #fff9cc 0 13%, transparent 14%), #f5d96b; box-shadow: 0 3px 0 rgba(0, 0, 0, .16), inset 2px 2px 0 rgba(255, 255, 255, .6); }
+.frog-eye::after { top: 5px; left: 8px; width: 8px; height: 12px; border-radius: 55%; background: #182e2c; box-shadow: 1px 0 0 #000; }
+.frog-eye.left { left: 12%; }
+.frog-eye.right { right: 12%; }
+.frog-coral .frog-eye { background: radial-gradient(circle at 35% 30%, #fff 0 13%, transparent 14%), #ffe3a3; }
+.frog { transform-origin: center bottom; }
+.frog-flying { transition: none; will-change: transform; filter: drop-shadow(0 3px 2px rgba(28, 67, 62, .15)); }
+.jump-shadow { position: absolute; z-index: 1; height: 9px; border-radius: 50%; background: #224f45; filter: blur(2px); pointer-events: none; will-change: transform, opacity; }
+/* La selección no cambia la caja ni desplaza las patas antes de despegar. */
+.frog-slot.selected, .frog-slot.valid-destination { border: 0; border-bottom: 4px solid transparent; outline: 2px solid #116eaa; outline-offset: -2px; }
+.frog-slot.valid-destination { outline: 2px dashed #df714c; }
+.frog-accessory { position: absolute; z-index: 4; width: 18%; height: 11%; box-sizing: border-box; pointer-events: none; }
+/* V: un pequeño broche de hoja junto a la mejilla; C: un lazo lateral. */
+.frog-green .frog-accessory { top: 34%; left: -1%; border: 1px solid #38546a; border-radius: 2px 70% 2px 70%; background: linear-gradient(35deg, #93b9ba 47%, #416678 49% 54%, #b3ccca 56%); transform: rotate(-25deg); box-shadow: 0 1px 2px #123d6333; }
+.frog-coral .frog-accessory { top: 36%; right: -1%; background: linear-gradient(90deg, #6c8da8, #c2d4e2 46%, #43627d 50% 58%, #8facc3 60%); clip-path: polygon(0 0, 48% 32%, 100% 0, 100% 100%, 50% 68%, 0 100%); transform: rotate(12deg); }
+.frog-card[data-style="escolar"] .frog-green .frog-accessory { border-color: #648c32; background: linear-gradient(35deg, #a8dd52 47%, #70992c 49% 54%, #e3ef76 56%); }
+.frog-card[data-style="escolar"] .frog-coral .frog-accessory { background: linear-gradient(90deg, #9562db, #f0b4ff 46%, #f9d558 50% 58%, #ba87f5 60%); }
+.frog-card[data-style="futurista"] .frog-green .frog-accessory { border-color: #b7fffb; background: linear-gradient(35deg, #1a9fa699 47%, #ceffff 49% 54%, #62ffffbb 56%); box-shadow: 0 0 5px #74ffe4, 0 0 9px #74ffe466; }
+.frog-card[data-style="futurista"] .frog-coral .frog-accessory { background: linear-gradient(90deg, #27c8eebb, #efffff 46%, #ffadee 50% 58%, #ab80ffbb 60%); filter: drop-shadow(0 0 3px #ff75bd); }
+.frog-card[data-style="futurista"] .frog-slot.selected { outline-color: #63e6ff; }
+.frog-card[data-style="futurista"] .frog-slot.valid-destination { outline-color: #ff9c7c; }
+.frog-card[data-style="futurista"] .jump-shadow { background: #42d7df; }
+
+.frog-card[data-style="escolar"] .frog-stage { background: #fffaf0; border-color: #e8c77b; }
+.frog-card[data-style="escolar"] .frog-board { border-color: #dfb35e; background: radial-gradient(circle at 15% 18%, #fff8ce 0 4px, transparent 5px), linear-gradient(180deg, #fff5c7 0%, #d9f0c3 60%, #acd98f 100%); }
+.frog-card[data-style="escolar"] .frog-board::before { background: repeating-linear-gradient(166deg, transparent 0 22px, rgba(73, 143, 69, .16) 23px 25px, transparent 26px 42px); }
+.frog-card[data-style="escolar"] .frog-board::after { border-color: #a5bd5f; background: linear-gradient(180deg, #b9cf67, #7da44a); }
+.frog-card[data-style="escolar"] .frog-slot.valid-destination { background: rgba(255, 191, 85, .24); border-color: #e29436; }
+.frog-card[data-style="escolar"] .frog-slot.selected { border-color: #4e8fc2; background: rgba(108, 179, 227, .2); }
+
+.frog-card[data-style="futurista"] { --uni: #63e6ff; --uni-bright: #0fc4e7; --line: #24566b; --muted: #94c9d5; --surface: #102935; --soft: #153b49; background: #0b202b; color: #d9f8ff; }
+.frog-card[data-style="futurista"] .frog-stage, .frog-card[data-style="futurista"] .frog-controls { border-color: #24566b; background: #102935; box-shadow: 0 0 24px rgba(15, 196, 231, .08); }
+.frog-card[data-style="futurista"] .frog-board { border-color: #217b91; background: radial-gradient(circle at 20% 25%, rgba(65, 220, 244, .18) 0 2px, transparent 3px), linear-gradient(180deg, #0c3441 0%, #092934 60%, #071e28 100%); box-shadow: inset 0 0 30px rgba(11, 204, 235, .11), 0 0 22px rgba(15, 196, 231, .12); }
+.frog-card[data-style="futurista"] .frog-board::before { background: repeating-linear-gradient(166deg, transparent 0 22px, rgba(59, 220, 238, .18) 23px 24px, transparent 25px 42px); }
+.frog-card[data-style="futurista"] .frog-board::after { border-color: #3ee5ef; background: #0aa4b8; box-shadow: 0 0 13px rgba(62, 229, 239, .8); }
+.frog-card[data-style="futurista"] .frog-slot { border-bottom-color: rgba(59, 220, 238, .28); }
+.frog-card[data-style="futurista"] .frog-slot.selected { border-color: #63e6ff; background: rgba(31, 201, 232, .15); box-shadow: 0 0 0 4px rgba(99, 230, 255, .12), 0 0 18px rgba(15, 196, 231, .3); }
+.frog-card[data-style="futurista"] .frog-slot.valid-destination { border-color: #ff9c7c; background: rgba(255, 115, 94, .14); box-shadow: 0 0 16px rgba(255, 115, 94, .2); }
+.frog-card[data-style="futurista"] .frog-slot.valid-destination::before { color: #ffb29b; }
+.frog-card[data-style="futurista"] .frog { filter: drop-shadow(0 0 8px rgba(70, 235, 226, .45)) drop-shadow(0 12px 4px rgba(0, 0, 0, .3)); }
+.sound-toggle { width: 100%; min-height: 38px; border: 1px solid #b8cbd6; border-radius: 7px; background: var(--surface); color: var(--uni); font: inherit; font-weight: 700; cursor: pointer; }
+.sound-toggle:hover { border-color: var(--uni-bright); background: #edf6fb; }
+html.dark-mode .sound-toggle, body.dark-mode .sound-toggle { background: #2d414d; color: #d8e8ef; border-color: #526b76; }
+.frog-card[data-style="futurista"] .sound-toggle { border-color: #2b8da3; background: #0e3442; color: #8cf5ff; box-shadow: 0 0 12px rgba(15, 196, 231, .12); }
+
+/* El escenario ocupa la altura disponible; las plataformas siguen el mismo
+   plano de aterrizaje que las siete casillas usadas por la animación. */
+.frog-stage { display: flex; flex-direction: column; box-sizing: border-box; min-height: 0; }
+.frog-stage .board-heading { flex: 0 0 auto; flex-wrap: wrap; margin-bottom: 18px; }
+.frog-stage .board-legend { flex: 0 0 auto; justify-content: center; margin-top: 18px; }
+.frog-stage > .fullscreen-exit { flex-shrink: 0; }
+
+.frog-card {
+  --scene-sky: radial-gradient(circle at 80% 25%, transparent 0 68px, #6c98b812 69px 70px, transparent 71px 98px, #6c98b80d 99px 100px, transparent 101px), repeating-linear-gradient(90deg, transparent 0 79px, #6e91aa0a 80px 81px), radial-gradient(ellipse at 50% 20%, #ffffffd9, transparent 66%), linear-gradient(180deg, #edf5fc 0%, #dae8f1 62%, #c1d3e0 100%);
+  --scene-border: #a9bfd1;
+  --scene-ground: repeating-linear-gradient(0deg, transparent 0 37px, #6e91aa14 38px 39px), repeating-linear-gradient(90deg, transparent 0 67px, #6e91aa14 68px 69px), linear-gradient(180deg, #e6eef5b3, #b6cbdc);
+  --scene-rail: linear-gradient(180deg, #edf6ff, #b6ccdd 30%, #789ab5 66%, #567c9c);
+  --scene-rail-border: #91aec5;
+  --scene-rail-shadow: 0 10px 18px #294d6b26, inset 0 2px 0 #ffffffb3;
+  --scene-pad: radial-gradient(ellipse at 45% 18%, #ffffffd6, transparent 65%), linear-gradient(180deg, #c7ddec 0%, #8cacc5 70%, #527c9e 100%);
+  --scene-pad-border: #7194b0;
+  --scene-pad-shadow: 0 5px 0 #53758f, 0 10px 12px #294d6b30, inset 0 2px 1px #ffffffc4;
+}
+.frog-card[data-style] .frog-board {
+  --slot-height: clamp(160px, 22vh, 220px);
+  --lane-y: calc(50% + var(--slot-height) / 2 - 4px);
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: clamp(390px, 52vh, 640px);
+  box-sizing: border-box;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(6px, 1.2vw, 22px);
+  padding: 62px clamp(10px, 2vw, 36px);
+  border: 1px solid var(--scene-border);
+  border-radius: 14px;
+  background: var(--scene-sky);
+  box-shadow: inset 0 1px 0 #ffffff40, inset 0 -22px 48px #14374d0d;
+}
+.frog-card[data-style] .frog-board::before {
+  inset: var(--lane-y) -8% 0;
+  height: auto;
+  border-radius: 50% 50% 0 0 / 24px 24px 0 0;
+  background: var(--scene-ground);
+  opacity: .85;
+  pointer-events: none;
+}
+.frog-card[data-style] .frog-board::after {
+  z-index: 0;
+  top: var(--lane-y);
+  right: 2.5%;
+  bottom: auto;
+  left: 2.5%;
+  height: 22px;
+  box-sizing: border-box;
+  border: 1px solid var(--scene-rail-border);
+  border-radius: 50%;
+  background: var(--scene-rail);
+  box-shadow: var(--scene-rail-shadow);
+  pointer-events: none;
+}
+.frog-card[data-style] .frog-slot {
+  align-self: center;
+  min-width: 0;
+  height: var(--slot-height);
+  box-sizing: border-box;
+}
+.frog-card[data-style] .frog-slot::after {
+  z-index: 1;
+  right: 0;
+  bottom: -13px;
+  left: 0;
+  height: 26px;
+  box-sizing: border-box;
+  border: 1px solid var(--scene-pad-border);
+  border-radius: 50%;
+  background: var(--scene-pad);
+  box-shadow: var(--scene-pad-shadow);
+  pointer-events: none;
+}
+.frog-card[data-style] .frog-slot.empty::after { outline: 2px dashed #bb7857; outline-offset: 4px; }
+.frog-card[data-style] .frog-slot.selected::after { outline: 3px solid #368cc5; outline-offset: 4px; }
+.frog-card[data-style] .frog-slot.valid-destination::after { outline: 3px dashed #d88348; outline-offset: 4px; }
+
+/* Escolar: cielo suave, agua y siete nenúfares sobre una orilla verde. */
+.frog-card[data-style="escolar"] {
+  --scene-sky: radial-gradient(circle at 17% 20%, #fff3b9 0 28px, #fff3b900 30px), radial-gradient(ellipse 48px 15px at 68% 23%, #ffffffa6 98%, transparent), radial-gradient(ellipse 28px 19px at 66% 21%, #ffffffa6 98%, transparent), radial-gradient(ellipse 40px 12px at 32% 37%, #ffffff70 98%, transparent), radial-gradient(ellipse at 0% 78%, #bedcaa99 0 27%, transparent 27.4%), radial-gradient(ellipse at 105% 73%, #b0d69380 0 30%, transparent 30.4%), linear-gradient(180deg, #ddf4f5 0%, #edf8dd 52%, #c3e5ce 72%, #acd1b8 100%);
+  --scene-border: #acd0a4;
+  --scene-ground: repeating-radial-gradient(ellipse at 50% 0%, transparent 0 24px, #e5ffff4d 25px 27px, transparent 28px 43px), linear-gradient(180deg, #83c9c8, #a4dad6 66%, #8bc4b0);
+  --scene-rail: linear-gradient(180deg, #b3d487, #79af6c);
+  --scene-rail-border: #7fa86a;
+  --scene-rail-shadow: 0 9px 0 #57896630, 0 14px 20px #306c5c29;
+  --scene-pad: conic-gradient(from 30deg at 50% 46%, #547f34 0deg 2deg, #a8ce65 3deg 64deg, #709d46 65deg 67deg, #93bc58 68deg 151deg, #709d46 152deg 154deg, #abd271 155deg 236deg, #709d46 237deg 239deg, #98c263 240deg 357deg, #547f34 358deg);
+  --scene-pad-border: #66933e;
+  --scene-pad-shadow: 0 4px 0 #577f38, 0 9px 0 #ffffff30, 0 12px 14px #35685635, inset 0 2px 0 #ddf8a6;
+}
+.frog-card[data-style="escolar"] .frog-slot::after { border-radius: 48% 55% 46% 52%; }
+
+/* Futurista: horizonte de luz y plataformas suspendidas sobre una retícula. */
+.frog-card[data-style="futurista"] {
+  --scene-sky: radial-gradient(ellipse at 50% 32%, transparent 0 30%, #50d4ef18 30.2% 30.5%, transparent 30.7% 38%, #50d4ef0d 38.2% 38.5%, transparent 38.7%), radial-gradient(circle at 22% 24%, #82ecf899 0 1px, transparent 2px), radial-gradient(circle at 76% 38%, #82ecf880 0 1px, transparent 2px), repeating-linear-gradient(90deg, transparent 0 79px, #54bed409 80px 81px), radial-gradient(ellipse at 50% 38%, #087e9140, transparent 62%), radial-gradient(ellipse at 95% 12%, #7258bc30, transparent 42%), linear-gradient(180deg, #071824, #0b2d3a 65%, #081b2b);
+  --scene-border: #246a80;
+  --scene-ground: repeating-linear-gradient(0deg, transparent 0 24px, #39cee829 25px 26px), repeating-linear-gradient(115deg, transparent 0 64px, #39cee824 65px 66px), linear-gradient(180deg, #073749, #0a1d31);
+  --scene-rail: linear-gradient(180deg, #7af6ff99, #0c80955e 36%, #12334acc);
+  --scene-rail-border: #41d5e6;
+  --scene-rail-shadow: 0 0 14px #22cce85c, 0 14px 30px #02a6c538, inset 0 1px 0 #c7ffff;
+  --scene-pad: radial-gradient(ellipse at 50% 45%, #83efff4d 0 35%, #0d536b88 40% 62%, #67edfa 66% 70%, #153d5c 76%);
+  --scene-pad-border: #8aeeff;
+  --scene-pad-shadow: 0 5px 0 #0b4764, 0 7px 0 #53e7ef88, 0 0 18px #47e7ff55, inset 0 2px 0 #bdffff99;
+}
+.frog-card[data-style="futurista"] .frog-slot.empty::after { outline-color: #edbd85; }
+.frog-card[data-style="futurista"] .frog-slot.selected::after { outline-color: #85f4ff; }
+
+html.dark-mode .frog-card[data-style="uni"], body.dark-mode .frog-card[data-style="uni"] {
+  --scene-sky: radial-gradient(circle at 80% 25%, transparent 0 68px, #95bdd61a 69px 70px, transparent 71px 98px, #95bdd612 99px 100px, transparent 101px), repeating-linear-gradient(90deg, transparent 0 79px, #95bdd60a 80px 81px), radial-gradient(ellipse at 50% 25%, #42657d80, transparent 70%), linear-gradient(180deg, #172d3e, #294656 66%, #213849);
+  --scene-border: #496b82;
+  --scene-ground: repeating-linear-gradient(0deg, transparent 0 37px, #8eb1cb14 38px 39px), repeating-linear-gradient(90deg, transparent 0 67px, #8eb1cb14 68px 69px), linear-gradient(180deg, #314d60, #253b4e);
+  --scene-rail: linear-gradient(180deg, #8cacc2, #496980 40%, #2a455a);
+  --scene-rail-border: #6a8ca6;
+  --scene-pad: radial-gradient(ellipse at 45% 18%, #d6eeff66, transparent 65%), linear-gradient(180deg, #759ab5, #476b86 70%, #2d4c66);
+  --scene-pad-border: #87a9c1;
+  --scene-pad-shadow: 0 5px 0 #223c51, 0 10px 12px #081a324d, inset 0 2px 1px #bdd6e780;
+}
+html.dark-mode .frog-card[data-style="escolar"], body.dark-mode .frog-card[data-style="escolar"] {
+  --scene-sky: radial-gradient(circle at 17% 20%, #e2eac480 0 25px, #e2eac400 27px), radial-gradient(ellipse 48px 15px at 68% 23%, #c1e1d31a 98%, transparent), radial-gradient(ellipse at 0% 78%, #38654480 0 27%, transparent 27.4%), radial-gradient(ellipse at 105% 73%, #426a3980 0 30%, transparent 30.4%), linear-gradient(180deg, #183940, #2a504a 60%, #28483c);
+  --scene-border: #537d67;
+  --scene-ground: repeating-radial-gradient(ellipse at 50% 0%, transparent 0 24px, #b0ece61f 25px 27px, transparent 28px 43px), linear-gradient(180deg, #286c6b, #235953);
+  --scene-rail: linear-gradient(180deg, #6e9960, #3e6e49);
+  --scene-rail-border: #83a47c;
+  --scene-pad: conic-gradient(from 30deg at 50% 46%, #345f35 0deg 2deg, #709c50 3deg 64deg, #436d3d 65deg 67deg, #608b46 68deg 151deg, #436d3d 152deg 154deg, #80a962 155deg 236deg, #436d3d 237deg 239deg, #6e984f 240deg 357deg, #345f35 358deg);
+  --scene-pad-border: #99bc7e;
+  --scene-pad-shadow: 0 4px 0 #365b39, 0 9px 0 #a0e1ca14, 0 12px 14px #0a24294d, inset 0 2px 0 #b4d18a;
+}
+
+@media (max-width: 900px) {
+  .frog-card[data-style] .frog-board { min-height: 400px; }
+}
+@media (max-width: 600px) {
+  .frog-card[data-style] .frog-board { --slot-height: 132px; min-height: 330px; gap: 4px; padding: 42px 8px; }
+  .frog-card[data-style] .frog-slot::after { bottom: -9px; height: 19px; }
+  .frog-card[data-style] .frog-board::after { height: 16px; }
+  .frog-card[data-style] .frog { width: min(62px, 100%); height: auto; aspect-ratio: 88 / 108; }
+  .frog-card[data-style] .frog-body, .frog-card[data-style] .frog::before,
+  .frog-card[data-style] .frog-body::before, .frog-card[data-style] .frog-body::after { border-width: 2px; }
+  .frog-card[data-style] .frog-eye { width: 32%; height: auto; aspect-ratio: 1; border-width: 2px; }
+  .frog-card[data-style] .frog-eye::after { top: 23%; left: 35%; width: 31%; height: 46%; }
+  .frog-stage .board-heading { gap: 9px; font-size: .78rem; }
+}
+
+/* Fullscreen definitivo: el juego se convierte en la única superficie visible. */
+body.fullscreen-active > .top-bar,
+body.fullscreen-active > header,
+body.fullscreen-active > .lab3-main > .lab3-top-actions,
+body.fullscreen-active > .lab3-footer { display: none; }
+.frog-card:fullscreen,
+.frog-card.fullscreen-fallback { display: flex; flex-direction: column; gap: 0; padding: clamp(14px, 2.2vw, 34px) clamp(16px, 3vw, 56px); background: var(--surface); }
+.frog-card:fullscreen .lab3-card-heading,
+.frog-card.fullscreen-fallback .lab3-card-heading { display: none; }
+.frog-card:fullscreen .frog-layout,
+.frog-card.fullscreen-fallback .frog-layout { grid-template-columns: 1fr; min-height: 0; flex: 1; }
+.frog-card:fullscreen .frog-controls,
+.frog-card.fullscreen-fallback .frog-controls { display: none; }
+.frog-card:fullscreen .frog-stage,
+.frog-card.fullscreen-fallback .frog-stage { min-height: 0; padding: clamp(10px, 1.5vw, 24px); }
+.frog-card:fullscreen .frog-board,
+.frog-card.fullscreen-fallback .frog-board { min-height: 0; height: clamp(430px, 68vh, 780px); flex: 1 1 auto; gap: clamp(12px, 2vw, 34px); padding-inline: clamp(18px, 5vw, 110px); }
+.frog-card:fullscreen .frog-slot,
+.frog-card.fullscreen-fallback .frog-slot { --slot-height: clamp(220px, 43vh, 430px); height: var(--slot-height); }
+.frog-card:fullscreen .frog,
+.frog-card.fullscreen-fallback .frog { width: min(150px, 90%); height: 180px; transform: scale(1.08); }
+.fullscreen-sound-toggle { min-width: 42px; padding-inline: 8px !important; font-size: 1.15rem !important; }
+.fullscreen-manual-summary { color: var(--uni); font-weight: 800; }
+@media (max-width: 700px) {
+  .frog-card:fullscreen .frog-board,
+  .frog-card.fullscreen-fallback .frog-board { height: clamp(300px, 56vh, 520px); padding-inline: 4px; gap: 3px; }
+  .frog-card:fullscreen .frog-slot,
+  .frog-card.fullscreen-fallback .frog-slot { --slot-height: clamp(150px, 34vh, 260px); }
+  .frog-card:fullscreen .frog,
+  .frog-card.fullscreen-fallback .frog { width: min(82px, 100%); height: 112px; transform: none; }
+}
+
+/* Reaccion de la plataforma en el instante de aterrizaje. */
+.frog-card[data-style] .frog-slot.landing-impact {
+  --impact-duration: 360ms;
+  --impact-depth: 3px;
+  --impact-rebound: -1px;
+  --impact-shake: 1px;
+  --ripple-color: rgba(43, 124, 181, .52);
+  --ripple-glow: rgba(43, 124, 181, .16);
+  --ripple-end-scale: 1.14;
+  animation: landing-slot-vibration var(--impact-duration) ease-out both;
+}
+
+.frog-card[data-style] .frog-slot.landing-impact.impact-strong {
+  --impact-depth: 6px;
+  --impact-rebound: -2px;
+  --impact-shake: 2px;
+  --ripple-end-scale: 1.34;
+}
+
+.frog-card[data-style] .frog-slot.landing-impact::after {
+  animation: landing-platform-bounce var(--impact-duration) cubic-bezier(.22, .78, .3, 1) both;
+}
+
+.landing-ripple {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: -16px;
+  width: 82%;
+  height: 28px;
+  border: 2px solid var(--ripple-color);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--ripple-glow);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) scale(.36);
+  animation: landing-ripple-wave var(--impact-duration) ease-out both;
+}
+
+.landing-ripple.ripple-2 { animation-delay: 55ms; }
+.landing-ripple.ripple-3 { animation-delay: 105ms; }
+
+@keyframes landing-platform-bounce {
+  0%, 100% { transform: translateY(0) scaleX(1) scaleY(1); }
+  18% { transform: translateY(var(--impact-depth)) scaleX(1.045) scaleY(.76); }
+  43% { transform: translateY(var(--impact-rebound)) scaleX(.985) scaleY(1.1); }
+  68% { transform: translateY(1px) scaleX(1.012) scaleY(.96); }
+}
+
+@keyframes landing-slot-vibration {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(var(--impact-shake)); }
+  34% { transform: translateX(calc(var(--impact-shake) * -1)); }
+  48% { transform: translateX(calc(var(--impact-shake) * .55)); }
+  62% { transform: translateX(0); }
+}
+
+@keyframes landing-ripple-wave {
+  0% { opacity: 0; transform: translateX(-50%) scale(.36); }
+  16% { opacity: .82; }
+  100% { opacity: 0; transform: translateX(-50%) scale(var(--ripple-end-scale)); }
+}
+
+/* Escolar: nenufar mas elastico y ondas amplias sobre el agua. */
+.frog-card[data-style="escolar"] .frog-slot.landing-impact {
+  --impact-depth: 5px;
+  --impact-rebound: -3px;
+  --impact-shake: 1.5px;
+  --ripple-color: rgba(79, 171, 205, .72);
+  --ripple-glow: rgba(79, 171, 205, .34);
+  --ripple-end-scale: 1.3;
+}
+
+.frog-card[data-style="escolar"] .frog-slot.landing-impact.impact-strong {
+  --impact-depth: 9px;
+  --impact-rebound: -5px;
+  --impact-shake: 3px;
+  --ripple-end-scale: 1.58;
+}
+
+.frog-card[data-style="escolar"] .frog-slot.landing-impact::after {
+  animation-timing-function: cubic-bezier(.2, .9, .28, 1.25);
+}
+
+.frog-card[data-style="escolar"] .landing-ripple {
+  bottom: -20px;
+  width: 96%;
+  height: 34px;
+  border-width: 3px;
+}
+
+/* Futurista: pulso energetico y anillos holograficos. */
+.frog-card[data-style="futurista"] .frog-slot.landing-impact {
+  --impact-depth: 4px;
+  --impact-rebound: -2px;
+  --impact-shake: 1px;
+  --ripple-color: rgba(77, 243, 255, .92);
+  --ripple-glow: rgba(30, 220, 255, .82);
+  --ripple-end-scale: 1.3;
+}
+
+.frog-card[data-style="futurista"] .frog-slot.landing-impact.impact-strong {
+  --impact-depth: 7px;
+  --impact-rebound: -3px;
+  --impact-shake: 2px;
+  --ripple-end-scale: 1.56;
+}
+
+.frog-card[data-style="futurista"] .frog-slot.landing-impact::after {
+  animation-name: landing-energy-platform;
+}
+
+.frog-card[data-style="futurista"] .landing-ripple {
+  bottom: -18px;
+  width: 94%;
+  height: 31px;
+  box-shadow: 0 0 8px #fff, 0 0 18px var(--ripple-glow), inset 0 0 12px var(--ripple-glow);
+}
+
+@keyframes landing-energy-platform {
+  0%, 100% {
+    transform: translateY(0) scaleX(1) scaleY(1);
+    filter: brightness(1);
+  }
+  18% {
+    transform: translateY(var(--impact-depth)) scaleX(1.06) scaleY(.72);
+    filter: brightness(1.75);
+  }
+  42% {
+    transform: translateY(var(--impact-rebound)) scaleX(.98) scaleY(1.12);
+    filter: brightness(1.45);
+  }
+  70% {
+    transform: translateY(1px) scaleX(1.015) scaleY(.96);
+    filter: brightness(1.15);
+  }
+}
+
+@media (max-width: 600px) {
+  .frog-card[data-style] .landing-ripple { bottom: -12px; height: 22px; }
+  .frog-card[data-style="escolar"] .landing-ripple,
+  .frog-card[data-style="futurista"] .landing-ripple { bottom: -14px; height: 25px; }
+}

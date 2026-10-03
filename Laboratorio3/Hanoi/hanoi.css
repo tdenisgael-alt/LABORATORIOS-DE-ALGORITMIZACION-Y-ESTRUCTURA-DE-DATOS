@@ -228,6 +228,22 @@
   position: relative;
 }
 
+.sound-toggle {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #b8cbd6;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sound-toggle:hover { border-color: var(--uni-bright); background: #edf6fb; }
+html.dark-mode .sound-toggle, body.dark-mode .sound-toggle { background: #2d414d; color: #d8e8ef; border-color: #526b76; }
+.hanoi-card[data-style="futurista"] .sound-toggle { border-color: #2b8da3; background: #0e3442; color: #8cf5ff; }
+
 /* Popover de estilos de diseño */
 .hanoi-card .hanoi-styles {
   position: absolute;
@@ -1220,43 +1236,37 @@ select:disabled {
   z-index: 2400;
 }
 
-/* ==========================================================================
-   SIDEBAR DE JUEGOS
-   ========================================================================== */
-#games-sidebar {
-  position: fixed;
-  inset: 0 0 0 auto;
-  margin: 0;
-  width: min(360px, 90vw);
-  max-width: 90vw;
-  height: 100dvh;
-  max-height: 100dvh;
+/* Menú de juegos flotante junto al botón. */
+.games-menu-anchor {
+  position: relative;
+  flex-shrink: 0;
+}
+
+#games-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 100;
+  width: min(320px, calc(100vw - 32px));
   box-sizing: border-box;
-  padding: 24px;
-  border: 0;
-  border-left: 1px solid #9aafbf;
+  padding: 16px;
+  border: 1px solid #9aafbf;
+  border-radius: 12px;
   background: #fff;
   color: #123d63;
-  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-#games-sidebar[open] {
-  animation: hanoi-sidebar-in 0.25s ease-out;
-}
-
-#games-sidebar::backdrop {
-  background: rgba(8, 20, 33, 0.6);
-}
-
-.sidebar-heading {
+.games-menu-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
-.sidebar-heading h2 {
+.games-menu-heading h2 {
   margin: 0;
+  font-size: 1rem;
 }
 
 #games-close {
@@ -1269,29 +1279,24 @@ select:disabled {
   height: 44px;
 }
 
-#games-sidebar nav {
+#games-menu nav {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
-#games-sidebar a {
+#games-menu a {
   display: block;
-  padding: 14px;
+  padding: 11px 12px;
   border-radius: 8px;
   color: inherit;
   text-decoration: none;
   border: 1px solid #a9bbc9;
 }
 
-#games-sidebar a[aria-current="page"] {
+#games-menu a[aria-current="page"] {
   background: #1769aa;
   color: #fff;
   font-weight: 700;
-}
-
-@keyframes hanoi-sidebar-in {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
 }
 
 /* Ocultamiento accesible */
@@ -1561,7 +1566,7 @@ html.dark-mode .playback button:disabled {
   color: #586d7c !important;
 }
 
-html.dark-mode #games-sidebar {
+html.dark-mode #games-menu {
   background: #22313d;
   color: #d4eeff;
 }
@@ -1674,9 +1679,6 @@ html.dark-mode #games-sidebar {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #games-sidebar[open] {
-    animation: none;
-  }
   .hanoi-progress-bar {
     transition: none;
   }
@@ -1778,6 +1780,10 @@ html.dark-mode #games-sidebar {
   gap: 9px;
 }
 
+.fullscreen-hud-actions {
+  min-width: 0;
+}
+
 .fullscreen-design-control {
   position: relative;
 }
@@ -1812,16 +1818,20 @@ html.dark-mode #games-sidebar {
 }
 
 .fullscreen-hud-readout {
-  top: 94px;
-  left: 50%;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: min(720px, calc(100vw - 40px));
-  padding: 7px 14px;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  white-space: nowrap;
+  position: static;
+  min-width: 0;
+  max-width: min(34vw, 320px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 0 10px;
+  border: 0;
+  border-left: 1px solid rgba(151, 205, 237, 0.24);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .fullscreen-hud-readout strong {
@@ -1830,11 +1840,13 @@ html.dark-mode #games-sidebar {
 }
 
 .fullscreen-hud-readout span {
-  max-width: 52vw;
+  display: block;
+  width: 100%;
   overflow: hidden;
   color: #d5e7f2;
   font-size: 0.8rem;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fullscreen-hud-bottom {
@@ -1907,6 +1919,11 @@ html.dark-mode #games-sidebar {
   max-height: calc(100dvh - 190px);
 }
 
+.hanoi-card:fullscreen .history-backdrop,
+.hanoi-card.fullscreen-fallback .history-backdrop {
+  z-index: 90;
+}
+
 .hanoi-card:fullscreen .fullscreen-design-control .hanoi-styles,
 .hanoi-card.fullscreen-fallback .fullscreen-design-control .hanoi-styles {
   top: calc(100% + 8px);
@@ -1934,12 +1951,11 @@ html.dark-mode #games-sidebar {
   }
 
   .fullscreen-hud-readout {
-    top: 78px;
-    max-width: calc(100vw - 16px);
+    max-width: min(28vw, 170px);
   }
 
   .fullscreen-hud-readout span {
-    max-width: 45vw;
+    font-size: 0.72rem;
   }
 
   .fullscreen-hud-bottom {
@@ -1967,6 +1983,20 @@ html.dark-mode #games-sidebar {
 }
 
 @media (max-width: 520px) {
+  .fullscreen-hud-top {
+    flex-wrap: wrap;
+  }
+
+  .fullscreen-hud-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .fullscreen-hud-readout {
+    max-width: none;
+    flex: 1;
+  }
+
   .fullscreen-hud-title strong {
     font-size: 0.95rem;
   }
@@ -1976,13 +2006,8 @@ html.dark-mode #games-sidebar {
     font-size: 0.72rem;
   }
 
-  #fullscreen-play-top {
-    display: none;
-  }
-
   .fullscreen-hud-readout {
-    gap: 7px;
-    padding: 6px 10px;
+    padding: 0 8px;
   }
 
   .fullscreen-hud-readout strong {
@@ -1992,5 +2017,10 @@ html.dark-mode #games-sidebar {
   .fullscreen-manual-summary {
     width: 100%;
     text-align: center;
+  }
+
+  .hanoi-card:fullscreen .hanoi-board,
+  .hanoi-card.fullscreen-fallback .hanoi-board {
+    padding-top: 130px;
   }
 }

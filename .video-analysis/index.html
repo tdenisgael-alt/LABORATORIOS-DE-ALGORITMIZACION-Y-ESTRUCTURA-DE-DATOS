@@ -1,0 +1,106 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Video timing analysis</title>
+<style>
+  body { margin: 0; padding: 16px; background: #111; color: #eee; font: 13px Consolas, monospace; }
+  pre { white-space: pre-wrap; }
+  canvas { display: block; max-width: 100%; margin-top: 16px; background: #222; }
+</style>
+<pre id="result">Analizando…</pre>
+<canvas id="sheet"></canvas>
+<script>
+(async () => {
+  const result = document.getElementById('result');
+  const video = document.createElement('video');
+  video.muted = true;
+  video.preload = 'auto';
+  video.src = 'capture.mp4';
+  await new Promise((resolve, reject) => {
+    video.onloadedmetadata = resolve;
+    video.onerror = () => reject(new Error('No se pudo cargar el video'));
+  });
+
+  const bytes = await fetch('capture.mp4').then(response => response.arrayBuffer());
+  const context = new AudioContext();
+  const decoded = await context.decodeAudioData(bytes.slice(0));
+  const channels = Array.from({ length: decoded.numberOfChannels }, (_, index) => decoded.getChannelData(index));
+  const hopSeconds = 0.01;
+  const windowSeconds = 0.03;
+  const hop = Math.max(1, Math.floor(decoded.sampleRate * hopSeconds));
+  const size = Math.max(1, Math.floor(decoded.sampleRate * windowSeconds));
+  const rms = [];
+  for (let offset = 0; offset < decoded.length; offset += hop) {
+    let sum = 0;
+    let count = 0;
+    const end = Math.min(decoded.length, offset + size);
+    for (let sample = offset; sample < end; sample += 4) {
+      let value = 0;
+      for (const channel of channels) value += channel[sample] || 0;
+      value /= channels.length;
+      sum += value * value;
+      count += 1;
+    }
+    rms.push(Math.sqrt(sum / Math.max(1, count)));
+  }
+  const maximum = Math.max(...rms);
+  const noiseValues = [...rms].sort((a, b) => a - b);
+  const noise = noiseValues[Math.floor(noiseValues.length * 0.55)] || 0;
+  const threshold = Math.max(noise * 4, maximum * 0.055, 0.002);
+  const rawEvents = [];
+  let event = null;
+  for (let index = 0; index < rms.length; index += 1) {
+    const active = rms[index] >= threshold;
+    const time = index * hopSeconds;
+    if (active && !event) event = { start: time, end: time, peakTime: time, peak: rms[index] };
+    if (active && event) {
+      event.end = time;
+      if (rms[index] > event.peak) { event.peak = rms[index]; event.peakTime = time; }
+    }
+    if (!active && event && time - event.end > 0.12) { rawEvents.push(event); event = null; }
+  }
+  if (event) rawEvents.push(event);
+  const events = rawEvents.filter(item => item.end - item.start >= 0.025);
+
+  const lines = [
+    `VIDEO duration=${video.duration.toFixed(3)}s size=${video.videoWidth}x${video.videoHeight}`,
+    `AUDIO duration=${decoded.duration.toFixed(3)}s rate=${decoded.sampleRate} channels=${decoded.numberOfChannels}`,
+    `RMS max=${maximum.toFixed(5)} noise=${noise.toFixed(5)} threshold=${threshold.toFixed(5)}`,
+    `EVENTS ${events.length}`,
+    ...events.map((item, index) => `${String(index + 1).padStart(2, '0')} start=${item.start.toFixed(3)} peak=${item.peakTime.toFixed(3)} end=${item.end.toFixed(3)} level=${item.peak.toFixed(5)}`)
+  ];
+  result.textContent = lines.join('\n');
+
+  const selected = events.slice(0, 20);
+  const columns = 4;
+  const thumbWidth = 320;
+  const thumbHeight = Math.round(thumbWidth * video.videoHeight / video.videoWidth);
+  const labelHeight = 24;
+  const canvas = document.getElementById('sheet');
+  canvas.width = columns * thumbWidth;
+  canvas.height = Math.ceil(selected.length / columns) * (thumbHeight + labelHeight);
+  const drawing = canvas.getContext('2d');
+  drawing.font = '14px Consolas';
+  drawing.textBaseline = 'middle';
+
+  async function seek(time) {
+    video.currentTime = Math.max(0, Math.min(video.duration - 0.01, time));
+    await new Promise(resolve => video.addEventListener('seeked', resolve, { once: true }));
+  }
+  for (let index = 0; index < selected.length; index += 1) {
+    const item = selected[index];
+    await seek(item.start);
+    const x = (index % columns) * thumbWidth;
+    const y = Math.floor(index / columns) * (thumbHeight + labelHeight);
+    drawing.drawImage(video, x, y, thumbWidth, thumbHeight);
+    drawing.fillStyle = '#111';
+    drawing.fillRect(x, y + thumbHeight, thumbWidth, labelHeight);
+    drawing.fillStyle = '#fff';
+    drawing.fillText(`#${index + 1} audio ${item.start.toFixed(2)}s`, x + 8, y + thumbHeight + labelHeight / 2);
+  }
+  document.body.dataset.done = 'true';
+  await context.close();
+})().catch(error => {
+  document.getElementById('result').textContent = `ERROR ${error.stack || error.message}`;
+  document.body.dataset.done = 'error';
+});
+</script>

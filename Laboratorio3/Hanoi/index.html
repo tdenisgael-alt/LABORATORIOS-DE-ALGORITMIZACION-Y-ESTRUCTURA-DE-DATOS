@@ -39,7 +39,21 @@
           <h2>Torres de Hanoi</h2>
           <p class="hanoi-description">Traslada todos los discos desde la Torre A hasta la Torre C utilizando la Torre B como auxiliar.</p>
         </div>
-        <button class="lab3-menu-toggle" id="games-open" type="button" aria-controls="games-sidebar" aria-expanded="false">☰ Juegos</button>
+        <div class="games-menu-anchor">
+          <button class="lab3-menu-toggle" id="games-open" type="button" aria-controls="games-menu" aria-expanded="false" aria-haspopup="true">☰ Juegos</button>
+          <div id="games-menu" class="games-menu" hidden aria-labelledby="games-title">
+            <div class="games-menu-heading">
+              <h2 id="games-title">Juegos</h2>
+              <button id="games-close" type="button" aria-label="Cerrar juegos">×</button>
+            </div>
+            <nav aria-label="Juegos del Laboratorio 3">
+              <a href="./" aria-current="page">01 Torres de Hanoi</a>
+              <a href="../SaltoRana/">02 Salto de la Rana</a>
+              <a href="../OchoReinas/">03 8 Reinas</a>
+              <a href="../QuickSort/">04 Quick Sort</a>
+            </nav>
+          </div>
+        </div>
       </div>
 
       <div id="fullscreen-hud" class="fullscreen-hud" hidden aria-label="Controles de pantalla completa">
@@ -50,16 +64,14 @@
           </div>
           <div class="fullscreen-hud-actions">
             <div id="fullscreen-design-control" class="fullscreen-design-control">
-              <button id="fullscreen-design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">🎨 Diseño</button>
+              <button id="fullscreen-design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">Diseño</button>
             </div>
-            <button id="fullscreen-play-top" type="button">▶ Reproducir</button>
+            <div class="fullscreen-hud-readout" aria-live="polite">
+              <strong id="fullscreen-counter">Movimiento 0 / 0</strong>
+              <span id="fullscreen-status">Estado inicial · Discos en Torre A.</span>
+            </div>
             <button id="fullscreen-exit-top" type="button">✕ Salir</button>
           </div>
-        </div>
-
-        <div class="fullscreen-hud-readout" aria-live="polite">
-          <strong id="fullscreen-counter">Movimiento 0 / 0</strong>
-          <span id="fullscreen-status">Estado inicial · Discos en Torre A.</span>
         </div>
 
         <div class="fullscreen-hud-bottom">
@@ -112,11 +124,13 @@
 
               <div class="design-control field-item">
                 <span class="control-label">Diseño</span>
-                <button id="design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">🎨 Diseño</button>
+                <button id="design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">Diseño</button>
               </div>
             </div>
 
             <!-- 5. Iniciar solución / Iniciar partida & 6. Reiniciar -->
+            <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true">🔊 Sonido: Activado</button>
+
             <div class="control-actions">
               <button id="simulate" class="primary" type="button">Iniciar solución</button>
               <button id="reset" class="secondary" type="button">Reiniciar</button>
@@ -202,19 +216,6 @@
     <span>Laboratorio 3</span>
     <span>Universidad Nacional de Ingeniería</span>
   </footer>
-
-  <dialog id="games-sidebar" aria-labelledby="games-title">
-    <div class="sidebar-heading">
-      <h2 id="games-title">Juegos</h2>
-      <button id="games-close" type="button" aria-label="Cerrar juegos">×</button>
-    </div>
-    <nav aria-label="Juegos del Laboratorio 3">
-      <a href="./" aria-current="page">01 Torres de Hanoi</a>
-      <a href="../SaltoRana/">02 Salto de la Rana</a>
-      <a href="../OchoReinas/">03 8 Reinas</a>
-      <a href="../QuickSort/">04 Quick Sort</a>
-    </nav>
-  </dialog>
 
   <script src="hanoi.js" defer></script>
 </body>

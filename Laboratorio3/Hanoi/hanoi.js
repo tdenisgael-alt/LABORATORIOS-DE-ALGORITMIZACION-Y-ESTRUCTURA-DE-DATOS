@@ -1,7 +1,35 @@
 (() => {
   const BASE = "http://localhost:8080", $ = id => document.getElementById(id);
-  const state = { mode: "automatic", moves: [], total: 0, index: 0, disks: 3, playing: false, timer: null, connected: false, animating: false, selected: null, manual: { A: [], B: [], C: [] } };
+  const state = { mode: "automatic", moves: [], total: 0, index: 0, disks: 3, playing: false, timer: null, connected: false, animating: false, selected: null, soundEnabled: true, manual: { A: [], B: [], C: [] } };
   let manualHistory = [];
+  let audioUnlocked = false;
+  const hanoiSchoolAudio = new Audio("../assets/audio/hanoi_Escolar.mp3");
+  hanoiSchoolAudio.volume = 0.30;
+
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    const volume = hanoiSchoolAudio.volume;
+    hanoiSchoolAudio.volume = 0;
+    const started = hanoiSchoolAudio.play();
+    if (!started) { hanoiSchoolAudio.volume = volume; return; }
+    started.then(() => {
+      hanoiSchoolAudio.pause();
+      hanoiSchoolAudio.currentTime = 0;
+      hanoiSchoolAudio.volume = volume;
+    }).catch(() => { hanoiSchoolAudio.volume = volume; });
+  }
+
+  function stopHanoiAudio() {
+    hanoiSchoolAudio.pause();
+    hanoiSchoolAudio.currentTime = 0;
+  }
+
+  function playHanoiLandingSound() {
+    if (!state.soundEnabled || !audioUnlocked || document.querySelector(".hanoi-card")?.dataset.style !== "escolar") return;
+    stopHanoiAudio();
+    hanoiSchoolAudio.play().catch(() => {});
+  }
 
   const towers = () => state.mode === "manual" ? state.manual : derive(state.index);
 
@@ -144,15 +172,12 @@
       : `Movimiento ${current} / ${total}`;
     $("fullscreen-status").textContent = $("message").textContent;
     $("fullscreen-play").textContent = playLabel;
-    $("fullscreen-play-top").textContent = playLabel;
-    $("fullscreen-play-top").hidden = manual;
     $("fullscreen-guided-controls").hidden = manual;
     $("fullscreen-manual-summary").hidden = !manual;
     $("fullscreen-manual-summary").textContent = `Movimientos realizados: ${current} · Óptimos: ${total || 0}`;
 
     const playDisabled = !state.connected || (state.animating && !state.playing);
     $("fullscreen-play").disabled = playDisabled;
-    $("fullscreen-play-top").disabled = playDisabled;
     $("fullscreen-previous").disabled = state.animating || state.playing || !state.index;
     $("fullscreen-next").disabled = state.animating || state.playing || state.index >= state.moves.length;
     $("fullscreen-reset").disabled = state.animating;
@@ -201,6 +226,7 @@
         { transform: `translate(${x - x0}px,${lift - y0}px)`, offset: 2/3 },
         { transform: `translate(${x - x0}px,${down - y0}px)` }
       ], { duration: speed() * 3, easing: "linear", fill: "forwards" }).finished;
+      playHanoiLandingSound();
       done();
     } catch {
       stop();
@@ -401,6 +427,8 @@
   stylePicker.setAttribute("aria-label", "Estilo visual");
 
   const card = document.querySelector(".hanoi-card");
+  card.addEventListener("pointerdown", unlockAudio, { capture: true });
+  card.addEventListener("keydown", unlockAudio, { capture: true });
   function setStyle(style) {
     card.dataset.style = style;
     stylePicker.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.style === style)));
@@ -442,6 +470,12 @@
 
   $("design-toggle").addEventListener("click", () => toggleDesign($("design-toggle")));
   $("fullscreen-design-toggle").addEventListener("click", () => toggleDesign($("fullscreen-design-toggle")));
+  $("sound-toggle").addEventListener("click", () => {
+    state.soundEnabled = !state.soundEnabled;
+    $("sound-toggle").setAttribute("aria-pressed", String(state.soundEnabled));
+    $("sound-toggle").textContent = state.soundEnabled ? "🔊 Sonido: Activado" : "🔇 Sonido: Desactivado";
+    if (!state.soundEnabled) stopHanoiAudio();
+  });
 
   document.addEventListener("click", e => {
     const clickedToggle = e.target === $("design-toggle") || e.target === $("fullscreen-design-toggle");
@@ -455,21 +489,30 @@
     }
   });
 
-  const sidebar = $("games-sidebar");
+  const gamesMenu = $("games-menu");
+  const gamesOpen = $("games-open");
+  function closeGames(focus = false) {
+    if (gamesMenu.hidden) return;
+    gamesMenu.hidden = true;
+    gamesOpen.setAttribute("aria-expanded", "false");
+    if (focus) gamesOpen.focus();
+  }
   $("games-open").addEventListener("click", () => {
     closeDesign(false);
-    sidebar.showModal();
-    $("games-open").setAttribute("aria-expanded", "true");
-    $("games-close").focus();
+    const open = gamesMenu.hidden;
+    gamesMenu.hidden = !open;
+    gamesOpen.setAttribute("aria-expanded", String(open));
+    if (open) gamesMenu.querySelector("nav a").focus();
   });
-  $("games-close").addEventListener("click", () => sidebar.close());
-  sidebar.addEventListener("click", e => {
-    const r = sidebar.getBoundingClientRect();
-    if (e.target === sidebar && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) sidebar.close();
+  $("games-close").addEventListener("click", () => closeGames(true));
+  document.addEventListener("click", event => {
+    if (!gamesMenu.hidden && !document.querySelector(".games-menu-anchor").contains(event.target)) closeGames();
   });
-  sidebar.addEventListener("close", () => {
-    $("games-open").setAttribute("aria-expanded", "false");
-    $("games-open").focus();
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !gamesMenu.hidden) {
+      closeGames(true);
+      event.preventDefault();
+    }
   });
 
   const historyPanel = $("history-panel");
@@ -551,7 +594,6 @@
 
   $("simulate").addEventListener("click", startOrToggle);
   $("fullscreen-play").addEventListener("click", startOrToggle);
-  $("fullscreen-play-top").addEventListener("click", startOrToggle);
 
   $("disks-minus").addEventListener("click", () => setDisks(state.disks - 1));
   $("disks-plus").addEventListener("click", () => setDisks(state.disks + 1));
@@ -566,6 +608,7 @@
   $("fullscreen-reset").addEventListener("click", reset);
   $("fullscreen-previous").addEventListener("click", () => autoStep(-1));
   $("fullscreen-next").addEventListener("click", () => autoStep(1));
+  window.addEventListener("pagehide", stopHanoiAudio);
 
   function getExecutedMoves() {
     if (state.mode === "manual") {
@@ -723,7 +766,11 @@
   $("fullscreen-exit-top").addEventListener("click", exitFullscreen);
   document.addEventListener("fullscreenchange", syncFullscreen);
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && stage.classList.contains("fullscreen-fallback")) exitFullscreen();
+    if (e.key === "Escape" && (document.fullscreenElement === stage || stage.classList.contains("fullscreen-fallback"))) {
+      closeHistory(false);
+      closeDesign(false);
+      exitFullscreen();
+    }
   });
 
   theme();

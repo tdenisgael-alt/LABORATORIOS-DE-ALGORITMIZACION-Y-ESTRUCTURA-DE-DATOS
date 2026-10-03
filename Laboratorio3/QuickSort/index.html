@@ -1,1 +1,62 @@
-<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quick Sort | Laboratorio 3</title><link rel="stylesheet" href="../../interfaz-lab1.css"><link rel="stylesheet" href="../../navbar.css"><link rel="stylesheet" href="../laboratorio3.css"><link rel="stylesheet" href="quickSort.css"></head><body class="lab3-page" data-game="quicksort"><div class="top-bar"><img src="../img/uni.png" alt="Logo UNI"><span class="university-name">Universidad Nacional de Ingeniería</span><nav class="main-nav"><a class="nav-link" href="../laboratorio3.html">Ejercicio</a><a class="nav-link" href="../laboratorio3.html#documentos">Documentos</a><a class="nav-link" href="../laboratorio3.html#descargas">Descargas</a><button id="btnThemeToggle" class="theme-toggle-btn">🌙 Modo Oscuro</button></nav></div><header><h1>Laboratorio 3: Algoritmos Recursivos</h1></header><main class="lab3-main"><div class="lab3-top-actions"><a class="back-button" href="../laboratorio3.html">← Salir</a><span id="server-status">● Comprobando servidor...</span></div><section class="lab3-card"><div class="lab3-card-heading"><div><p class="eyebrow">DATOS DE ENTRADA</p><h2>Quick Sort</h2></div><a class="lab3-menu-toggle" href="../laboratorio3.html#ejercicio">☰ Juegos</a></div><label>Arreglo <input id="array" type="text" value="67, 9, 7, 12, 15, 6, 3, 1, 4, 2"></label> <button data-load>Ordenar</button><div id="readout" class="readout">Carga una solución para comenzar.</div><div class="game-placeholder">La simulación visual de Quick Sort se conserva en su página independiente.</div></section><section class="resource-section"><h2>Documentos</h2><div class="resource-card"><strong>Próximamente</strong></div></section><section class="resource-section"><h2>Descargas</h2><div class="download-grid"><div><h3>Código Java</h3><p>Próximamente</p></div><div><h3>Interfaz Web</h3><p>Próximamente</p></div><div><h3>Proyecto completo</h3><p>Próximamente</p></div></div></section></main><footer class="lab3-footer">Algoritmización y Estructuras de Datos · Laboratorio 3 · Universidad Nacional de Ingeniería</footer><script src="../juego.js" defer></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quick Sort | Laboratorio 3</title>
+  <script>if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark-mode');</script>
+  <link rel="stylesheet" href="../../interfaz-lab1.css">
+  <link rel="stylesheet" href="../../navbar.css">
+  <link rel="stylesheet" href="../laboratorio3.css">
+  <link rel="stylesheet" href="quickSort.css">
+</head>
+<body class="lab3-page" data-game="quicksort">
+  <div class="top-bar">
+    <img src="../img/uni.png" alt="Logo UNI">
+    <span class="university-name">Universidad Nacional de Ingeniería</span>
+    <nav class="main-nav"><a class="nav-link" href="../laboratorio3.html">Juegos</a><a class="nav-link" href="../laboratorio3.html#documentos">Documentos</a><a class="nav-link" href="../laboratorio3.html#descargas">Descargas</a><button id="btnThemeToggle" class="theme-toggle-btn" type="button">🌙 Modo Oscuro</button></nav>
+  </div>
+  <header><h1>Laboratorio 3: Algoritmos Recursivos</h1></header>
+  <main class="lab3-main">
+    <div class="lab3-top-actions"><a class="back-button" href="../laboratorio3.html">← Salir</a><span id="server-status" class="server-status">● Comprobando servidor...</span></div>
+    <section class="lab3-card quick-card">
+      <div class="lab3-card-heading"><div><p class="eyebrow">DATOS DE ENTRADA</p><h2>Quick Sort</h2><p class="quick-description">Visualiza los estados del ordenamiento ejecutado por Java.</p></div><div class="games-menu-anchor"><button class="lab3-menu-toggle" id="games-open" type="button" aria-controls="games-menu" aria-expanded="false" aria-haspopup="true">☰ Juegos</button><div id="games-menu" class="games-menu" hidden aria-labelledby="games-title"><div class="games-menu-heading"><h2 id="games-title">Juegos</h2><button id="games-close" type="button" aria-label="Cerrar juegos">×</button></div><nav aria-label="Juegos del Laboratorio 3"><a href="../Hanoi/">01 Torres de Hanoi</a><a href="../SaltoRana/">02 Salto de la Rana</a><a href="../OchoReinas/">03 8 Reinas</a><a href="./" aria-current="page">04 Quick Sort</a></nav></div></div></div>
+      <div id="fullscreen-hud" class="fullscreen-hud" hidden aria-label="Controles de pantalla completa">
+        <div class="fullscreen-hud-top"><div class="fullscreen-hud-title"><strong>Quick Sort</strong><span>Visualización recursiva · <span id="fullscreen-state">Arreglo completo</span></span></div><div class="fullscreen-hud-actions"><div id="fullscreen-design-control" class="fullscreen-design-control"><button id="fullscreen-design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">Diseño</button></div><div class="fullscreen-hud-readout"><strong id="fullscreen-counter">Paso 0 / 0</strong><span id="fullscreen-status">Ingresa un arreglo y comienza.</span></div><button id="fullscreen-exit-top" type="button">✕ Salir</button></div></div>
+        <div class="fullscreen-hud-bottom"><button id="fullscreen-previous" type="button">← Anterior</button><button id="fullscreen-play" class="fullscreen-primary" type="button">▶ Iniciar</button><button id="fullscreen-next" type="button">Siguiente →</button><button id="fullscreen-reset" type="button">↻ Reiniciar</button><button id="fullscreen-history" type="button" aria-expanded="false" aria-controls="history-panel">☷ Historial</button></div>
+      </div>
+      <div class="quick-layout">
+        <aside class="quick-controls" aria-label="Panel de control de Quick Sort">
+          <label class="input-section" for="array"><span class="control-label">Arreglo de enteros</span><input id="array" type="text" value="67, 9, 7, 12, 15, 6, 3, 1, 4, 2" aria-describedby="array-help"><small id="array-help">Usa números separados por coma o espacio.</small></label>
+          <label class="input-section" for="speed"><span class="control-label">Velocidad</span><select id="speed"><option value="1200">Lenta</option><option value="600" selected>Normal</option><option value="250">Rápida</option></select></label>
+          <div class="input-section design-control"><span class="control-label">Diseño</span><button id="design-toggle" type="button" aria-expanded="false" aria-controls="design-popover">Diseño</button><select id="design" class="design-select-native" aria-label="Diseño"><option value="uni">UNI</option><option value="escolar">Escolar</option><option value="futurista">Futurista</option></select><div id="design-popover" class="design-popover" hidden><button type="button" data-style="uni">UNI</button><button type="button" data-style="escolar">Escolar</button><button type="button" data-style="futurista">Futurista</button></div></div>
+          <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true">🔊 Sonido: Activado</button>
+          <div class="quick-actions"><button id="start" class="primary" type="button">▶ Iniciar ordenamiento</button><button id="pause" type="button" disabled>Ⅱ Pausar</button><div class="step-actions"><button id="previous" type="button" disabled>← Anterior</button><button id="next" type="button" disabled>Siguiente →</button></div><button id="reset" type="button" disabled>↻ Reiniciar</button></div>
+          <div class="quick-status"><span class="control-label">Estado</span><p id="message" role="status" aria-live="polite">Ingresa un arreglo y comienza.</p></div>
+          <div class="quick-counter"><span class="control-label">Progreso</span><strong id="counter">Paso 0 / 0</strong><div class="progress-track"><span id="progress"></span></div></div><button id="fullscreen-open" class="fullscreen-open" type="button">⛶ Pantalla completa</button>
+        </aside>
+        <section class="quick-stage" aria-label="Visualización de Quick Sort">
+          <div class="stage-heading">
+            <div><span class="control-label">Arreglo completo</span><strong id="step-label">Esperando datos</strong></div>
+            <div class="visual-legend"><span class="legend-pivot">Pivote</span><span class="legend-compare">Elementos que cambian</span><button id="history-toggle" class="history-toggle" type="button" aria-expanded="false" aria-controls="history-panel">☷ Historial</button></div>
+          </div>
+          <section class="partition-panel" aria-label="Arreglo completo y movimiento actual">
+            <div class="partition-meta"><strong id="partition-title">Esperando solución</strong><span id="partition-range">Sin movimientos</span></div>
+            <div id="partition-board" class="partition-board"><div id="partition-array" class="partition-array"><p class="partition-empty">Aquí verás el arreglo completo y cada intercambio.</p></div></div>
+            <p id="partition-status" class="partition-status">Inicia para ver los movimientos.</p>
+          </section>
+          <div class="tree-heading">
+            <div><span class="control-label">Cambios realizados</span><strong>Un arreglo por movimiento</strong></div>
+            <div class="tree-tools" aria-label="Controles de la secuencia"><button id="tree-zoom-out" class="tree-tool" type="button" aria-label="Alejar secuencia">−</button><output id="tree-zoom-label">100%</output><button id="tree-zoom-in" class="tree-tool" type="button" aria-label="Acercar secuencia">+</button><button id="tree-fit" class="tree-fit" type="button">Ajustar</button></div>
+          </div>
+          <div id="tree-board" class="tree-board changes-board" tabindex="0" aria-label="Secuencia de cambios ya realizados"><div id="tree-canvas" class="tree-canvas changes-canvas" aria-live="polite"></div></div>
+          <div class="array-summary"><div><span>Arreglo inicial</span><strong id="initial-array">--</strong></div><div><span>Resultado final</span><strong id="final-array">--</strong></div></div><button id="fullscreen-exit" class="fullscreen-exit" type="button" hidden>Salir de pantalla completa</button>
+        </section>
+      </div>
+      <div id="history-backdrop" class="history-backdrop" hidden></div><section id="history-panel" class="history-panel" hidden aria-labelledby="history-title"><div class="history-heading"><h3 id="history-title">Historial de cambios</h3><button id="history-close" class="history-close" type="button" aria-label="Cerrar historial">×</button></div><p id="history-summary" class="history-summary">Cambios realizados: 0 / 0</p><div class="history-scroll"><table class="history-table"><thead><tr><th>#</th><th>Movimiento</th><th>Arreglo completo</th></tr></thead><tbody id="history-body"></tbody></table><p id="history-empty" class="history-empty">Aún no hay cambios realizados.</p></div></section>
+    </section>
+  </main>
+  <footer class="lab3-footer"><strong>Algoritmización y Estructuras de Datos</strong><span>Laboratorio 3</span><span>Universidad Nacional de Ingeniería</span></footer>
+  <script src="quickSort.js" defer></script>
+</body>
+</html>
