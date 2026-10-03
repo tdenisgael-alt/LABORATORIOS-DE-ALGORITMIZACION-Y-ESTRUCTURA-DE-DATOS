@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
 
+const API_BASE = 'https://laboratorios-aed-backend.onrender.com';
+
 const targets = await (await fetch('http://127.0.0.1:9226/json/list')).json();
 const target = targets.find(item => item.url.includes('/Laboratorio3/QuickSort/'));
 assert.ok(target);
@@ -85,7 +87,7 @@ async function runCase(input, expected, stepThrough) {
 }
 
 for (const [input, detailed] of [['8,1,2,6,5', true], ['67,9,7,12,15,6,3,1,4,2', false], ['3,1,3,1,2', false], ['1,2,3', false], ['8', false]]) {
-  const response = await (await fetch('http://localhost:8080/lab3/quicksort', { method: 'POST', body: new URLSearchParams({ arreglo: input }) })).json();
+  const response = await (await fetch(`${API_BASE}/lab3/quicksort`, { method: 'POST', body: new URLSearchParams({ arreglo: input }) })).json();
   const expected = response.estados.filter((values, index, all) => !index || JSON.stringify(values) !== JSON.stringify(all[index - 1]));
   const result = await evaluate(`(${runCase.toString()})(${JSON.stringify(input)}, ${JSON.stringify(expected)}, ${detailed})`);
   assert.deepEqual(result.completed.rows, expected.slice(1));

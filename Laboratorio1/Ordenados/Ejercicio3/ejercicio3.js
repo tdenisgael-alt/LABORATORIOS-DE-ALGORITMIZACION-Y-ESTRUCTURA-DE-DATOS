@@ -1,4 +1,4 @@
-const URL_BASE = "http://localhost:8080/ordenado3";
+const URL_BASE = `${window.API_BASE}/ordenado3`;
 const CLAVE_ESTADO = "arregloIniciado_ordenado3";
 
 async function enviarFormulario(ruta, datos) {

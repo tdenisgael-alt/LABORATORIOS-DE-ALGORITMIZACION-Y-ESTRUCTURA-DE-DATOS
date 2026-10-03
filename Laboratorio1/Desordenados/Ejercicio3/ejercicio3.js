@@ -22,7 +22,7 @@ function iniciarArreglo() {
 
     // Enviar el tamaño al servidor Java
     fetch(
-        "http://localhost:8080/desordenado3/iniciar",
+        `${window.API_BASE}/desordenado3/iniciar`,
         {
             method: "POST",
             headers: {
@@ -155,7 +155,7 @@ function darDeAltaEmpleado() {
 
     // Enviar los datos al servidor Java
     fetch(
-        "http://localhost:8080/desordenado3/alta",
+        `${window.API_BASE}/desordenado3/alta`,
         {
             method: "POST",
             headers: {
@@ -230,7 +230,7 @@ function darDeBajaEmpleado() {
     const datos = "nombre=" + encodeURIComponent(nombre);
 
     fetch(
-        "http://localhost:8080/desordenado3/baja",
+        `${window.API_BASE}/desordenado3/baja`,
         {
             method: "POST",
             headers: {
@@ -314,7 +314,7 @@ function modificarEdadEmpleado() {
 
     // Enviar al servidor Java
     fetch(
-        "http://localhost:8080/desordenado3/modificar",
+        `${window.API_BASE}/desordenado3/modificar`,
         {
             method: "POST",
             headers: {
@@ -385,7 +385,7 @@ function listarUnEmpleado() {
     const datos = "nombre=" + encodeURIComponent(nombre);
 
     fetch(
-        "http://localhost:8080/desordenado3/listaruno",
+        `${window.API_BASE}/desordenado3/listaruno`,
         {
             method: "POST",
             headers: {

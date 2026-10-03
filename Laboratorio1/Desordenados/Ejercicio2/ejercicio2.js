@@ -22,7 +22,7 @@ function iniciarArreglo() {
 
     // Enviar el tamaño al servidor Java
     fetch(
-        "http://localhost:8080/desordenado2/iniciar",
+        `${window.API_BASE}/desordenado2/iniciar`,
         {
             method: "POST",
             headers: {
@@ -142,7 +142,7 @@ function darDeAltaCliente() {
 
     // Enviar los datos al servidor Java
     fetch(
-        "http://localhost:8080/desordenado2/alta",
+        `${window.API_BASE}/desordenado2/alta`,
         {
             method: "POST",
             headers: {
@@ -224,7 +224,7 @@ function modificarEstadoMoroso() {
 
     // Enviar al servidor Java
     fetch(
-        "http://localhost:8080/desordenado2/modificar",
+        `${window.API_BASE}/desordenado2/modificar`,
         {
             method: "POST",
             headers: {
@@ -295,7 +295,7 @@ function darDeBajaCliente() {
     const datos = "nombre=" + encodeURIComponent(nombre);
 
     fetch(
-        "http://localhost:8080/desordenado2/baja",
+        `${window.API_BASE}/desordenado2/baja`,
         {
             method: "POST",
             headers: {
@@ -363,7 +363,7 @@ function listarUnCliente() {
     const datos = "nombre=" + encodeURIComponent(nombre);
 
     fetch(
-        "http://localhost:8080/desordenado2/listaruno",
+        `${window.API_BASE}/desordenado2/listaruno`,
         {
             method: "POST",
             headers: {

@@ -1,5 +1,5 @@
 (() => {
-	const BASE = "http://localhost:8080";
+	const BASE = window.API_BASE;
 	const initialState = "VVV_CCC";
 	const optimalMoves = 15;
 	const elements = {

@@ -1,5 +1,5 @@
 (() => {
-  const BASE = "http://localhost:8080";
+  const BASE = window.API_BASE;
   const elements = {
     card: document.querySelector(".quick-card"),
     board: document.getElementById("tree-board"),

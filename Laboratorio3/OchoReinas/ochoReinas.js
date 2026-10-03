@@ -1,5 +1,5 @@
 (() => {
-  const BASE = "http://localhost:8080";
+  const BASE = window.API_BASE;
   const totalQueens = 8;
   const queenMoveDuration = 920;
   const queenStepDelay = 165;

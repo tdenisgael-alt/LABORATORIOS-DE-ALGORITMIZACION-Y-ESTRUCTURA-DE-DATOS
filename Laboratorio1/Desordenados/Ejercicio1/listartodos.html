@@ -176,6 +176,7 @@
     </script>
     <link rel="stylesheet" href="../../../interfaz-lab1.css">
     <link rel="stylesheet" href="../../../navbar.css">
+    <script src="/api-config.js"></script>
 </head>
 <body>
     <div class="top-bar">
@@ -229,7 +230,7 @@
         try {
             // 1. Hacer la petición al servidor
             const respuesta = await fetch(
-                "http://localhost:8080/desordenado1/listartodos"
+                `${window.API_BASE}/desordenado1/listartodos`
             );
 
             const textoRespuesta = await respuesta.text();

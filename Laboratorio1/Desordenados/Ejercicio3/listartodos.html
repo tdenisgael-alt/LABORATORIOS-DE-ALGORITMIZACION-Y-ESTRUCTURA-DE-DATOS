@@ -92,6 +92,7 @@
     </style>
     <link rel="stylesheet" href="../../../interfaz-lab1.css">
     <link rel="stylesheet" href="../../../navbar.css">
+    <script src="/api-config.js"></script>
 </head>
 <body>
     <div class="top-bar">
@@ -133,7 +134,7 @@
 function cargarEmpleados() {
 
     fetch(
-        "http://localhost:8080/desordenado3/listartodos"
+        `${window.API_BASE}/desordenado3/listartodos`
     )
 
     .then(async respuesta => {

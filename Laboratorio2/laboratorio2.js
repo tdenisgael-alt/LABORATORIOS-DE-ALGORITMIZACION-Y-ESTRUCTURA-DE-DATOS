@@ -1,7 +1,7 @@
 (() => {
     "use strict";
 
-    const SERVER_BASE_URL = "http://localhost:8080";
+    const SERVER_BASE_URL = window.API_BASE;
     const METHOD_CONFIG = Object.freeze({
         Burbuja: Object.freeze({ backendValue: "burbuja", route: "/lab2/burbuja" }),
         "Burbuja con señal": Object.freeze({ backendValue: "burbuja-senal", route: "/lab2/burbuja-senal" }),
@@ -15,7 +15,7 @@
         index: "indice"
     });
     const CONNECTION_ERROR_MESSAGE =
-        "No se pudo conectar con el servidor Java. Ejecuta Servidor.java en http://localhost:8080 e inténtalo de nuevo.";
+        "No se pudo conectar con el servidor Java. Verifica que el backend esté disponible e inténtalo de nuevo.";
 
     const methodButtons = document.querySelectorAll(".lab2-method-button");
     const methodsToggle = document.getElementById("lab2-methods-toggle");

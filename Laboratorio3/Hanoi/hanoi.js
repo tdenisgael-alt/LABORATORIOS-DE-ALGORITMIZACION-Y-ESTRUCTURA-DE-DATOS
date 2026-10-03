@@ -1,5 +1,5 @@
 (() => {
-  const BASE = "http://localhost:8080", $ = id => document.getElementById(id);
+  const BASE = window.API_BASE, $ = id => document.getElementById(id);
   const state = { mode: "automatic", moves: [], total: 0, index: 0, disks: 3, playing: false, timer: null, connected: false, animating: false, selected: null, soundEnabled: true, manual: { A: [], B: [], C: [] } };
   let manualHistory = [];
   let audioUnlocked = false;

@@ -26,7 +26,7 @@ function iniciarArreglo() {
 
     // Enviar el tamaño al servidor Java
     fetch(
-        "http://localhost:8080/desordenado1/iniciar",
+        `${window.API_BASE}/desordenado1/iniciar`,
         {
             method: "POST",
 
@@ -188,7 +188,7 @@ function iniciarArreglo() {
 
             // Enviar petición a Java
             fetch(
-                "http://localhost:8080/desordenado1/listaruno",
+                `${window.API_BASE}/desordenado1/listaruno`,
                 {
                     method: "POST",
 
@@ -284,7 +284,7 @@ function iniciarArreglo() {
 
             // Enviar al servidor Java
             fetch(
-                "http://localhost:8080/desordenado1/modificar",
+                `${window.API_BASE}/desordenado1/modificar`,
                 {
                     method: "POST",
 
@@ -385,7 +385,7 @@ function iniciarArreglo() {
 
             // Enviar petición al servidor Java
             fetch(
-                "http://localhost:8080/desordenado1/baja",
+                `${window.API_BASE}/desordenado1/baja`,
                 {
                     method: "POST",
 
@@ -515,7 +515,7 @@ function iniciarArreglo() {
 
             // Enviar los datos al servidor Java
             fetch(
-                "http://localhost:8080/desordenado1/alta",
+                `${window.API_BASE}/desordenado1/alta`,
                 {
                     method: "POST",
 
