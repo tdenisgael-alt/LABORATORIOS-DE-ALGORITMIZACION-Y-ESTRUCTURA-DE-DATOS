@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d63">
+  <title>Cola circular de impresión | Laboratorio 4</title>
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark-mode");
+    }
+  </script>
+  <link rel="stylesheet" href="../../interfaz-lab1.css">
+  <link rel="stylesheet" href="../../navbar.css">
+  <link rel="stylesheet" href="../laboratorio4.css">
+  <link rel="stylesheet" href="../Colas/colas.css">
+  <link rel="stylesheet" href="circular.css">
+  <script src="/api-config.js"></script>
+</head>
+<body class="lab4-page" data-game="colas-circulares">
+  <div class="top-bar">
+    <img src="../../img/uni.png" alt="Logo UNI">
+    <span class="university-name">Universidad Nacional de Ingeniería</span>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a class="nav-link" href="../laboratorio4.html">Ejercicios</a>
+      <a class="nav-link" href="../laboratorio4.html#documentos">Documentos</a>
+      <a class="nav-link" href="../laboratorio4.html#descargas">Descargas</a>
+      <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-label="Cambiar modo de color">
+        🌙 Modo Oscuro
+      </button>
+    </nav>
+  </div>
+
+  <header class="circular-header">
+    <h1>Laboratorio 4: Estructuras de Datos Lineales</h1>
+  </header>
+
+  <main class="lab4-main circular-main">
+    <div class="lab4-top-actions">
+      <a class="back-button" href="../laboratorio4.html">← Salir</a>
+      <span id="server-status" class="server-status" role="status" aria-live="polite">
+        ● Estado del servidor pendiente
+      </span>
+    </div>
+
+    <section class="lab4-card circular-card" aria-labelledby="circular-title">
+      <div class="lab4-card-heading">
+        <div>
+          <p class="eyebrow">ESTRUCTURAS FIFO CIRCULARES</p>
+          <h2 id="circular-title">Cola circular de trabajos de impresión</h2>
+          <p class="circular-description">
+            Diez estaciones reutilizan su espacio al avanzar el frente y el final de la cola.
+          </p>
+        </div>
+      </div>
+
+      <div class="circular-layout">
+        <aside class="control-panel" aria-label="Controles de impresión">
+          <div class="circular-controls">
+            <div class="control-group">
+              <label for="job-name-input" class="control-label">Nombre del trabajo de impresión</label>
+              <div class="input-wrapper">
+                <input id="job-name-input" class="person-input" type="text"
+                       placeholder="Ej. Informe final" autocomplete="off" spellcheck="false">
+              </div>
+              <span class="input-hint">Escribe el nombre del trabajo que entrará a la cola.</span>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">Operaciones</span>
+              <div class="queue-actions">
+                <button id="btn-enqueue" class="btn-action" type="button">
+                  <span aria-hidden="true">📥</span> Insertar
+                </button>
+                <button id="btn-dequeue" class="btn-action danger" type="button">
+                  <span aria-hidden="true">🖨️</span> Imprimir
+                </button>
+                <button id="btn-front" class="btn-action secondary" type="button">
+                  <span aria-hidden="true">🔍</span> Consultar próximo
+                </button>
+                <button id="btn-state" class="btn-action secondary" type="button">
+                  <span aria-hidden="true">📋</span> Estado
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="colas-status-card">
+            <span class="status-heading">Estado</span>
+            <p id="message" class="colas-message" role="status" aria-live="polite">
+              Cola circular lista para recibir trabajos (capacidad: 10).
+            </p>
+          </div>
+
+          <div class="info-card">
+            <span class="info-label">Capacidad</span>
+            <span id="capacity-display" class="info-display">0 / 10 trabajos</span>
+          </div>
+
+          <div class="queue-pointers-card" aria-label="Indicadores de la cola">
+            <div class="pointer-row">
+              <span class="pointer-label">Frente</span>
+              <span id="ptr-frente" class="pointer-value">-1</span>
+            </div>
+            <div class="pointer-row">
+              <span class="pointer-label">Final</span>
+              <span id="ptr-fin" class="pointer-value">-1</span>
+            </div>
+            <div class="pointer-row">
+              <span class="pointer-label">Próximo</span>
+              <span id="ptr-proximo" class="pointer-value">—</span>
+            </div>
+          </div>
+        </aside>
+
+        <section id="stage-area" class="stage-area queue-stage circular-stage" aria-labelledby="circular-stage-title">
+          <h3 id="circular-stage-title" class="stage-section-title">Visualización circular · 10 posiciones</h3>
+          <div class="circle-container">
+            <div id="circle-track" class="circle-track" role="list" aria-label="Diez estaciones de impresión, inicialmente vacías">
+              <div class="circle-slot" data-index="0" role="listitem" aria-label="Estación 1, vacía"><span class="slot-index">[0]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="1" role="listitem" aria-label="Estación 2, vacía"><span class="slot-index">[1]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="2" role="listitem" aria-label="Estación 3, vacía"><span class="slot-index">[2]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="3" role="listitem" aria-label="Estación 4, vacía"><span class="slot-index">[3]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="4" role="listitem" aria-label="Estación 5, vacía"><span class="slot-index">[4]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="5" role="listitem" aria-label="Estación 6, vacía"><span class="slot-index">[5]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="6" role="listitem" aria-label="Estación 7, vacía"><span class="slot-index">[6]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="7" role="listitem" aria-label="Estación 8, vacía"><span class="slot-index">[7]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="8" role="listitem" aria-label="Estación 9, vacía"><span class="slot-index">[8]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-slot" data-index="9" role="listitem" aria-label="Estación 10, vacía"><span class="slot-index">[9]</span><span class="slot-value slot-empty-label">(vacío)</span></div>
+              <div class="circle-center" aria-hidden="true">COLA<br>CIRCULAR</div>
+            </div>
+            <div class="circle-legend" aria-hidden="true">
+              <span class="legend-item frente-legend">● Frente · salida</span>
+              <span class="legend-item fin-legend">● Final · entrada</span>
+              <span class="legend-item occupied-legend">● Ocupado</span>
+            </div>
+          </div>
+          <p class="queue-note">Después de la estación 10, la siguiente posición vuelve a la estación 1.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lab4-footer">
+    <strong>Algoritmización y Estructuras de Datos</strong>
+    <span>Laboratorio 4 · Estructuras de Datos Lineales</span>
+    <span>Universidad Nacional de Ingeniería</span>
+  </footer>
+  <script src="circular.js" defer></script>
+</body>
+</html>

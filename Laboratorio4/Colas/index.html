@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d63">
+  <title>Cola de Atención Bancaria | Laboratorio 4</title>
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark-mode");
+    }
+  </script>
+  <link rel="stylesheet" href="../../interfaz-lab1.css">
+  <link rel="stylesheet" href="../../navbar.css">
+  <link rel="stylesheet" href="../laboratorio4.css">
+  <link rel="stylesheet" href="colas.css">
+  <script src="/api-config.js"></script>
+</head>
+<body class="lab4-page" data-game="colas">
+  <div class="top-bar">
+    <img src="../../img/uni.png" alt="Logo UNI">
+    <span class="university-name">Universidad Nacional de Ingeniería</span>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a class="nav-link" href="../laboratorio4.html">Ejercicios</a>
+      <a class="nav-link" href="../laboratorio4.html#documentos">Documentos</a>
+      <a class="nav-link" href="../laboratorio4.html#descargas">Descargas</a>
+      <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-label="Cambiar modo de color">
+        🌙 Modo Oscuro
+      </button>
+    </nav>
+  </div>
+
+  <header class="colas-header">
+    <h1>Laboratorio 4: Estructuras de Datos Lineales</h1>
+  </header>
+
+  <main class="lab4-main colas-main">
+    <div class="lab4-top-actions">
+      <a class="back-button" href="../laboratorio4.html">← Salir</a>
+      <span id="server-status" class="server-status" role="status" aria-live="polite">
+        ● Comprobando servidor...
+      </span>
+    </div>
+
+    <section class="lab4-card colas-card" aria-labelledby="colas-title">
+      <div class="lab4-card-heading">
+        <div>
+          <p class="eyebrow">ESTRUCTURAS FIFO</p>
+          <h2 id="colas-title">Cola de Atención Bancaria</h2>
+          <p class="colas-description">
+            Administra hasta cinco personas en una cola lineal. La primera persona en entrar es la primera en ser atendida.
+          </p>
+        </div>
+      </div>
+
+      <div class="colas-layout">
+        <aside class="control-panel" aria-label="Controles de la cola">
+          <div class="colas-controls">
+            <div class="control-group">
+              <label for="person-name-input" class="control-label">Nombre de persona</label>
+              <div class="input-wrapper">
+                <input
+                  id="person-name-input"
+                  class="person-input"
+                  type="text"
+                  placeholder="Ej. Ana García"
+                  autocomplete="off"
+                  spellcheck="false"
+                >
+              </div>
+              <span class="input-hint">Escribe el nombre de la persona que se agregará a la fila.</span>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">Operaciones</span>
+              <div class="queue-actions">
+                <button id="btn-enqueue" class="btn-action" type="button">
+                  <span aria-hidden="true">📥</span> Insertar
+                </button>
+                <button id="btn-dequeue" class="btn-action danger" type="button">
+                  <span aria-hidden="true">🎟️</span> Atender
+                </button>
+                <button id="btn-front" class="btn-action secondary" type="button">
+                  <span aria-hidden="true">🔍</span> Consultar próximo
+                </button>
+                <button id="btn-state" class="btn-action secondary" type="button">
+                  <span aria-hidden="true">📋</span> Estado
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="colas-status-card">
+            <span class="status-heading">Estado</span>
+            <p id="message" class="colas-message" role="status" aria-live="polite">
+              Cola inicializada. Lista para insertar personas (capacidad: 5).
+            </p>
+          </div>
+
+          <div class="info-card">
+            <span class="info-label">Capacidad</span>
+            <span id="capacity-display" class="info-display">0 / 5 personas</span>
+          </div>
+
+          <div class="queue-pointers-card" aria-label="Indicadores de la cola">
+            <div class="pointer-row">
+              <span class="pointer-label">Frente</span>
+              <span id="ptr-frente" class="pointer-value">-1</span>
+            </div>
+            <div class="pointer-row">
+              <span class="pointer-label">Final</span>
+              <span id="ptr-fin" class="pointer-value">-1</span>
+            </div>
+            <div class="pointer-row">
+              <span class="pointer-label">Próximo</span>
+              <span id="ptr-proximo" class="pointer-value">—</span>
+            </div>
+          </div>
+        </aside>
+
+        <section id="stage-area" class="stage-area queue-stage" aria-labelledby="queue-stage-title">
+          <h3 id="queue-stage-title" class="stage-section-title">Visualización de la cola · 5 posiciones</h3>
+
+          <div class="queue-flow" aria-label="La atención avanza desde el frente hacia el final">
+            <span class="flow-label">Salida · atender</span>
+            <span class="flow-line" aria-hidden="true"></span>
+            <span class="flow-label">Entrada · insertar</span>
+          </div>
+
+          <div class="queue-container">
+            <div id="queue-row" class="queue-row" aria-label="Cinco posiciones de la cola, inicialmente vacías">
+              <div class="queue-slot" data-index="0">
+                <span class="slot-index">[0]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+              <div class="queue-slot" data-index="1">
+                <span class="slot-index">[1]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+              <div class="queue-slot" data-index="2">
+                <span class="slot-index">[2]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+              <div class="queue-slot" data-index="3">
+                <span class="slot-index">[3]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+              <div class="queue-slot" data-index="4">
+                <span class="slot-index">[4]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+            </div>
+
+            <div class="queue-ends-label" aria-hidden="true">
+              <span class="end-label frente-label">Frente</span>
+              <span class="end-label fin-label">Final</span>
+            </div>
+          </div>
+
+          <p class="queue-note">El frente indica quién será atendido; el final señala la última persona insertada.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lab4-footer">
+    <strong>Algoritmización y Estructuras de Datos</strong>
+    <span>Laboratorio 4 · Estructuras de Datos Lineales</span>
+    <span>Universidad Nacional de Ingeniería</span>
+  </footer>
+  <script src="colas.js" defer></script>
+</body>
+</html>

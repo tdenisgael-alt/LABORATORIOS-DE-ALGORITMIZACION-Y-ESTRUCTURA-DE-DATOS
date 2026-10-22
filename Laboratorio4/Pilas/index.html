@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pilas (Stack - LIFO) | Laboratorio 4</title>
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark-mode");
+    }
+  </script>
+  <link rel="stylesheet" href="../../interfaz-lab1.css">
+  <link rel="stylesheet" href="../../navbar.css">
+  <link rel="stylesheet" href="../laboratorio4.css">
+  <link rel="stylesheet" href="pilas.css">
+  <script src="/api-config.js"></script>
+</head>
+<body class="lab4-page" data-game="pilas">
+  <div class="top-bar">
+    <img src="../../img/uni.png" alt="Logo UNI">
+    <span class="university-name">Universidad Nacional de Ingeniería</span>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a class="nav-link" href="../laboratorio4.html">Ejercicios</a>
+      <a class="nav-link" href="../laboratorio4.html#documentos">Documentos</a>
+      <a class="nav-link" href="../laboratorio4.html#descargas">Descargas</a>
+      <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-label="Cambiar modo de color">🌙 Modo Oscuro</button>
+    </nav>
+  </div>
+
+  <header>
+    <h1>Laboratorio 4: Estructuras de Datos Lineales</h1>
+  </header>
+
+  <main class="lab4-main">
+    <div class="lab4-top-actions">
+      <a class="back-button" href="../laboratorio4.html">← Salir</a>
+      <span id="server-status" class="server-status">● Comprobando servidor...</span>
+    </div>
+
+    <section class="lab4-card pilas-card">
+      <div class="lab4-card-heading">
+        <div>
+          <p class="eyebrow">ESTRUCTURAS LIFO</p>
+          <h2>Pila de Centros Comerciales</h2>
+          <p class="pilas-description">
+            Administración de una estructura de pila estática con capacidad máxima de 5 elementos bajo el principio LIFO (último en entrar, primero en salir).
+          </p>
+        </div>
+      </div>
+
+      <div class="pilas-layout">
+        <!-- PANEL IZQUIERDO DE CONTROL -->
+        <aside class="control-panel" aria-label="Panel de control">
+          <div class="pilas-controls">
+            <!-- 1. Campo para nombre del centro comercial -->
+            <div class="control-group">
+              <label for="mall-name-input" class="control-label">Centro Comercial</label>
+              <div class="input-wrapper">
+                <input
+                  id="mall-name-input"
+                  class="mall-input"
+                  type="text"
+                  placeholder="Ej. Galerías Santo Domingo"
+                  autocomplete="off"
+                  spellcheck="false"
+                >
+              </div>
+              <span class="input-hint">Escribe el nombre del centro comercial a apilar.</span>
+            </div>
+
+            <!-- 2. Botones de operaciones: Insertar, Eliminar, Consultar cima -->
+            <div class="control-group">
+              <span class="control-label">Operaciones</span>
+              <div class="stack-actions">
+                <button id="btn-push" class="btn-action" type="button">
+                  <span>📥</span> Insertar (Push)
+                </button>
+                <button id="btn-pop" class="btn-action danger" type="button">
+                  <span>📤</span> Eliminar (Pop)
+                </button>
+                <button id="btn-peek" class="btn-action secondary" type="button">
+                  <span>🔍</span> Consultar cima (Peek)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Estado -->
+          <div class="pilas-status-card">
+            <span class="status-heading">ESTADO</span>
+            <div id="message" class="pilas-message" role="status" aria-live="polite">
+              Pila inicializada. Lista para insertar elementos (capacidad: 5).
+            </div>
+          </div>
+
+          <!-- 4. Información de Capacidad y Tope -->
+          <div class="info-card">
+            <span class="info-label">CAPACIDAD</span>
+            <div id="capacity-display" class="info-display">0 / 5 elementos</div>
+          </div>
+        </aside>
+
+        <!-- ESCENARIO VISUAL INTERACTIVO (DERECHA) -->
+        <section id="stage-area" class="stage-area" aria-label="Visualización de la pila">
+          <span class="stage-section-title">Visualización de la Pila (5 Posiciones)</span>
+
+          <!-- Contenedor y estructura de la pila vertical de 5 posiciones -->
+          <div class="stack-container">
+            <div id="stack-column" class="stack-column">
+              <!-- Posición 4 (Índice 4 - Cima máxima) -->
+              <div class="stack-slot" data-index="4">
+                <span class="slot-index">[4]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+
+              <!-- Posición 3 (Índice 3) -->
+              <div class="stack-slot" data-index="3">
+                <span class="slot-index">[3]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+
+              <!-- Posición 2 (Índice 2) -->
+              <div class="stack-slot" data-index="2">
+                <span class="slot-index">[2]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+
+              <!-- Posición 1 (Índice 1) -->
+              <div class="stack-slot" data-index="1">
+                <span class="slot-index">[1]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+
+              <!-- Posición 0 (Índice 0 - Fondo de la pila) -->
+              <div class="stack-slot" data-index="0">
+                <span class="slot-index">[0]</span>
+                <span class="slot-empty-label">(vacío)</span>
+              </div>
+            </div>
+            <span class="stack-base-label">BASE DE LA PILA</span>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lab4-footer">
+    <strong>Algoritmización y Estructuras de Datos</strong>
+    <span>Laboratorio 4 · Estructuras de Datos Lineales</span>
+    <span>Universidad Nacional de Ingeniería</span>
+  </footer>
+
+  <script src="pilas.js" defer></script>
+</body>
+</html>
+

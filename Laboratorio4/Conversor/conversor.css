@@ -1,0 +1,655 @@
+/* ==========================================================================
+   CONVERSOR DE NOTACIÓN POLACA - LABORATORIO 4
+   Estilos inspirados en Torres de Hanoi (Lab 3): Academia UNI, profesional,
+   panel lateral de control, visualización interactiva y responsivo.
+   ========================================================================== */
+
+/* Ancho completo y distribución fluida */
+.lab4-page[data-game="conversor"] .lab4-main {
+  width: calc(100% - 32px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 20px 0 40px;
+  box-sizing: border-box;
+}
+
+.lab4-page[data-game="conversor"] .top-bar {
+  max-width: none;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta principal del ejercicio */
+.conversor-card {
+  padding: 24px 30px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(22, 59, 82, 0.04);
+}
+
+.conversor-description {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 900px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* Layout dos columnas: Panel de control (290px) + Escenario interactivo */
+.conversor-layout {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+/* ==========================================================================
+   PANEL IZQUIERDO DE CONTROL
+   ========================================================================== */
+.control-panel {
+  min-width: 0;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(18, 61, 99, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.conversor-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Entrada de expresión */
+.expression-input-wrapper {
+  position: relative;
+}
+
+.expression-input {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #c2d2de;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.expression-input:focus {
+  outline: none;
+  border-color: var(--uni-bright);
+  box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.15);
+}
+
+.input-hint {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* Botones de acción Prefija / Postfija */
+.conversion-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn-convert {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--uni);
+  border-radius: 8px;
+  background: var(--uni);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: 0 2px 6px rgba(18, 61, 99, 0.2);
+  text-align: center;
+}
+
+.btn-convert:hover {
+  background: var(--uni-bright);
+  border-color: var(--uni-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(23, 105, 170, 0.28);
+}
+
+.btn-convert.active {
+  background: var(--uni-bright);
+  border-color: #6db1e2;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.control-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-clear {
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid #c8d5df;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-clear:hover {
+  background: #f1f5f8;
+  border-color: #b5c7d5;
+  color: var(--uni);
+}
+
+/* Tarjeta de Estado */
+.conversor-status-card {
+  padding: 12px 14px;
+  background: #f2f7fb;
+  border: 1px solid #d5e4ee;
+  border-left: 4px solid var(--uni-bright);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-heading {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.conversor-message {
+  margin: 0;
+  color: var(--uni);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Tarjeta de Resultado */
+.result-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.result-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.result-display {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--uni-bright);
+  word-break: break-all;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   ESCENARIO VISUAL INTERACTIVO (DERECHA)
+   ========================================================================== */
+.stage-area {
+  position: relative;
+  min-width: 0;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Botón flotante para el panel de Historial */
+.history-floating {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 35;
+  min-height: 32px;
+  padding: 6px 14px;
+  border: 1px solid #c8d5df;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+}
+
+.history-floating:hover {
+  border-color: var(--uni-bright);
+  color: var(--uni);
+  background: #f8fafc;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Visualizador de la Pila (Stack) */
+.stage-section-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.stack-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  min-height: 300px;
+  padding: 20px;
+}
+
+.stack-column {
+  width: 220px;
+  min-height: 260px;
+  border-bottom: 8px solid #805b3d;
+  border-left: 6px solid #805b3d;
+  border-right: 6px solid #805b3d;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  padding: 8px 8px 4px;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  position: relative;
+  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stack-base-label {
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--uni);
+  letter-spacing: 0.05em;
+}
+
+.stack-element {
+  width: 90%;
+  height: 38px;
+  background: var(--uni-bright);
+  color: #ffffff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Consolas", monospace;
+  font-weight: 800;
+  font-size: 1.15rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.stack-element.top-item {
+  background: var(--uni);
+  border: 2px solid #84c0ea;
+}
+
+.stack-empty-placeholder {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.88rem;
+  align-self: center;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+/* Controles de reproducción paso a paso */
+.playback-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.playback-controls button {
+  min-height: 38px;
+  padding: 8px 18px;
+  border: 1px solid #c8d5df;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.15s ease;
+}
+
+.playback-controls button:hover:not(:disabled) {
+  border-color: var(--uni-bright);
+  background: #f0f6fa;
+  color: var(--uni-bright);
+}
+
+.playback-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   PANEL FLOTANTE DE HISTORIAL PASO A PASO
+   ========================================================================== */
+.history-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 20, 33, 0.22);
+  border-radius: 12px;
+  z-index: 38;
+  backdrop-filter: blur(1.5px);
+}
+
+.history-panel {
+  position: absolute;
+  top: 60px;
+  right: 18px;
+  z-index: 40;
+  width: min(420px, calc(100% - 24px));
+  max-height: min(480px, calc(100% - 80px));
+  box-sizing: border-box;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 16px 36px rgba(7, 27, 44, 0.22), 0 2px 8px rgba(7, 27, 44, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 10px;
+}
+
+.history-heading h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--uni);
+}
+
+.history-close-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.history-close-btn:hover {
+  background: #eef3f7;
+  color: var(--uni);
+}
+
+.history-empty {
+  margin: auto;
+  padding: 24px 10px;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.history-table-container {
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  max-height: 340px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  text-align: left;
+}
+
+.history-table th {
+  position: sticky;
+  top: 0;
+  background: #f2f7fb;
+  color: var(--uni);
+  font-weight: 800;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.history-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #edf2f6;
+  color: var(--ink);
+  font-family: "Consolas", monospace;
+}
+
+.history-table tr.current-step {
+  background: #eaf3fb;
+  font-weight: 700;
+  border-left: 3px solid var(--uni-bright);
+}
+
+/* ==========================================================================
+   MODO OSCURO
+   ========================================================================== */
+html.dark-mode .conversor-card,
+html.dark-mode .control-panel,
+html.dark-mode .stage-area,
+html.dark-mode .history-panel,
+html.dark-mode .result-card {
+  background: #22313d;
+  border-color: #3c4b56;
+}
+
+html.dark-mode .conversor-card h2,
+html.dark-mode .history-heading h3,
+html.dark-mode .stack-base-label {
+  color: #9bc9e7;
+}
+
+html.dark-mode .conversor-description,
+html.dark-mode .control-label,
+html.dark-mode .status-heading,
+html.dark-mode .result-label,
+html.dark-mode .input-hint,
+html.dark-mode .stage-section-title,
+html.dark-mode .history-empty {
+  color: #c0ccd4;
+}
+
+html.dark-mode .expression-input {
+  background: #1b2832;
+  border-color: #4a5c6a;
+  color: #edf3f7;
+}
+
+html.dark-mode .expression-input:focus {
+  border-color: #6db1e2;
+  box-shadow: 0 0 0 3px rgba(109, 177, 226, 0.2);
+}
+
+html.dark-mode .btn-clear,
+html.dark-mode .playback-controls button,
+html.dark-mode .history-floating {
+  background: #2c3c48;
+  color: #edf3f7;
+  border-color: #4a5c6a;
+}
+
+html.dark-mode .btn-clear:hover,
+html.dark-mode .playback-controls button:hover:not(:disabled),
+html.dark-mode .history-floating:hover {
+  background: #364856;
+  border-color: #6db1e2;
+  color: #9bc9e7;
+}
+
+html.dark-mode .conversor-status-card {
+  background: #1e2c37;
+  border-color: #354756;
+  border-left-color: #6db1e2;
+}
+
+html.dark-mode .conversor-message {
+  color: #d8e5ee;
+}
+
+html.dark-mode .result-display {
+  color: #6db1e2;
+}
+
+html.dark-mode .stack-column {
+  background: rgba(23, 35, 45, 0.7);
+  border-color: #a07855;
+}
+
+html.dark-mode .stack-element {
+  background: #1769aa;
+}
+
+html.dark-mode .stack-element.top-item {
+  background: #0f4b7a;
+  border-color: #9bc9e7;
+}
+
+html.dark-mode .history-table-container {
+  border-color: #3c4b56;
+}
+
+html.dark-mode .history-table th {
+  background: #1b2832;
+  color: #9bc9e7;
+  border-color: #3c4b56;
+}
+
+html.dark-mode .history-table td {
+  border-color: #2e3e4a;
+  color: #e2ebf0;
+}
+
+html.dark-mode .history-table tr.current-step {
+  background: #1d364a;
+  border-left-color: #6db1e2;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 960px) {
+  .conversor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-area {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lab4-page[data-game="conversor"] .lab4-main {
+    width: min(100% - 20px, 1360px);
+    padding-top: 16px;
+  }
+
+  .conversor-card {
+    padding: 18px 14px;
+  }
+
+  .conversion-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-column {
+    width: 170px;
+  }
+
+  .history-panel {
+    width: calc(100% - 16px);
+    right: 8px;
+    top: 54px;
+  }
+}
+

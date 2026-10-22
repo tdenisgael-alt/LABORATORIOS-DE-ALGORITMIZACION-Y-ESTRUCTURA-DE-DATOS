@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratorio 4 | Estructuras Lineales</title>
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark-mode");
+    }
+  </script>
+  <link rel="stylesheet" href="../interfaz-lab1.css">
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="laboratorio4.css">
+  <script src="/api-config.js"></script>
+</head>
+<body class="lab4-page">
+  <div class="top-bar">
+    <img src="../img/uni.png" alt="Logo UNI">
+    <span class="university-name">Universidad Nacional de Ingeniería</span>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a class="nav-link" href="#ejercicios">Ejercicios</a>
+      <a class="nav-link" href="#documentos">Documentos</a>
+      <a class="nav-link" href="#descargas">Descargas</a>
+      <button id="btnThemeToggle" class="theme-toggle-btn" type="button" aria-label="Cambiar modo de color">🌙 Modo Oscuro</button>
+    </nav>
+  </div>
+
+  <header>
+    <h1>Laboratorio 4: Estructuras de Datos Lineales</h1>
+  </header>
+
+  <main class="lab4-main">
+    <div class="lab4-top-actions">
+      <a class="back-button" href="../index.html">← Salir</a>
+      <span id="server-status" class="server-status">● Comprobando servidor...</span>
+    </div>
+
+    <section id="ejercicios" class="lab4-card">
+      <div class="lab4-card-heading">
+        <div>
+          <p class="eyebrow">ESTRUCTURAS LINEALES</p>
+          <h2>Ejercicios del Laboratorio</h2>
+        </div>
+      </div>
+      <p class="lab4-description">
+        Selecciona uno de los módulos prácticos para interactuar con las estructuras de datos lineales implementadas en Java.
+      </p>
+      <div class="exercise-grid">
+        <a href="Conversor/index.html" class="exercise-card">
+          <span class="exercise-number">01</span>
+          <h3>Notación Polaca</h3>
+          <p>Conversión y evaluación de expresiones infijas, postfijas y prefijas mediante pilas.</p>
+          <span class="exercise-action">Abrir módulo →</span>
+        </a>
+        <a href="Pilas/" class="exercise-card">
+          <span class="exercise-number">02</span>
+          <h3>Pilas (Stack - LIFO)</h3>
+          <p>Operaciones fundamentales: apilar (push), desapilar (pop) y visualización del tope.</p>
+          <span class="exercise-action">Abrir módulo →</span>
+        </a>
+        <a href="Colas/" class="exercise-card">
+          <span class="exercise-number">03</span>
+          <h3>Colas (Queue - FIFO)</h3>
+          <p>Gestión de cola lineal simple: encolar al final (enqueue) y desencolar al frente (dequeue).</p>
+          <span class="exercise-action">Abrir módulo →</span>
+        </a>
+        <a href="ColasCirculares/" class="exercise-card">
+          <span class="exercise-number">04</span>
+          <h3>Colas Circulares</h3>
+          <p>Optimización de espacio con arreglo reutilizable gestionado con punteros frente y final.</p>
+          <span class="exercise-action">Abrir módulo →</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="documentos" class="resource-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">MATERIAL DE APOYO</p>
+          <h2>Documentos</h2>
+        </div>
+      </div>
+      <div class="resource-grid">
+        <article class="resource-card">
+          <span>PDF</span>
+          <h3>Guía del Laboratorio 4</h3>
+          <p>Material explicativo para los ejercicios de pilas, colas y expresiones aritméticas.</p>
+          <strong>Próximamente</strong>
+        </article>
+        <article class="resource-card">
+          <span>PDF</span>
+          <h3>Implementación de Estructuras Lineales</h3>
+          <p>Descripción técnica de las clases y algoritmos desarrollados en Java.</p>
+          <strong>Próximamente</strong>
+        </article>
+      </div>
+    </section>
+
+    <section id="descargas" class="resource-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">ARCHIVOS DEL LABORATORIO</p>
+          <h2>Descargas</h2>
+        </div>
+      </div>
+      <div class="download-grid">
+        <div>
+          <h3>Código Java</h3>
+          <p>Próximamente</p>
+        </div>
+        <div>
+          <h3>Interfaz Web</h3>
+          <p>Próximamente</p>
+        </div>
+        <div>
+          <h3>Proyecto completo</h3>
+          <p>Próximamente</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lab4-footer">
+    <strong>Algoritmización y Estructuras de Datos</strong>
+    <span>Laboratorio 4 · Estructuras de Datos Lineales</span>
+    <span>Universidad Nacional de Ingeniería</span>
+  </footer>
+
+  <script src="laboratorio4.js" defer></script>
+</body>
+</html>
+

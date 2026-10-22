@@ -1,0 +1,520 @@
+/* ==========================================================================
+   PILAS (STACK - LIFO) - LABORATORIO 4
+   Estilos inspirados en el Conversor y Torres de Hanoi: Academia UNI,
+   panel lateral de control, visualización interactiva y responsivo.
+   ========================================================================== */
+
+/* Ancho completo y distribución fluida */
+.lab4-page[data-game="pilas"] .lab4-main {
+  width: calc(100% - 32px);
+  max-width: none;
+  margin: 0 auto;
+  padding: 20px 0 40px;
+  box-sizing: border-box;
+}
+
+.lab4-page[data-game="pilas"] .top-bar {
+  max-width: none;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta principal del ejercicio */
+.pilas-card {
+  padding: 24px 30px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(22, 59, 82, 0.04);
+}
+
+.pilas-description {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 900px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* Layout dos columnas: Panel de control (310px) + Escenario interactivo */
+.pilas-layout {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+/* ==========================================================================
+   PANEL IZQUIERDO DE CONTROL
+   ========================================================================== */
+.control-panel {
+  min-width: 0;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(18, 61, 99, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pilas-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Entrada del nombre del centro comercial */
+.input-wrapper {
+  position: relative;
+}
+
+.mall-input {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #c2d2de;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--uni);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.mall-input:focus {
+  outline: none;
+  border-color: var(--uni-bright);
+  box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.15);
+}
+
+.input-hint {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* Botones de operaciones sobre la pila */
+.stack-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-action {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--uni);
+  border-radius: 8px;
+  background: var(--uni);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: 0 2px 6px rgba(18, 61, 99, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-action:hover:not(:disabled) {
+  background: var(--uni-bright);
+  border-color: var(--uni-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(23, 105, 170, 0.28);
+}
+
+.btn-action.secondary {
+  background: transparent;
+  border-color: #c8d5df;
+  color: var(--uni);
+  box-shadow: none;
+}
+
+.btn-action.secondary:hover:not(:disabled) {
+  background: #f1f5f8;
+  border-color: var(--uni-bright);
+  color: var(--uni-bright);
+  transform: translateY(-1px);
+}
+
+.btn-action.danger {
+  background: transparent;
+  border-color: #e5b0ad;
+  color: var(--danger);
+  box-shadow: none;
+}
+
+.btn-action.danger:hover:not(:disabled) {
+  background: #fdf2f1;
+  border-color: var(--danger);
+  color: var(--danger);
+  transform: translateY(-1px);
+}
+
+/* Tarjeta de Estado */
+.pilas-status-card {
+  padding: 12px 14px;
+  background: #f2f7fb;
+  border: 1px solid #d5e4ee;
+  border-left: 4px solid var(--uni-bright);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-heading {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pilas-message {
+  margin: 0;
+  color: var(--uni);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Tarjeta de Información / Capacidad */
+.info-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.info-display {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--uni-bright);
+}
+
+/* ==========================================================================
+   ESCENARIO VISUAL INTERACTIVO (DERECHA)
+   ========================================================================== */
+.stage-area {
+  position: relative;
+  min-width: 0;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stage-section-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Visualizador de la Pila de 5 posiciones */
+.stack-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  min-height: 380px;
+  padding: 20px;
+}
+
+.stack-column {
+  width: 320px;
+  min-height: 310px;
+  border-bottom: 8px solid #805b3d;
+  border-left: 6px solid #805b3d;
+  border-right: 6px solid #805b3d;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  flex-direction: column; /* De arriba hacia abajo: índice 4 (arriba) a 0 (abajo) */
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: 10px 10px 6px;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  position: relative;
+  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stack-base-label {
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--uni);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* Casillas de las 5 posiciones fijas */
+.stack-slot {
+  position: relative;
+  height: 48px;
+  border: 2px dashed #c0d1de;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  box-sizing: border-box;
+  background: rgba(240, 246, 250, 0.5);
+  transition: all 0.2s ease;
+}
+
+.slot-index {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #7b8e9d;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: "Consolas", monospace;
+}
+
+.slot-empty-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Casilla ocupada por un elemento */
+.stack-slot.occupied {
+  border-style: solid;
+  border-color: var(--uni);
+  background: var(--uni-bright);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(23, 105, 170, 0.25);
+}
+
+.stack-slot.occupied .slot-index {
+  color: #d1e7f6;
+}
+
+.stack-slot.occupied .slot-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Indicador de TOPE */
+.stack-slot.is-top {
+  border-color: #ff9800;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.top-indicator {
+  position: absolute;
+  right: -130px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ff9800;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.top-indicator::before {
+  content: "◀";
+  font-size: 0.7rem;
+}
+
+/* ==========================================================================
+   MODO OSCURO
+   ========================================================================== */
+html.dark-mode .pilas-card,
+html.dark-mode .control-panel,
+html.dark-mode .stage-area,
+html.dark-mode .info-card {
+  background: #22313d;
+  border-color: #3c4b56;
+}
+
+html.dark-mode .pilas-card h2,
+html.dark-mode .stack-base-label {
+  color: #9bc9e7;
+}
+
+html.dark-mode .pilas-description,
+html.dark-mode .control-label,
+html.dark-mode .status-heading,
+html.dark-mode .info-label,
+html.dark-mode .input-hint,
+html.dark-mode .stage-section-title,
+html.dark-mode .slot-empty-label {
+  color: #c0ccd4;
+}
+
+html.dark-mode .mall-input {
+  background: #1b2832;
+  border-color: #4a5c6a;
+  color: #edf3f7;
+}
+
+html.dark-mode .mall-input:focus {
+  border-color: #6db1e2;
+  box-shadow: 0 0 0 3px rgba(109, 177, 226, 0.2);
+}
+
+html.dark-mode .btn-action.secondary {
+  background: #2c3c48;
+  color: #edf3f7;
+  border-color: #4a5c6a;
+}
+
+html.dark-mode .btn-action.secondary:hover:not(:disabled) {
+  background: #364856;
+  border-color: #6db1e2;
+  color: #9bc9e7;
+}
+
+html.dark-mode .btn-action.danger {
+  background: #2c2525;
+  border-color: #5c3b3a;
+  color: #ef8b84;
+}
+
+html.dark-mode .btn-action.danger:hover:not(:disabled) {
+  background: #3d2c2b;
+  border-color: #ef8b84;
+  color: #ffa59e;
+}
+
+html.dark-mode .pilas-status-card {
+  background: #1e2c37;
+  border-color: #354756;
+  border-left-color: #6db1e2;
+}
+
+html.dark-mode .pilas-message {
+  color: #d8e5ee;
+}
+
+html.dark-mode .info-display {
+  color: #6db1e2;
+}
+
+html.dark-mode .stack-column {
+  background: rgba(23, 35, 45, 0.7);
+  border-color: #a07855;
+}
+
+html.dark-mode .stack-slot {
+  border-color: #3f5260;
+  background: rgba(30, 44, 55, 0.5);
+}
+
+html.dark-mode .stack-slot .slot-index {
+  color: #8fa5b5;
+}
+
+html.dark-mode .stack-slot.occupied {
+  border-color: #6db1e2;
+  background: #1769aa;
+}
+
+html.dark-mode .stack-slot.is-top {
+  border-color: #ffa726;
+  box-shadow: 0 0 0 3px rgba(255, 167, 38, 0.3), 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 960px) {
+  .pilas-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-area {
+    min-height: 420px;
+  }
+
+  .top-indicator {
+    right: -110px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lab4-page[data-game="pilas"] .lab4-main {
+    width: min(100% - 20px, 1360px);
+    padding-top: 16px;
+  }
+
+  .pilas-card {
+    padding: 18px 14px;
+  }
+
+  .stack-column {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .top-indicator {
+    position: static;
+    transform: none;
+    margin-left: 6px;
+    font-size: 0.68rem;
+    padding: 2px 6px;
+  }
+
+  .top-indicator::before {
+    display: none;
+  }
+}
+
